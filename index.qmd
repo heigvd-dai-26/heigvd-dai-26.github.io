@@ -30,15 +30,15 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 5 | 13.10 | 14.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) |
 | 6 | 27.10 | 28.10 | Application protocols | |
 | 7 | 03.11 | 04.11 | SMTP & ncat | |
-| 8 | 10.11 | 11.11 | TCP & UDP programming | |
-| 9 | 17.11 | 18.11 | Network concurrency | |
-| 10 | 24.11 | 25.11 | SSH & SCP | |
-| 11 | 01.12 | 02.12 | HTTP & curl | |
-| 12 | 08.12 | 09.12 | Web infrastructures | |
-| 13 | 15.12 | 16.12 | Caching & performance | |
-| 14 | 12.01 | 13.01 | *TBD* | |
-| 15 | 19.01 | 20.01 | *TBD* | |
-| 16 | 26.01 | 27.01 | Semester review & exam preparation | |
+| 8 | 10.11 | 11.11 | **Mid-term evaluation (TE1)** | |
+| 9 | 17.11 | 18.11 | TCP & UDP programming | |
+| 10 | 24.11 | 25.11 | Network concurrency | |
+| 11 | 01.12 | 02.12 | SSH & SCP | |
+| 12 | 08.12 | 09.12 | HTTP & curl | |
+| 13 | 15.12 | 16.12 | Web infrastructures | |
+| 14 | 12.01 | 13.01 | Caching & performance | |
+| 15 | 19.01 | 20.01 | Semester review & exam preparation | |
+| 16 | 26.01 | 27.01 | **Final evaluation (TE2)** | |
 
 : {tbl-colwidths="[7,10,10,48,25]"}
 
@@ -55,22 +55,23 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 5 | 12.10 | 13.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) |
 | 6 | 26.10 | 27.10 | Application protocols | |
 | 7 | 02.11 | 03.11 | SMTP & ncat | |
-| 8 | 09.11 | 10.11 | TCP & UDP programming | |
-| 9 | 16.11 | 17.11 | Network concurrency | |
-| 10 | 23.11 | 24.11 | SSH & SCP | |
-| 11 | 30.11 | 01.12 | HTTP & curl | |
-| 12 | 07.12 | 08.12 | Web infrastructures | |
-| 13 | 14.12 | 15.12 | Caching & performance | |
-| 14 | 11.01 | 12.01 | *TBD* | |
-| 15 | 18.01 | 19.01 | *TBD* | |
-| 16 | 25.01 | 26.01 | Semester review & exam preparation | |
+| 8 | 09.11 | 10.11 | **Mid-term evaluation (TE1)** | |
+| 9 | 16.11 | 17.11 | TCP & UDP programming | |
+| 10 | 23.11 | 24.11 | Network concurrency | |
+| 11 | 30.11 | 01.12 | SSH & SCP | |
+| 12 | 07.12 | 08.12 | HTTP & curl | |
+| 13 | 14.12 | 15.12 | Web infrastructures | |
+| 14 | 11.01 | 12.01 | Caching & performance | |
+| 15 | 18.01 | 19.01 | Semester review & exam preparation | |
+| 16 | 25.01 | 26.01 | **Final evaluation (TE2)** | |
 
 : {tbl-colwidths="[7,10,10,48,25]"}
 
 :::
 
 No class during the *semaine spéciale* (week of 19.10) and the winter break
-(21.12–08.01).
+(21.12–08.01). Per the academic calendar, week 16 falls in the
+*préparation et évaluation* period.
 
 ## Questions and feedback
 
