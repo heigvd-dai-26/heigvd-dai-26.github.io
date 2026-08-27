@@ -23,22 +23,22 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 
 | Week | Cours | Labo | Content | Slides | Practical work |
 |-----:|-------|------|---------|--------|----------------|
-| 1 | 15.09 | 16.09 | Introduction & dev environment | | |
-| 2 | 22.09 | 23.09 | Git & GitHub | | |
-| 3 | 29.09 | 30.09 | Java, IntelliJ & Maven | | [PW1](practical-work/pw1.qmd) |
-| 4 | 06.10 | 07.10 | Java I/O | | [PW1](practical-work/pw1.qmd) |
-| 5 | 13.10 | 14.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) | [PW1](practical-work/pw1.qmd) |
-| 6 | 27.10 | 28.10 | Application protocols | | [PW1](practical-work/pw1.qmd) ⏰ |
-| 7 | 03.11 | 04.11 | **Mid-term evaluation (TE1)** | | |
-| 8 | 10.11 | 11.11 | SMTP & ncat | | [PW2](practical-work/pw2.qmd) |
-| 9 | 17.11 | 18.11 | TCP & UDP programming | | [PW2](practical-work/pw2.qmd) |
-| 10 | 24.11 | 25.11 | Network concurrency | | [PW2](practical-work/pw2.qmd) |
-| 11 | 01.12 | 02.12 | SSH & SCP | | [PW2](practical-work/pw2.qmd) ⏰ |
-| 12 | 08.12 | 09.12 | HTTP & curl | | [PW3](practical-work/pw3.qmd) |
-| 13 | 15.12 | 16.12 | Web infrastructures | | [PW3](practical-work/pw3.qmd) |
-| 14 | 12.01 | 13.01 | Caching & performance | | [PW3](practical-work/pw3.qmd) |
-| 15 | 19.01 | 20.01 | Semester review & exam preparation | | [PW3](practical-work/pw3.qmd) ⏰ |
-| 16 | 26.01 | 27.01 | **Final evaluation (TE2)** | | |
+| 1 | 15.09 | 16.09 | Introduction · Git & GitHub |  |  |
+| 2 | 22.09 | 23.09 | Java, IntelliJ & Maven |  | [PW1](practical-work/pw1.qmd) |
+| 3 | 29.09 | 30.09 | Java I/O |  | [PW1](practical-work/pw1.qmd) |
+| 4 | 06.10 | 07.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) | [PW1](practical-work/pw1.qmd) |
+| 5 | 13.10 | 14.10 | Application protocols |  | [PW1](practical-work/pw1.qmd) ⏰ |
+| 6 | 27.10 | 28.10 | SMTP & ncat |  |  |
+| 7 | 03.11 | 04.11 | **Mid-term evaluation (TE1)** |  |  |
+| 8 | 10.11 | 11.11 | TCP & UDP programming (1/2) |  | [PW2](practical-work/pw2.qmd) |
+| 9 | 17.11 | 18.11 | TCP & UDP programming (2/2) |  | [PW2](practical-work/pw2.qmd) |
+| 10 | 24.11 | 25.11 | Network concurrency |  | [PW2](practical-work/pw2.qmd) |
+| 11 | 01.12 | 02.12 | SSH & SCP |  | [PW2](practical-work/pw2.qmd) ⏰ |
+| 12 | 08.12 | 09.12 | HTTP & curl |  | [PW3](practical-work/pw3.qmd) |
+| 13 | 15.12 | 16.12 | Web infrastructures |  | [PW3](practical-work/pw3.qmd) |
+| 14 | 12.01 | 13.01 | Caching & performance |  | [PW3](practical-work/pw3.qmd) |
+| 15 | 19.01 | 20.01 | Semester review & exam preparation |  | [PW3](practical-work/pw3.qmd) ⏰ |
+| 16 | 26.01 | 27.01 | **Final evaluation (TE2)** |  |  |
 
 : {tbl-colwidths="[6,9,9,37,19,20]"}
 
@@ -50,29 +50,29 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 
 | Week | Cours | Labo | Content | Slides | Practical work |
 |-----:|-------|------|---------|--------|----------------|
-| 1 | 14.09 | 15.09 | Introduction & dev environment | | |
-| 2 | —¹ | 22.09 | Git & GitHub | | |
-| 3 | 28.09 | 29.09 | Java, IntelliJ & Maven | | [PW1](practical-work/pw1.qmd) |
-| 4 | 05.10 | 06.10 | Java I/O | | [PW1](practical-work/pw1.qmd) |
-| 5 | 12.10 | 13.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) | [PW1](practical-work/pw1.qmd) |
-| 6 | 26.10 | 27.10 | Application protocols | | [PW1](practical-work/pw1.qmd) ⏰ |
-| 7 | 02.11 | 03.11 | **Mid-term evaluation (TE1)** | | |
-| 8 | 09.11 | 10.11 | SMTP & ncat | | [PW2](practical-work/pw2.qmd) |
-| 9 | 16.11 | 17.11 | TCP & UDP programming | | [PW2](practical-work/pw2.qmd) |
-| 10 | 23.11 | 24.11 | Network concurrency | | [PW2](practical-work/pw2.qmd) |
-| 11 | 30.11 | 01.12 | SSH & SCP | | [PW2](practical-work/pw2.qmd) ⏰ |
-| 12 | 07.12 | 08.12 | HTTP & curl | | [PW3](practical-work/pw3.qmd) |
-| 13 | 14.12 | 15.12 | Web infrastructures | | [PW3](practical-work/pw3.qmd) |
-| 14 | 11.01 | 12.01 | Caching & performance | | [PW3](practical-work/pw3.qmd) |
-| 15 | 18.01 | 19.01 | Semester review & exam preparation | | [PW3](practical-work/pw3.qmd) ⏰ |
-| 16 | 25.01 | 26.01 | **Final evaluation (TE2)** | | |
+| 1 | 14.09 | 15.09 | Introduction · Git & GitHub |  |  |
+| 2 | —¹ | 22.09 | Java, IntelliJ & Maven |  | [PW1](practical-work/pw1.qmd) |
+| 3 | 28.09 | 29.09 | Java I/O |  | [PW1](practical-work/pw1.qmd) |
+| 4 | 05.10 | 06.10 | [Docker & Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) | [PW1](practical-work/pw1.qmd) |
+| 5 | 12.10 | 13.10 | Application protocols |  | [PW1](practical-work/pw1.qmd) ⏰ |
+| 6 | 26.10 | 27.10 | SMTP & ncat |  |  |
+| 7 | 02.11 | 03.11 | **Mid-term evaluation (TE1)** |  |  |
+| 8 | 09.11 | 10.11 | TCP & UDP programming (1/2) |  | [PW2](practical-work/pw2.qmd) |
+| 9 | 16.11 | 17.11 | TCP & UDP programming (2/2) |  | [PW2](practical-work/pw2.qmd) |
+| 10 | 23.11 | 24.11 | Network concurrency |  | [PW2](practical-work/pw2.qmd) |
+| 11 | 30.11 | 01.12 | SSH & SCP |  | [PW2](practical-work/pw2.qmd) ⏰ |
+| 12 | 07.12 | 08.12 | HTTP & curl |  | [PW3](practical-work/pw3.qmd) |
+| 13 | 14.12 | 15.12 | Web infrastructures |  | [PW3](practical-work/pw3.qmd) |
+| 14 | 11.01 | 12.01 | Caching & performance |  | [PW3](practical-work/pw3.qmd) |
+| 15 | 18.01 | 19.01 | Semester review & exam preparation |  | [PW3](practical-work/pw3.qmd) ⏰ |
+| 16 | 25.01 | 26.01 | **Final evaluation (TE2)** |  |  |
 
 : {tbl-colwidths="[6,9,9,37,19,20]"}
 
 ⏰ = final submission of the practical work.
 
-¹ No cours on 21.09 (Jeûne fédéral): the Git & GitHub cours material is
-covered in self-study before the labo of 22.09.
+¹ No cours on 21.09 (Jeûne fédéral): the Java, IntelliJ & Maven cours
+material is covered in self-study before the labo of 22.09.
 
 :::
 
