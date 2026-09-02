@@ -20,10 +20,6 @@ website:
           - practical-work/pw1.qmd
           - practical-work/pw2.qmd
           - practical-work/pw3.qmd
-  page-footer:
-    center: |
-      Based on the [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
-      by L. Delafontaine and H. Louis — [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 format:
   html:
