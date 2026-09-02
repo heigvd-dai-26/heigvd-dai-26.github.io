@@ -44,4 +44,5 @@ The site is rendered and deployed to GitHub Pages by
 
 [CC BY-SA 4.0](LICENSE.md) — adapted from the
 [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
-by L. Delafontaine and H. Louis.
+by L. Delafontaine and H. Louis. This version:
+O. Tischhauser, with the help of [Claude](https://claude.com) (Anthropic).

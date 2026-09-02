@@ -119,6 +119,8 @@ def convert_chapter(text: str, images_prefix: str | None) -> str:
     header = f'---\ntitle: "{title}"\n---\n\n'
     footer = (
         "\n## Sources\n\n"
+        "- O. Tischhauser, with the help of\n"
+        "  [Claude](https://claude.com) (Anthropic).\n"
         "- Adapted from the\n"
         "  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)\n"
         "  by L. Delafontaine and H. Louis, licensed\n"

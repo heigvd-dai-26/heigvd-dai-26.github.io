@@ -36,16 +36,9 @@ subtitle: "DAI — Chapter 05"
 
 ## Code examples
 
-::: {.columns}
-::: {.column width="50%"}
-- Check the code examples.
+- Check the code examples in `examples/05-docker/`.
 - Run them alongside the theory.
 - Modify them, play with them.
-:::
-::: {.column width="50%"}
-![](../chapters/images/05-docker/code-examples-github-repository.png)
-:::
-:::
 
 # Bare metal, virtualization and containerization
 
@@ -161,7 +154,6 @@ subtitle: "DAI — Chapter 05"
 - **Services**: the containers of the stack.
 - **Volumes**: shared directories to persist data.
 - **Networks**: communication between services.
-- v2 = `docker compose` (v1 `docker-compose` is deprecated).
 :::
 ::: {.column width="45%"}
 ![](../chapters/images/05-docker/docker-compose-specification.png)
@@ -173,6 +165,7 @@ subtitle: "DAI — Chapter 05"
 - One `compose.yaml` describes the whole stack.
 - `docker compose up` / `down` manage its lifecycle.
 - Versioned and shared with the application.
+- Old tutorials: `docker-compose` (v1, dead) → use `docker compose`.
 - Code examples 06–09: basics → ports → volumes → environment variables.
 
 # Docker networks
@@ -189,18 +182,11 @@ subtitle: "DAI — Chapter 05"
 
 ## What will you do?
 
-::: {.columns}
-::: {.column width="55%"}
 Containerize the Java IOs project:
 
 - Write the Dockerfile and Compose files.
 - Publish on GitHub Container Registry.
 - Run it on any Docker host.
-:::
-::: {.column width="45%"}
-![](../chapters/images/05-docker/what-will-you-do.png)
-:::
-:::
 
 ## Now it's your turn!
 

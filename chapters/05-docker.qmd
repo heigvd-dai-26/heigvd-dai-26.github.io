@@ -235,6 +235,50 @@ communication with Docker, then with Docker Compose).
 
 ## Exercises
 
+### Warm-up drills {#sec-drills}
+
+Quick checks that the basics stick — each should take a few minutes.
+
+1. Run an nginx web server on port 8080 of your machine, verify it
+   answers with `curl localhost:8080`, then stop and remove the
+   container.
+2. From memory, write a Dockerfile for an Alpine image whose container
+   prints the current date on start — build it and run it. Then override
+   the command at run time to print `hello` instead. (Which instruction
+   did you use — `ENTRYPOINT` or `CMD` — and why?)
+3. Write a minimal `compose.yaml` running the same image, and run it
+   with `docker compose up`.
+
+::: {.callout-tip collapse="true" title="Solutions — warm-up drills"}
+```sh
+# 1.
+docker run -d -p 8080:80 --name web nginx
+curl localhost:8080
+docker stop web && docker rm web
+```
+
+```dockerfile
+# 2. Dockerfile — CMD so the command stays overridable at run time
+FROM alpine
+CMD ["date"]
+```
+
+```sh
+docker build -t drill .
+docker run --rm drill          # prints the date
+docker run --rm drill echo hello   # overrides CMD
+```
+
+```yaml
+# 3. compose.yaml
+services:
+  drill:
+    build: .
+```
+:::
+
+### Main exercise — containerize your application
+
 You will containerize the CLI application from the
 [Java IOs chapter](04-java-io.qmd). If you do not have your own, clone and
 compile that chapter's solution to get the JAR file.
@@ -245,8 +289,8 @@ Create a file named `Dockerfile` (no extension) at the root of your Java IOs
 project, starting from:
 
 ```dockerfile
-# Base image: Java 21 runtime (JRE), provides the `java` command
-FROM eclipse-temurin:21-jre
+# Base image: Java 25 runtime (JRE), provides the `java` command
+FROM eclipse-temurin:25-jre
 ```
 
 Complete it so the image contains your JAR and runs it on start. Then build
@@ -268,7 +312,7 @@ host — without it, each run would be isolated and the files lost.
 ::: {.callout-tip collapse="true" title="Solution — Dockerfile"}
 ```dockerfile
 # Base image
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:25-jre
 
 # Set the working directory
 WORKDIR /app
@@ -352,8 +396,8 @@ forms are shown here.
 
 ### Exercise 4 — Share your work {#sec-ex4}
 
-Push the project to a new Git repository and share the link in the course
-GitHub Discussions (category *Show and tell*, title
+Push the project to a new Git repository and share the link in the
+[GitHub Discussions]({{< var discussions-url >}}) (category *Show and tell*, title
 `[DAI 2026-2027 Class <ID>] My Docker Compose application — <first name> <last name>`),
 with a screenshot of your published image. This tells us you completed the
 exercise so we can check your work.
@@ -443,6 +487,8 @@ Compose: [Kubernetes](https://kubernetes.io/),
 
 ## Sources
 
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
 - Adapted from the
   [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
   by L. Delafontaine and H. Louis, licensed

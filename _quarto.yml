@@ -13,6 +13,7 @@ website:
       - index.qmd
       - section: "Chapters"
         contents:
+          - chapters/00-environment-setup.qmd
           - chapters/05-docker.qmd
       - section: "Practical work"
         contents:
@@ -27,6 +28,7 @@ website:
 format:
   html:
     theme: [litera, assets/dai.scss]
+    lightbox: true
     toc: true
     toc-depth: 3
     code-copy: true
