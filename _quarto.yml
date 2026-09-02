@@ -13,13 +13,18 @@ website:
       - index.qmd
       - section: "Chapters"
         contents:
-          - chapters/00-environment-setup.qmd
-          - chapters/05-docker.qmd
+          - href: chapters/00-environment-setup.qmd
+            text: "00 · Environment setup"
+          - href: chapters/05-docker.qmd
+            text: "05 · Docker & Compose"
       - section: "Practical work"
         contents:
-          - practical-work/pw1.qmd
-          - practical-work/pw2.qmd
-          - practical-work/pw3.qmd
+          - href: practical-work/pw1.qmd
+            text: "PW1 · Java CLI in a container"
+          - href: practical-work/pw2.qmd
+            text: "PW2 · Network application"
+          - href: practical-work/pw3.qmd
+            text: "PW3 · Web app in the cloud"
 
 format:
   html:
