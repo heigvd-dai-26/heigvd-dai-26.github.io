@@ -19,8 +19,6 @@ website:
             text: "01 · Introduction"
           - href: chapters/02-git-github.qmd
             text: "02 · Git, GitHub & Markdown"
-          - href: chapters/05-docker.qmd
-            text: "05 · Docker & Compose"
       - section: "Practical work"
         contents:
           - href: practical-work/pw1.qmd
@@ -29,6 +27,7 @@ website:
             text: "PW2 · Network application"
           - href: practical-work/pw3.qmd
             text: "PW3 · Web app in the cloud"
+      - resources.qmd
 
 format:
   html:

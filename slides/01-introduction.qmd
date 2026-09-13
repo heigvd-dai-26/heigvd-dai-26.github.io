@@ -1,0 +1,254 @@
+---
+title: "Introduction to the teaching unit"
+subtitle: "DAI — Chapter 01"
+---
+
+# Welcome to Développement d'applications internet (DAI)!
+
+## Who are we?
+
+::: {.columns}
+::: {.column width="25%"}
+![](https://avatars.githubusercontent.com/u/1734990?v=4){width="150" style="border-radius: 50%;"}
+:::
+::: {.column width="75%"}
+**Olivier Tischhauser** — Teacher
+
+[olivier.tischhauser@heig-vd.ch](mailto:olivier.tischhauser@heig-vd.ch) ·
+[GitHub](https://github.com/binaerbaum)
+:::
+:::
+
+<br/>
+
+::: {.columns}
+::: {.column width="25%"}
+:::
+::: {.column width="75%"}
+**Cédric Campos Carvalho** — Assistant
+
+[cedric.camposcarvalho@heig-vd.ch](mailto:cedric.camposcarvalho@heig-vd.ch)
+:::
+:::
+
+# What to expect from this course
+
+## What does GAPS say (1/3)
+
+- [Fiche d'unité](https://heigvd-dai-26.github.io/resources.html) — 2026-2027
+- Three (3) ECTS credits (~90 hours of work):
+  - 64 periods of 45 minutes (= 48 hours in class).
+  - The rest outside class — we do our best to keep it reasonable.
+
+> **Connaissances préalables recommandées** — programmation (Java, C) ;
+> programmation orientée objet ; TCP/IP.
+> Les unités PRG2, RXI et POO permettent d'acquérir ces connaissances.
+
+## What does GAPS say (2/3)
+
+> **Programmation réseau**
+>
+> - concevoir une application client-serveur ;
+> - implémenter un client et un serveur en utilisant la Socket API dans
+>   différents langages ;
+>
+> **Protocole HTTP**
+>
+> - connaître les concepts principaux du protocole ;
+> - concevoir et réaliser une infrastructure HTTP avec un reverse proxy et
+>   plusieurs serveurs ;
+
+## What does GAPS say (3/3)
+
+> **Protocoles de messagerie**
+>
+> - connaître les principaux protocoles relatifs à la messagerie
+>   électronique ;
+> - implémenter un client de messagerie simple ;
+>
+> **Protocoles de transfert de fichiers et d'accès à distance**
+>
+> - connaître ces protocoles et leurs principales utilisations (y compris
+>   tunneling/forwarding).
+
+## Topics
+
+- Network programming (inputs/outputs, encodings, TCP and UDP).
+- Application-level protocols (SMTP, SSH, HTTP, and your own).
+- Web infrastructures (reverse proxy, load balancer, sticky sessions).
+- How to read and write technical documentation.
+
+At the end of the course, you will be able to create applications that
+communicate over the network — business applications, APIs, games, etc.!
+
+## Technologies
+
+- Git and GitHub.
+- Markdown.
+- Java for network programming.
+- Docker & Docker Compose.
+- Network utilities.
+- The terminal.
+
+## Why do you have this course
+
+- Defines the basics of network communication and how these
+  communications are programmed.
+- You will know how to define, program and deploy network applications —
+  and what makes them robust.
+- Software, security, data science, embedded or networking: you **will**
+  deal with network applications (APIs, devices, services).
+
+# How the course works
+
+## Program (1/2)
+
+The teaching unit is divided in 3 main parts:
+
+- Part 1 — Input/output processing.
+- Part 2 — Network programming with TCP and UDP.
+- Part 3 — Network programming with HTTP.
+
+The entire week-by-week program is available on the
+[course site](https://heigvd-dai-26.github.io/).
+
+## Program (2/2)
+
+- Dates are based on the
+  [HEIG-VD academic calendar](https://heig-vd.ch/formation/bachelor/calendrier-academique/).
+- **The program is subject to change.**
+- We will do our best to inform you in advance if there are any changes.
+
+## Course sequence
+
+1. Short and concise overview of each subject (20–30 minutes).
+2. Practice the content: exercises with solutions in each chapter.
+3. Practical works — **freedom of subject**, you choose what you build.
+4. Feedback and discussions — very important to us.
+
+## Grading
+
+- Three (3) practical works, in groups — **20%** (labo grade).
+- Two (2) evaluations, individually — **80%** (cours grade):
+  - TE1 (mid-term) 40% · TE2 (final) 60%.
+- No exam session — everything happens during the semester.
+
+You can change groups between practical works. We try to return grades
+and feedback quickly, and we can be flexible on deadlines — with a good
+reason.
+
+## Communication channels
+
+- Email — put the whole teaching staff in copy:
+  - [olivier.tischhauser@heig-vd.ch](mailto:olivier.tischhauser@heig-vd.ch)
+  - [cedric.camposcarvalho@heig-vd.ch](mailto:cedric.camposcarvalho@heig-vd.ch)
+- In person, during and around the sessions.
+- GitHub Discussions.
+
+## Where to find the course material
+
+**Everything** is on the course site:
+
+- <https://heigvd-dai-26.github.io/>
+
+No Microsoft Teams, no CyberLearn — one place to find it all.
+
+Spotted something weird? Issues and pull requests are welcome. 🙂
+
+# Our wishes for this course
+
+## What we want this course to be
+
+- A place to learn.
+- A place to experiment, where it is OK to make mistakes.
+- A place to share and discuss.
+- A place where you are able to do things and master them.
+- A place where you can express your opinion.
+- It is OK if you are not feeling well. We are here if you need to talk.
+- A place where you do not lose your time.
+
+## What we don't want this course to be
+
+- A place you don't want to come to.
+- A place you don't feel comfortable or safe.
+- A place where you can't ask questions or make mistakes.
+- A place where you can't take anything away.
+
+If you have a problem with the course, we will do our best to fix it.
+
+If you are done, you are free to go — but helping your classmates is
+appreciated!
+
+## Responsibilities and expectations
+
+::: {.columns}
+::: {.column width="50%"}
+**Ours**
+
+- You acquire the knowledge of this course.
+- You are prepared for the professional world.
+- Your feedback is taken into account.
+- We are available and give useful feedback.
+:::
+::: {.column width="50%"}
+**Yours**
+
+- Read and understand the course material.
+- Do the practical contents.
+- You are responsible for your own learning: ask, tell us, suggest.
+:::
+:::
+
+## *"Un cours en anglais..?"*
+
+- Written material in **English** — the language of the field; a great
+  opportunity to practice.
+- The teaching staff speaks **French**; evaluations are in **French**.
+- Difficulties with English? Let us know.
+
+## *"What about ChatGPT, Copilot, Claude…?"* (1/2)
+
+**You can use the tools you want — responsibly, and within the
+[guidelines set by the school](https://heigvd-dai-26.github.io/resources/ia-principes-heig-vd.pdf)**
+— except during the evaluations.
+
+They can help you, but they are not a replacement for your own knowledge
+and skills: focus on understanding first, then let the tools help with
+the implementation.
+
+## *"What about ChatGPT, Copilot, Claude…?"* (2/2)
+
+The rules:
+
+- You **must be able to explain what you did and why**.
+- You **must state when you used external help** (tools and sources).
+- You **must be able to do the work on your own** — tools come and go.
+
+**Your personal and scientific integrity is at stake.** If we have
+doubts, we will ask you to explain your work.
+
+## *"Linux, macOS or Windows?"*
+
+- Software development on Windows is harder: use **WSL** — chapter 00
+  guides you through it.
+- On macOS: **Homebrew** for the tooling — also in chapter 00.
+- Whatever the OS: **every verification in
+  [chapter 00](https://heigvd-dai-26.github.io/chapters/00-environment-setup.html)
+  must pass.**
+
+ARM computer (Apple Silicon)? Mostly fine — tell us as soon as something
+misbehaves.
+
+# Questions?
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis — licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck.
+:::

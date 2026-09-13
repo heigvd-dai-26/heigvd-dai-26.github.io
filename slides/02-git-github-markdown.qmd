@@ -1,0 +1,256 @@
+---
+title: "Git, GitHub & Markdown"
+subtitle: "DAI — Chapter 02"
+---
+
+## Objectives
+
+- Understand how to use Git, GitHub and Markdown.
+- Create and manage repositories on GitHub.
+- Write and format documentation using Markdown.
+- Share and collaborate effectively using Git and GitHub — with SSH
+  authentication and **signed commits**.
+
+# Git
+
+## Git
+
+::: {.columns}
+::: {.column width="60%"}
+- A version control system (VCS).
+- Created in 2005 by Linus Torvalds.
+- Efficiently tracks changes in files.
+- Manages source code and documentation within a project.
+:::
+::: {.column width="40%"}
+![](https://git-scm.com/images/logos/downloads/Git-Logo-2Color.svg){width="80%"}
+:::
+:::
+
+## Architecture
+
+::: {.columns}
+::: {.column width="55%"}
+- Remote repository (server, `origin`) and local **clones**.
+- Fully **distributed**: each clone contains the full history — work
+  offline.
+:::
+::: {.column width="45%"}
+![](https://wac-cdn.atlassian.com/dam/jcr:9d51f0ee-5946-4be2-886c-ff040ef8c1a1/03.svg)
+:::
+:::
+
+## Commits, hashes and tags
+
+::: {.columns}
+::: {.column width="55%"}
+- Commits = snapshots of the repository.
+- Each commit has a unique, unalterable **hash**.
+- **Tags** name commits — often releases.
+- **Signed commits** prove authorship → "Verified" badge.
+:::
+::: {.column width="45%"}
+![](https://wac-cdn.atlassian.com/dam/jcr:bb02240a-7d85-4f5a-ae7f-c2727b37fc79/01%20Many%20ways%20of%20referring%20to%20a%20commit.svg)
+:::
+:::
+
+## The three areas
+
+1. **Working directory** — the files you edit.
+2. **Staging area** — what goes into the next commit (`git add`).
+3. **Repository** — the committed history (`git commit`).
+
+`git status` tells you where every change currently is.
+
+## Branches
+
+::: {.columns}
+::: {.column width="55%"}
+- A branch = a movable pointer to a commit.
+- Default branch: `main`.
+- Work on features and fixes without touching `main`.
+:::
+::: {.column width="45%"}
+![](https://wac-cdn.atlassian.com/dam/jcr:34c86360-8dea-4be4-92f7-6597d4d5bfae/02%20Feature%20branches.svg)
+:::
+:::
+
+## Merging branches
+
+::: {.columns}
+::: {.column width="55%"}
+- **Merge** — the default; what we use in this course.
+- **Rebase** — replay commits, linear history.
+- **Squash** — collapse a branch into one commit.
+:::
+::: {.column width="45%"}
+![](https://wac-cdn.atlassian.com/dam/jcr:4639eeb8-e417-434a-a3f8-a972277fc66a/02%20Merging%20main%20into%20the%20feature%20branh.svg)
+:::
+:::
+
+## Conflicts
+
+::: {.columns}
+::: {.column width="55%"}
+- Arise when the **same lines** are edited on both sides.
+- Git detects them and asks **you** to resolve.
+- Tricky at first — and a crucial skill. You will practice it today,
+  on purpose.
+:::
+::: {.column width="45%"}
+![](https://imgs.xkcd.com/comics/git.png){height="450"}
+:::
+:::
+
+## Ignore files
+
+- `.gitignore` lists what Git must **not** track.
+- Cleanliness (no build artifacts) and security (no secrets).
+- Commit **source files only** — never `target/`, never binaries.
+- Tip: avoid gitignore generators — too many unnecessary rules.
+
+## Summary — Git
+
+- Git is a distributed VCS.
+- Commits track changes; branches track parallel versions.
+- Merge, rebase or squash bring work back together.
+- Conflicts are detected — and resolved by you.
+
+**Learn Git from the command line — it works everywhere, even on a
+server.**
+
+# GitHub
+
+## GitHub
+
+::: {.columns}
+::: {.column width="60%"}
+- Git hosting platform, created in 2008.
+- The home of most open source projects.
+- Where your practical works will live.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg){width="60%"}
+:::
+:::
+
+## Social platform
+
+- Follow users, star projects, discover code.
+- Your profile is a **portfolio** — recruiters look at it.
+- **Fork** repositories: copy, change, contribute back.
+- Free **Pro** account for students — apply with your HEIG-VD email
+  (GitHub Education).
+
+## Users and organizations
+
+- Repositories belong to a **user** or an **organization**.
+- Organizations share repositories between members.
+- This course lives in one: **github.com/heigvd-dai-26** — and each PW
+  team can create its own.
+
+## Issues, pull requests and forks
+
+1. Open an **issue** to discuss the change (optional, recommended).
+2. Clone (or fork) and checkout a new **branch**.
+3. Commit and push as often as you want.
+4. Create the **pull request**.
+5. A teammate reviews and merges if OK.
+6. Delete the branch.
+
+The workflow of your practical works — and of the industry.
+
+## The rejected push
+
+```text
+! [rejected]  main -> main (fetch first)
+```
+
+- Not broken: a teammate pushed to `main` before you.
+- Fix: `git pull` (rebase), resolve if needed, `git push`.
+- Practice it **before** it happens under deadline pressure.
+
+# Markdown
+
+## Markdown
+
+::: {.columns}
+::: {.column width="60%"}
+- Lightweight markup language.
+- Created by John Gruber and Aaron Swartz in 2004.
+- Simple, versatile, everywhere: READMEs, issues, wikis, sites.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/4/48/Markdown-mark.svg){width="60%"}
+:::
+:::
+
+## Markdown and output formats
+
+- Plain text in, many formats out: web pages, PDF, slides.
+- **Diffable**: Git shows which *sentence* changed — a `.docx` cannot.
+- This deck and the whole course site are written in Markdown.
+
+## Syntax
+
+```markdown
+# Heading      **bold**  _italic_  `code`
+
+- bullet          1. numbered      > quote
+
+[link](https://heig-vd.ch)   ![alt](diagram.png)
+
+| Column | Column |
+| ------ | -----: |
+```
+
+- Fenced code blocks: three backticks **+ the language**.
+- Same conventions as Discord, Telegram, etc.
+
+## Specifications
+
+- No single standard.
+- **CommonMark** — the strict specification.
+- **GitHub Flavored Markdown** — CommonMark + tables, task lists,
+  strikethrough. What you write on GitHub.
+
+## Summary — Markdown
+
+- Easy to learn and use.
+- Documentation, READMEs, reports — and slides.
+- Exports to many formats.
+
+# Now it's your turn!
+
+## What will you do?
+
+- Configure your Git identity, enable 2FA.
+- Set up **SSH authentication** and **commit signing**.
+- Create your **GitHub profile README** in Markdown.
+- Cause — and resolve — one merge conflict, on purpose.
+
+[Chapter 02 on the course site](https://heigvd-dai-26.github.io/chapters/02-git-github.html)
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Finished? Was it easy? Was it hard?
+
+Let us know what was easy and what was difficult — it helps us improve
+the course and come back to you when needed.
+
+GitHub Discussions — reactions welcome!
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis — licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck.
+- Git logo by [Git](https://git-scm.com/); Git illustrations by
+  [Atlassian](https://www.atlassian.com/git/tutorials/what-is-git); Git
+  strip by [xkcd](https://xkcd.com/1597/).
+:::

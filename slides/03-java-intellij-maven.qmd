@@ -1,0 +1,278 @@
+---
+title: "Java, IntelliJ IDEA and Maven"
+subtitle: "DAI — Chapter 03"
+---
+
+## Objectives
+
+- Learn why Java is a popular programming language.
+- Manage multiple Java versions with SDKMAN!.
+- Develop Java apps with IntelliJ IDEA and Maven.
+- Manage dependencies with Maven.
+- Develop essential skills for professional Java development.
+
+# Java
+
+## Java
+
+::: {.columns}
+::: {.column width="60%"}
+- General-purpose, object-oriented language.
+- Write once, run anywhere (WORA).
+- Created by James Gosling, 1995, at Sun Microsystems.
+- The documentation seems scary — you will get used to it, and it is
+  very useful.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg){height="300"}
+:::
+:::
+
+## Java virtual machine
+
+- Source code is compiled to **bytecode**.
+- The bytecode runs in the **Java virtual machine (JVM)**.
+- Where a JVM exists, Java can run (most of the time).
+
+## JVM versions
+
+- Multiple implementations exist, targeting different platforms and
+  features.
+- **JDK** for development, **JRE** for running.
+- **Eclipse Temurin** is the distribution we recommend and use.
+
+## Java versions and version managers
+
+::: {.columns}
+::: {.column width="60%"}
+- **Java 25** is the latest LTS — the version of this course.
+- [SDKMAN!](https://sdkman.io/) manages multiple Java versions (you
+  installed it in chapter 00).
+- Match versions within a project for consistency.
+:::
+::: {.column width="40%"}
+![](https://sdkman.io/assets/img/sdk-man-small-pattern.svg){width="70%"}
+:::
+:::
+
+## Compiling and running Java programs (1/3)
+
+Given the following `HelloWorld.java` file:
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        String message = "Hello, World!";
+
+        System.out.println(message);
+    }
+}
+```
+
+## Compiling and running Java programs (2/3)
+
+Compile manually with the `javac` command:
+
+```sh
+javac HelloWorld.java
+```
+
+Execute with the `java` command:
+
+```sh
+java HelloWorld
+```
+
+## Compiling and running Java programs (3/3)
+
+Modern way: package into a **JAR** file with Maven, run with `java -jar`:
+
+```sh
+java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
+```
+
+(Yes — the Minecraft server is a JAR file.)
+
+## Garbage collection
+
+- Java has automatic memory management — no manual `malloc`/`free` as in
+  C or C++.
+- The **garbage collector** ("GC") runs periodically to free memory.
+- An object is eligible when it is no longer referenced (out of scope or
+  `null`).
+
+## Summary — Java
+
+- General-purpose, class-based, object-oriented language.
+- Compiled to bytecode, executed by the JVM — portable by design.
+- Versions evolve; LTS releases matter (Java 25 today).
+- Version managers (SDKMAN!) install and switch between versions.
+
+# IntelliJ IDEA
+
+## IntelliJ IDEA
+
+::: {.columns}
+::: {.column width="60%"}
+- IDE for (Java) software development.
+- Developed by JetBrains.
+- Works on Windows, macOS, Linux.
+- Quite a standard in the industry.
+:::
+::: {.column width="40%"}
+![](https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.svg){width="60%"}
+:::
+:::
+
+## Community Edition and Ultimate Edition
+
+- **Community** (free) and **Ultimate** (paid).
+- Free student license available — get it with your HEIG-VD email.
+- The Community Edition is sufficient for this course.
+
+## JetBrains Toolbox App
+
+::: {.columns}
+::: {.column width="60%"}
+- Manages multiple JetBrains IDEs.
+- Install and update in one place.
+- Optional but very useful.
+:::
+::: {.column width="40%"}
+![](https://resources.jetbrains.com/storage/products/company/brand/logos/Toolbox_icon.svg){width="60%"}
+:::
+:::
+
+## Configuration files and Git
+
+- IntelliJ creates a `.idea` directory with the project configuration.
+- It allows sharing project settings between developers.
+- Some of its files contain **local** configuration and must be ignored
+  in Git — chapter 03 shows what to keep.
+
+## Summary — IntelliJ IDEA
+
+- The reference IDE for Java development.
+- Community Edition is enough; the student license unlocks Ultimate.
+- The `.idea` directory is shared — except its local parts
+  (`.gitignore`).
+
+# Maven
+
+## Maven
+
+::: {.columns}
+::: {.column width="60%"}
+- Maintained by the Apache Software Foundation.
+- Software project management tool.
+- Manages **dependencies**.
+- **Build automation** tool.
+- Defines a standard project structure.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/5/52/Apache_Maven_logo.svg)
+:::
+:::
+
+## Maven project structure
+
+Standardized directory structure — conventions simplify the build:
+
+```text
+my-project/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/          # application sources
+    │   └── resources/     # config files, assets
+    └── test/
+        └── java/          # unit tests
+```
+
+## The `pom.xml` file
+
+Configuration and build settings, shared among developers:
+
+```xml
+<project>
+  <groupId>ch.heigvd.dai</groupId>
+  <artifactId>my-project</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <dependencies>
+    <dependency>          <!-- external library -->
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+      <version>4.7.7</version>
+    </dependency>
+  </dependencies>
+</project>
+```
+
+## Maven lifecycle
+
+- Maven defines the build process, composed of **phases** loading
+  plugin **goals**.
+- The phases you will use daily:
+  - `compile` — compile the sources.
+  - `test` — run the unit tests.
+  - `package` — build the JAR.
+  - `clean` — remove build outputs (`target/`).
+
+## Maven Repository
+
+- [Maven Central](https://central.sonatype.com/): public repository of
+  Java libraries.
+- Maven downloads dependencies automatically.
+- You can publish your own libraries.
+- Many libraries available — such as
+  [picocli](https://picocli.info/), for building CLI applications.
+
+## Maven wrapper
+
+- Use Maven without installing it: the wrapper script downloads it.
+- Ensures a consistent Maven version across the team.
+- Use `./mvnw` (or `mvnw.cmd` on Windows) instead of `mvn`.
+
+## Summary — Maven
+
+- Project management, dependency manager and build tool in one.
+- Standard directory structure and standard build process.
+- The `pom.xml` file is the single source of project configuration.
+
+# Questions?
+
+# Practical content
+
+## What will you do?
+
+- Create a Maven project in IntelliJ IDEA.
+- Build and run a small CLI application with
+  [picocli](https://picocli.info/) — your first external dependency.
+- Package it as a JAR and run it from the terminal.
+- Publish the project on GitHub — with signed commits.
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Finished? Was it easy? Was it hard?
+
+Let us know what was easy and what was difficult — it helps us improve
+the course and come back to you when needed.
+
+GitHub Discussions — reactions welcome!
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis — licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck.
+- Java logo by [Oracle](https://www.java.com/); SDKMAN! logo by
+  [SDKMAN!](https://sdkman.io/); IntelliJ IDEA and Toolbox logos by
+  [JetBrains](https://www.jetbrains.com/); Maven logo by the
+  [Apache Software Foundation](https://maven.apache.org/).
+:::

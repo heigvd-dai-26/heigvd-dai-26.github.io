@@ -3,6 +3,8 @@ title: "Git, GitHub & Markdown"
 subtitle: "Chapter 02"
 ---
 
+[Slides for this chapter](../slides/02-git-github-markdown.qmd)
+
 ## Objectives
 
 By the end of this chapter, you should be able to:
@@ -363,6 +365,12 @@ git config --global user.signingkey ~/.ssh/id_ed25519.pub
 git config --global commit.gpgSign true
 ```
 
+::: {.callout-warning}
+SSH commit signing requires **Git 2.34 or newer** — check with
+`git --version`. Any recent Ubuntu or Homebrew Git is fine; an old
+preinstalled Git fails with cryptic errors.
+:::
+
 **Verification**: `git config --list` shows `gpg.format=ssh`,
 `user.signingkey=...` and `commit.gpgsign=true`.
 
@@ -414,6 +422,39 @@ In your profile repository, create a conflict on purpose:
 
 **Verification**: `git log` shows the merge commit; the file contains
 what you decided — and no `<<<<<<<` markers.
+
+### Exercise 6 — Your first pull request {#sec-ex6}
+
+The practical works require the pull-request workflow — walk the full
+cycle once, on your profile repository:
+
+1. Create a branch and improve something in your README:
+
+```sh
+git checkout -b improve-readme
+# edit README.md
+git add README.md && git commit -m "Improve README"
+git push -u origin improve-readme
+```
+
+2. On GitHub, open the **pull request** the banner offers you; read the
+   diff as a reviewer would.
+3. **Merge** the pull request, delete the branch, then locally:
+
+```sh
+git checkout main
+git pull
+git branch -d improve-readme
+```
+
+**Verification**: the merged PR appears in the repository's
+**Pull requests → Closed** tab, and `git log` shows the merge.
+
+::: {.callout-tip}
+Not ready for review? Open a **draft** pull request. And in your team
+repositories, enable *automatically delete head branches* in the
+settings — merged branches clean themselves up.
+:::
 
 ### Share your profile
 

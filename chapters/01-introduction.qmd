@@ -3,6 +3,9 @@ title: "Introduction"
 subtitle: "Chapter 01"
 ---
 
+[Slides for this chapter](../slides/01-introduction.qmd) ·
+[Part 1 slides](../slides/part-1-input-output-processing.qmd)
+
 Welcome to **Développement d'applications internet (DAI)**!
 
 ## What this course is about
@@ -46,6 +49,14 @@ Each week combines a **cours** (theory, kept short) and a **labo**
   announcements. There is no Cyberlearn, no Teams. Ask anything; there
   are no stupid questions.
 
+::: {.callout-note title="How to read the callouts"}
+Colored boxes like this one highlight information throughout the course:
+**note** (worth knowing, even when skimming), **tip** (optional help),
+**important** (needed to succeed), **warning** (risk ahead) and
+**caution** (negative consequences). Collapsed boxes — solutions,
+*Go further* — expand on click.
+:::
+
 The material is in English — the language of the field — while classes
 and evaluations are in French. Course content may be improved during the
 semester; we will tell you when something important changes.
@@ -56,8 +67,8 @@ $$
 \text{final grade} = \underbrace{(\text{TE1} \times 0.4 + \text{TE2} \times 0.6)}_{\text{cours}} \times\ 0.8\ +\ \underbrace{\text{PW}}_{\text{labo}} \times\ 0.2
 $$
 
-- **TE1** — mid-term evaluation, week 7, covers chapters 01–07.
-- **TE2** — final evaluation, week 16, covers the whole semester.
+- **TE1** — mid-term evaluation.
+- **TE2** — final evaluation.
 - **PW** — the average of your three practical works, each graded on its
   report and deliverables (rubrics published with each PW).
 
@@ -65,11 +76,11 @@ There is no exam session exam — everything happens during the semester.
 
 ## AI tools
 
-<!-- TODO(review): Olivier's AI policy — placeholder based on last year's
-     spirit ("on ne se voile pas la face", best practices over bans) -->
-
 AI assistants (Copilot, ChatGPT, Claude, …) exist and you will use them
-in your career — pretending otherwise would be dishonest. Ground rules:
+in your career — pretending otherwise would be dishonest. You can use
+them **responsibly and within the
+[guidelines set by the school](../resources/ia-principes-heig-vd.pdf)**.
+Ground rules:
 
 - Use them to **understand** — explain an error, explore an approach —
   rather than to produce work you cannot explain.
@@ -83,11 +94,9 @@ in your career — pretending otherwise would be dishonest. Ground rules:
 1. Environment ready? Every verification of
    [chapter 00](00-environment-setup.qmd) passes. If something resists,
    this week is the moment to ask.
-2. Accept the invitation to the course GitHub organization
-   ({{< var org >}}).
-3. Complete [chapter 02 — Git, GitHub & Markdown](02-git-github.qmd), including the
-   SSH and signed-commits setup: everything else this semester builds on
-   it.
+2. Complete [chapter 02 — Git, GitHub & Markdown](02-git-github.qmd),
+   including the SSH and signed-commits setup: everything else this
+   semester builds on it.
 
 ## Sources
 
