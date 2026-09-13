@@ -121,6 +121,9 @@ Good practice: commit **source files only** — never build artifacts (like
 Maven's `target/`) or binaries. Add entries as the need appears rather
 than pasting a giant generated list.
 
+**Learn Git from the command line** — it works everywhere, even on a
+server, and the concepts transfer to any GUI later.
+
 ::: {.callout-tip collapse="true" title="Git cheat sheet"}
 ```sh
 git clone <url>            # clone a repository
@@ -406,6 +409,32 @@ git log            # your signed commit is HEAD, ahead of origin/main
 git push
 ```
 
+::: {.callout-note title="Reading Git's output"}
+Before pushing, `git log` (press `q` to quit) tells a story worth
+reading:
+
+```text
+commit 2ea9f1c4d5ef42ee3cf1b0d3849a0445ad8d2683 (HEAD -> main)
+Author: First-name Last-name <your@email>
+
+    Update profile README
+
+commit 20f87413aef2fe9ef296767e6db839b722b83532 (origin/main, origin/HEAD)
+Author: First-name Last-name <your@email>
+
+    Initial commit
+```
+
+- `HEAD -> main` — where **you** are: your local `main`, on the new
+  commit.
+- `origin/main` — where the **remote** still is: one commit behind you.
+  `git status` says the same in words: *"Your branch is ahead of
+  'origin/main' by 1 commit."*
+
+After `git push`, run `git log` again: all the labels sit on the same
+commit — local and remote agree.
+:::
+
 **Verification**: your profile shows the README, and the commit carries
 the **Verified** badge on GitHub. If it does not, revisit
 [exercise 3](#sec-ex3).
@@ -437,8 +466,10 @@ git add README.md && git commit -m "Improve README"
 git push -u origin improve-readme
 ```
 
-2. On GitHub, open the **pull request** the banner offers you; read the
-   diff as a reviewer would.
+2. On GitHub, open the **pull request** the banner offers you. GitHub
+   pre-fills the title with your last commit message — considered bad
+   practice: **rename it to describe the change as a whole**. Then read
+   the diff as a reviewer would.
 3. **Merge** the pull request, delete the branch, then locally:
 
 ```sh
