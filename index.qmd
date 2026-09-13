@@ -1,0 +1,44 @@
+---
+title: "DAI — Développement d'applications internet"
+subtitle: "HEIG-VD · {{< var year >}}"
+---
+
+Welcome to the DAI teaching unit. This site contains the course material,
+exercises and slides. Find your class below — chapters are numbered by
+topic, not by date.
+
+## Schedule
+
+::: {.panel-tabset}
+
+### DAI-TIC-B
+
+*Wednesday afternoon — room TBD*
+
+| Week | Date | Content | Slides |
+|-----:|------|---------|--------|
+| 1 | TBD | *…earlier chapters…* | |
+| 4 | TBD | [Docker and Docker Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) |
+| 5 | TBD | *…* | |
+
+: {tbl-colwidths="[8,12,55,25]"}
+
+### DAI-TIC-C
+
+*Wednesday morning — room TBD*
+
+| Week | Date | Content | Slides |
+|-----:|------|---------|--------|
+| 1 | TBD | *…earlier chapters…* | |
+| 4 | TBD | [Docker and Docker Compose](chapters/05-docker.qmd) | [Slides](slides/05-docker-revealjs.qmd) |
+| 5 | TBD | *…* | |
+
+: {tbl-colwidths="[8,12,55,25]"}
+
+:::
+
+## Questions and feedback
+
+Questions, difficulties and improvement ideas are welcome in the
+[GitHub Discussions]({{< var discussions-url >}}) of this year's
+organization ({{< var org >}}).

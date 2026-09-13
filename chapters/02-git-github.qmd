@@ -1,0 +1,482 @@
+---
+title: "Git, GitHub & Markdown"
+subtitle: "Chapter 02"
+---
+
+## Objectives
+
+By the end of this chapter, you should be able to:
+
+- Explain how Git tracks changes (commits, branches, merges) and resolve a
+  merge conflict.
+- Create and manage repositories on GitHub, and contribute through issues
+  and pull requests.
+- Authenticate to GitHub with SSH and **sign your commits**, so your work
+  is verifiably yours.
+- Collaborate in a team with a branch-based workflow — the one you will
+  use for every practical work.
+- Write documentation in **Markdown** — every README, report and
+  specification you hand in this semester.
+
+## Git
+
+> Git is a free and open source distributed version control system (VCS)
+> designed to handle everything from small to very large projects with
+> speed and efficiency. — <https://git-scm.com/>
+
+Created by Linus Torvalds in 2005 to manage the Linux kernel source code,
+Git tracks changes in a set of files and coordinates the work of several
+people on the same code base. It is *the* version control system today —
+you will use it in every course and every job from now on.
+
+### Repositories and clones
+
+A Git **repository** holds your project and its entire history. Git is
+**distributed**: every **clone** is a full copy of the repository, history
+included — you can work (and commit) offline, and synchronize later. By
+convention the copy on GitHub is called the **remote** (`origin`), and the
+copy on your machine is your local repository.
+
+### Commits, hashes and tags
+
+Git records changes as **commits** — snapshots of the project at a point
+in time. Each commit has a unique **hash** computed from its content: a
+commit cannot be modified without changing its hash, which is what makes
+the history trustworthy.
+
+- A **tag** is a human-friendly name for one commit — typically a release
+  (`v1.0.0`).
+- A commit can be **signed** to prove who authored it. You will set this
+  up in the exercises: your commits will carry a "Verified" badge on
+  GitHub.
+
+### The three areas
+
+Between your editor and the history sit three places:
+
+1. The **working directory** — the files you edit.
+2. The **staging area** — the changes you have marked for the next commit
+   (`git add`).
+3. The **repository** — the committed history (`git commit`).
+
+`git status` shows where every change currently is; `git diff` shows what
+changed but is not staged yet.
+
+### Branches
+
+A **branch** is a movable pointer to a commit — the default branch is
+usually called `main`. Creating a branch is instantaneous (it is just a
+pointer), which is why the standard way to develop a feature is: branch
+off `main`, commit on the branch, merge back when ready. `HEAD` is the
+pointer to wherever you currently are.
+
+### Merging
+
+Bringing a branch's work back is done in one of three ways:
+
+- **Merge** — combine both branches in a new *merge commit* (the
+  default).
+- **Rebase** — replay your commits on top of the target branch, keeping a
+  linear history.
+- **Squash** — collapse the branch's commits into a single one before
+  merging.
+
+### Conflicts
+
+When two people change the **same lines** of the same file, Git cannot
+decide for you: the merge stops with a **conflict**, and marks the file:
+
+```text
+<<<<<<< HEAD
+Here's a line added by you.
+=======
+Here's a line added by someone else.
+>>>>>>> other-branch
+```
+
+You resolve it by editing the file (keep what should stay, delete the
+markers), then `git add` the file and conclude the merge. You will
+practice this in the exercises — deliberately.
+
+### Ignoring files
+
+A `.gitignore` file at the root of the repository lists what Git must not
+track — build outputs, IDE configuration, secrets. Ignore by name,
+extension or pattern:
+
+```gitignore
+# Ignore all text files...
+*.txt
+
+# ...except the input files of the examples
+!examples/**/*_input.txt
+
+# Ignore the target directory at the root only
+/target/
+```
+
+Good practice: commit **source files only** — never build artifacts (like
+Maven's `target/`) or binaries. Add entries as the need appears rather
+than pasting a giant generated list.
+
+::: {.callout-tip collapse="true" title="Git cheat sheet"}
+```sh
+git clone <url>            # clone a repository
+git status                 # what changed, and where it is
+git diff [<file>]          # unstaged changes
+git add <file>             # stage changes
+git commit -m "Message"    # commit staged changes
+git checkout -b <branch>   # create a branch and switch to it
+git checkout <branch>      # switch branches
+git merge <branch>         # merge a branch into the current one
+git push                   # send your commits to the remote
+git pull                   # fetch + integrate remote commits
+git fetch                  # fetch remote state without touching files
+git log                    # history (q to quit)
+git tag <name>             # tag the current commit
+```
+:::
+
+## GitHub
+
+> GitHub is a platform and cloud-based service for software development
+> and version control using Git. — <https://github.com>
+
+GitHub hosts Git repositories and adds collaboration on top: issues, pull
+requests, code review, discussions. It is also a social platform — your
+profile and public repositories are a portfolio that recruiters actually
+look at.
+
+### Users and organizations
+
+A repository belongs to a **user** or to an **organization** (shared by
+members — this course lives in one, and each of your PW teams can create
+one).
+
+### Issues, pull requests and forks
+
+- **Issues** track bugs, tasks and ideas; they can be assigned, labeled
+  and discussed.
+- A **pull request (PR)** proposes changes from a branch: teammates
+  review, comment, request changes, approve — then the branch is merged.
+- A **fork** is your own copy of someone else's repository — how you
+  contribute to projects where you have no write access.
+
+The standard contribution cycle:
+
+1. Open an issue describing the change (optional but recommended — it
+   avoids duplicated or unwanted work).
+2. Create a branch (GitHub can create one directly from the issue).
+3. Commit and push your changes on the branch.
+4. Open a pull request; a teammate reviews it.
+5. Merge, then delete the branch.
+
+::: {.callout-tip}
+As a HEIG-VD student you get GitHub Pro for free through
+[GitHub Education](https://docs.github.com/en/education/explore-the-benefits-of-teaching-and-learning-with-github-education/github-global-campus-for-students).
+:::
+
+## Working in a team
+
+For the practical works, your whole group has write access to one shared
+repository. Two workflows exist; **we recommend the first**.
+
+### Pull-request workflow (recommended)
+
+Exactly the contribution cycle above, applied inside your team: one
+branch per feature, one PR per branch, **a teammate (not the author)
+reviews and merges**. The history stays readable and everyone sees what
+enters `main`.
+
+### Centralized workflow, and the rejected push
+
+Some teams commit directly to `main`. Even then — and also on the PR
+workflow whenever two branches touch `main` between your pull and your
+push — you will eventually see this:
+
+```text
+> git push
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/...'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally.
+```
+
+Nothing is broken: a teammate pushed to `main` before you. The recovery
+sequence:
+
+```sh
+# Once, the first time: replay your commits on top of theirs when pulling
+git config --global pull.rebase true
+
+# Integrate their work, then push yours
+git pull
+git push
+```
+
+If your changes and theirs touch the same lines, the pull stops with a
+conflict: resolve the marked files (see [Conflicts](#conflicts)), then
+
+```sh
+git add <resolved-file>
+git rebase --continue
+git push
+```
+
+::: {.callout-important}
+Practice this **before** the first practical work deadline — the rejected
+push always shows up at the worst moment otherwise.
+:::
+
+## Markdown {#sec-markdown}
+
+Code is only half of what you hand in. The other half — README files,
+protocol specifications, practical-work reports — is written in
+**Markdown**: plain text that stays readable as-is, but renders as
+formatted text wherever it lands.
+
+Created by John Gruber in 2004, it is now the default documentation
+format of the industry: GitHub and GitLab render it, static site
+generators build websites from it, and Pandoc converts it to PDF, HTML or
+DOCX. Both this page and the slides that go with it are Markdown.
+
+Two properties make it worth ten minutes of your time. It is **diffable**
+— because it is plain text, Git shows you exactly which sentence changed,
+which a `.docx` cannot. And it is **portable** — the same file is a
+readable text file, a GitHub page and a PDF.
+
+### Syntax
+
+The whole language fits on one screen:
+
+```markdown
+# Heading 1
+## Heading 2
+
+**bold**, _italic_, ~~strikethrough~~, `inline code`
+
+- bullet item
+- another item
+
+1. numbered item
+2. another item
+
+> A quote.
+
+[link text](https://heig-vd.ch)
+![alt text, for screen readers](./images/diagram.png)
+
+| Column | Column |
+| ------ | -----: |
+| cell   |    123 |
+
+---
+```
+
+Fenced code blocks are three backticks, with the language for syntax
+highlighting — always name it, it is what makes a README readable:
+
+````markdown
+```java
+System.out.println("Hello World!");
+```
+````
+
+Two rules that catch everyone out: a **blank line separates blocks** (a
+list glued to the paragraph above it will not render as a list), and a
+**line break inside a paragraph is ignored** — wrap your source at 80
+characters and it still renders as one paragraph.
+
+When Markdown genuinely cannot express something, you can drop raw HTML
+into the file. Use it sparingly; the point of Markdown is that the source
+stays readable.
+
+### Which Markdown?
+
+Markdown was never standardised as one language, so implementations
+differ slightly. Two matter to you:
+
+- [CommonMark](https://commonmark.org/) — the strict, unambiguous
+  specification most tools now follow.
+- [GitHub Flavored Markdown](https://github.github.com/gfm/) (GFM) —
+  CommonMark plus tables, task lists (`- [ ]`), strikethrough and
+  autolinks. This is what GitHub renders, so this is what you write for
+  READMEs and issues.
+
+The [Markdown Guide](https://www.markdownguide.org/) is the reference to
+keep open until the syntax is in your fingers.
+
+## Exercises
+
+### Exercise 1 — Configure your identity {#sec-ex1}
+
+Your GitHub account and Git itself were installed in
+[chapter 00](00-environment-setup.qmd). Finish the configuration:
+
+1. [Verify your email address](https://docs.github.com/en/get-started/signing-up-for-github/verifying-your-email-address)
+   on GitHub if not done yet, and enable
+   [two-factor authentication](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa)
+   (strongly recommended).
+2. Make sure Git knows you, **with the same email as your GitHub
+   account**:
+
+```sh
+git config --global user.name "First-name Last-name"
+git config --global user.email "your@email"
+```
+
+**Verification**: `git config --list` shows both values.
+
+### Exercise 2 — SSH authentication {#sec-ex2}
+
+SSH lets you push and pull without typing credentials — and it is the
+authentication you will use all semester (you will learn how SSH itself
+works in a later chapter).
+
+1. [Generate an SSH key and add it to the ssh-agent](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+   — follow the **Linux** instructions on WSL, macOS instructions on
+   macOS.
+2. [Add the **public** key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+   as an **authentication key**.
+
+::: {.callout-caution}
+The **private** key never leaves your machine — treat it like a password,
+and keep a backup of the key pair somewhere safe. The **public** key is
+the only one you share.
+:::
+
+**Verification**: `ssh -T git@github.com` greets you by username.
+
+### Exercise 3 — Sign your commits {#sec-ex3}
+
+Signing proves a commit is really yours — signed commits get the
+**Verified** badge on GitHub, and verifiable authorship matters when your
+group's work is graded.
+
+1. Add the **same public key** to GitHub once more, this time as a
+   **signing key**.
+2. Tell Git to sign every commit with it:
+
+```sh
+git config --global gpg.format ssh
+git config --global user.signingkey ~/.ssh/id_ed25519.pub
+git config --global commit.gpgSign true
+```
+
+**Verification**: `git config --list` shows `gpg.format=ssh`,
+`user.signingkey=...` and `commit.gpgsign=true`.
+
+### Exercise 4 — Your profile README {#sec-ex4}
+
+Time to use all of it. GitHub shows the `README.md` of a repository named
+like your username as your **profile page** — your first repository will
+be your own introduction to the world.
+
+1. [Create the profile repository](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
+   on GitHub (initialized with a README).
+2. Clone it **with SSH** (repository page → **Code** → **SSH** tab):
+
+```sh
+git clone git@github.com:<username>/<username>.git
+cd <username>
+git log            # one commit, made by GitHub for you
+```
+
+3. Edit `README.md` — present yourself in
+   [Markdown](#sec-markdown), and be creative. Use at least a heading, a
+   list, a link, an image and one fenced code block, so you have written
+   each construct once.
+4. Walk the full cycle, watching each step:
+
+```sh
+git status         # README.md modified
+git diff           # your changes, line by line
+git add README.md
+git status         # now staged
+git commit -m "Update profile README"
+git log            # your signed commit is HEAD, ahead of origin/main
+git push
+```
+
+**Verification**: your profile shows the README, and the commit carries
+the **Verified** badge on GitHub. If it does not, revisit
+[exercise 3](#sec-ex3).
+
+### Exercise 5 — Cause (and fix) a conflict {#sec-ex5}
+
+In your profile repository, create a conflict on purpose:
+
+1. `git checkout -b conflict-drill`, change a line of `README.md`,
+   commit.
+2. `git checkout main`, change **the same line** differently, commit.
+3. `git merge conflict-drill` → conflict. Open the file, resolve the
+   markers, `git add README.md`, `git commit`.
+
+**Verification**: `git log` shows the merge commit; the file contains
+what you decided — and no `<<<<<<<` markers.
+
+### Share your profile
+
+Post the link to your profile in the course
+[GitHub Discussions]({{< var discussions-url >}}) (category *Show and
+tell*) — it tells us you completed the chapter, and everyone gets to meet
+you.
+
+## Test your knowledge
+
+- What is the difference between the staging area and a commit?
+- What is a branch, physically?
+- Merge, rebase, squash: when would you use which?
+- Why does a rejected push happen, and what is the fix?
+- What does the Verified badge prove — and what does it *not* prove?
+- Why is Markdown a better fit than a Word document for a file that lives
+  in a Git repository?
+
+## Go further {#sec-go-further}
+
+Optional content — useful general knowledge, not required for the
+evaluations.
+
+::: {.callout-note collapse="true" title="Markdown beyond READMEs"}
+The same source can become a website, a slide deck or a PDF:
+[Quarto](https://quarto.org/) (this site),
+[Hugo](https://gohugo.io/) and [MkDocs](https://www.mkdocs.org/) for
+sites, [Marp](https://marp.app/) for slides,
+[Pandoc](https://pandoc.org/) for anything to anything. Each adds its own
+extensions on top of CommonMark — check the tool's documentation before
+assuming a construct works.
+:::
+
+::: {.callout-note collapse="true" title="Commit message practice"}
+No universal convention exists; being consistent matters most. A good
+default: an infinitive verb plus a short description ("Add profile
+README", "Fix port parsing"). Your team should pick one style in PW1 and
+stick to it.
+:::
+
+::: {.callout-note collapse="true" title="Learn Git visually"}
+- [Learn Git Branching](https://learngitbranching.js.org/) — interactive
+  exercises, excellent for branches/merges/rebases.
+- [Pro Git](https://git-scm.com/book) — the free reference book (the
+  first ~125 pages cover everything in this chapter).
+- [Atlassian Git tutorials](https://www.atlassian.com/git/tutorials/what-is-version-control) —
+  from beginner to advanced.
+:::
+
+::: {.callout-note collapse="true" title="Alternatives"}
+Version control: Subversion, Mercurial. Forges:
+[GitLab](https://gitlab.com/), [Gitea](https://gitea.io/),
+[Codeberg](https://codeberg.org). Markup: AsciiDoc,
+[Typst](https://typst.app/), LaTeX (consider it for your thesis).
+:::
+
+## Sources
+
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- Team workflow section adapted from the DAI Git guides by
+  J. Ehrensberger (HEIG-VD).

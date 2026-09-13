@@ -1,0 +1,11 @@
+/*-- scss:defaults --*/
+
+// Cosmo base kept stock. This layer only sizes the HEIG-VD logo;
+// red (#e1251b) lives in the logo itself and nowhere else.
+
+/*-- scss:rules --*/
+
+.sidebar-logo {
+  max-height: 3rem;
+  width: auto;
+}

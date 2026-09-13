@@ -1,0 +1,29 @@
+---
+title: "Practical work 1 — Java CLI in a container"
+---
+
+::: {.callout-warning}
+Work in progress — subject, milestones and grading rubric will be
+published before the practical work starts.
+:::
+
+## Overview
+
+Build, in groups, a Java command-line application (I/O processing), package
+it with Maven, containerize it with Docker and publish it to the GitHub
+Container Registry.
+
+Covers chapters: Java, IntelliJ & Maven · Java I/O · Docker & Compose.
+
+## Milestones
+
+| Session | Goal |
+|---------|------|
+| 1 | *TBD* |
+| 2 | *TBD* |
+| 3 | *TBD* |
+| 4 | *TBD* — final submission |
+
+## Grading
+
+*Rubric TBD.*

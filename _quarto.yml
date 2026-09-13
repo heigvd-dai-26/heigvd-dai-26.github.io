@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "DAI — Développement d'applications internet"
+  page-navigation: true
+  search: true
+  sidebar:
+    style: docked
+    logo: assets/heig-vd.svg
+    contents:
+      - index.qmd
+      - section: "Chapters"
+        contents:
+          - href: chapters/00-environment-setup.qmd
+            text: "00 · Environment setup"
+          - href: chapters/01-introduction.qmd
+            text: "01 · Introduction"
+          - href: chapters/02-git-github.qmd
+            text: "02 · Git, GitHub & Markdown"
+          - href: chapters/05-docker.qmd
+            text: "05 · Docker & Compose"
+      - section: "Practical work"
+        contents:
+          - href: practical-work/pw1.qmd
+            text: "PW1 · Java CLI in a container"
+          - href: practical-work/pw2.qmd
+            text: "PW2 · Network application"
+          - href: practical-work/pw3.qmd
+            text: "PW3 · Web app in the cloud"
+
+format:
+  html:
+    theme: [litera, assets/dai.scss]
+    lightbox: true
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    link-external-newwindow: true

@@ -1,0 +1,10 @@
+# Shared settings for all slide decks. Individual decks only set
+# title/subtitle in their own YAML.
+format:
+  revealjs:
+    theme: [default, ../assets/dai-slides.scss]
+    logo: ../assets/heig-vd.svg
+    slide-number: true
+    transition: none
+    footer: "HEIG-VD · DAI · CC BY-SA 4.0"
+    center-title-slide: true

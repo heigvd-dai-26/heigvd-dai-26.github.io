@@ -1,0 +1,6 @@
+# Year-specific values — the ONLY file (with index.qmd) that changes per
+# semester fork. Reference in .qmd files as {{< var year >}} etc.
+year: "2026-2027"
+org: "heigvd-dai-26"
+org-url: "https://github.com/heigvd-dai-26"
+discussions-url: "https://github.com/orgs/heigvd-dai-26/discussions"

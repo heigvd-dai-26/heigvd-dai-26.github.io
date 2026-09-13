@@ -1,0 +1,29 @@
+---
+title: "Practical work 3 — Web application deployed to the cloud"
+---
+
+::: {.callout-warning}
+Work in progress — subject, milestones and grading rubric will be
+published before the practical work starts.
+:::
+
+## Overview
+
+Build, in groups, an HTTP API with Javalin and deploy it to a cloud
+virtual machine behind a reverse proxy, with a domain name and HTTPS.
+
+Covers chapters: SSH & SCP · HTTP & curl · Web infrastructures · Caching &
+performance.
+
+## Milestones
+
+| Session | Goal |
+|---------|------|
+| 1 | *TBD* |
+| 2 | *TBD* |
+| 3 | *TBD* |
+| 4 | *TBD* — final submission |
+
+## Grading
+
+*Rubric TBD.*

@@ -1,0 +1,36 @@
+/*-- scss:defaults --*/
+
+// Red is reserved for the logo; headings stay dark, links use the same
+// interaction blue as the site.
+$interact-blue: #2c5fb3;
+
+$link-color: $interact-blue;
+$presentation-heading-color: #212529;
+$presentation-heading-font-weight: 600;
+
+/*-- scss:rules --*/
+
+// HEIG-VD logo above the title on the title slide (embedded so the
+// compiled theme never depends on an asset path)
+#title-slide::before {
+  content: "";
+  display: block;
+  margin: 0 auto 1.4rem;
+  width: 110px;
+  height: 82px;
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MzguODkgNDAzLjQiPjxwYXRoIGZpbGw9IiNlMTI1MWIiIGQ9Ik0zOTYuNjQgMzA1LjU3aC05My43NnYyOC43aDY1LjA2bC4wNyAxLjVjLTguNzYgMjUtMjguODUgMzkuMzgtNjAuNTQgMzkuMzgtMzYuNjIgMC02NC4yMy0yOS4zNC02NC4yMy02Ni40NiAwLTM4LjU5IDI4Ljc1LTY5LjA1IDY2Ljg3LTY5LjA1IDI5LjIyIDAgNTAgMTQuMzQgNjEuODUgNDBsMjYuODktMTIuNGMtMTYuNjItMzYtNDguMTMtNTUuODEtODguNzQtNTUuODEtNTQuMSAwLTk2LjQ3IDQyLjc0LTk2LjQ3IDk3LjMgMCA1My4xMSA0MS4yMSA5NC43MSA5My44MyA5NC43MSAyNy40NiAwIDQ4LjE5LTExLjA4IDYzLjE3LTI4LjM3bDIuNyAyMS42MWgyMy4zdi04OC4zOWwuMTUtLjg5aC0uMTVabTAtMTU1LjI4SDI0OC4zNnYtNDcuMzNoMTMxLjJWNzUuNTJoLTEzMS4yVjI4LjJoMTQ4LjI4VjBIMjE4LjE1djE3OC40OWgxNzguNDl2LTI4LjJ6TTE0OC4wMyA3My43NkgzMC4yMVYwSDB2MTc4LjQ5aDMwLjIxdi03Ni4yOGgxMTcuODJ2NzYuMjhoMzAuNDZWMGgtMzAuNDZ2NzMuNzZ6bS00My42OCAyOTQuNDNWMjQ2LjZoNzQuMTR2LTI4LjQ1SDB2MjguNDVoNzQuMTR2MTIxLjU5SDB2MjguNDVoMTc4LjQ5di0yOC40NWgtNzQuMTR6TTQ3My4yOSAwaDEyLjA5bC0xOC42NCA1MUg0NTVMNDM2LjMgMGgxMi41M2wxMi4zIDM1LjlabTIxLjUgNTFWMGgxOC40OWMxNS4zMyAwIDI1LjYxIDkuNzkgMjUuNjEgMjUuNTVTNTI4LjYxIDUxIDUxMy4yMSA1MVptMTgtMTAuNzJjNy44NSAwIDE0LjI2LTQuNTQgMTQuMjYtMTQuNzVzLTYuNDEtMTQuODMtMTQuMjYtMTQuODNoLTYuNjF2MjkuNloiLz48L3N2Zz4K") no-repeat center / contain;
+}
+
+#title-slide .subtitle {
+  color: #6c757d;
+}
+
+// Corner logo on content slides, kept discreet
+.reveal .slide-logo {
+  max-height: 2.4rem !important;
+}
+
+// Footer matches the muted trail on the site
+.reveal .footer {
+  color: #6c757d;
+}

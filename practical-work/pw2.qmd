@@ -1,0 +1,30 @@
+---
+title: "Practical work 2 — Network application with TCP/UDP"
+---
+
+::: {.callout-warning}
+Work in progress — subject, milestones and grading rubric will be
+published before the practical work starts.
+:::
+
+## Overview
+
+Design an application protocol and implement it, in groups, as a Java
+client/server application using TCP and/or UDP sockets, with concurrency,
+dockerised.
+
+Covers chapters: Application protocols · SMTP & ncat · TCP & UDP
+programming · Network concurrency.
+
+## Milestones
+
+| Session | Goal |
+|---------|------|
+| 1 | *TBD* |
+| 2 | *TBD* |
+| 3 | *TBD* |
+| 4 | *TBD* — final submission |
+
+## Grading
+
+*Rubric TBD.*
