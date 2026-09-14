@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "DAI — Développement d'applications internet"
+  title: "DAI · Développement d'applications internet"
   page-navigation: true
   search: true
   sidebar:

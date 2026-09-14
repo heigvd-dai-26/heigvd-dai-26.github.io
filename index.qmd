@@ -1,10 +1,10 @@
 ---
-title: "DAI — Développement d'applications internet"
+title: "DAI · Développement d'applications internet"
 subtitle: "HEIG-VD · {{< var year >}}"
 ---
 
 Welcome to the DAI teaching unit. This site contains the course material,
-exercises and slides. Find your class below — chapters are numbered by
+exercises and slides. Find your class below. Chapters are numbered by
 topic, not by date.
 
 <!--
@@ -28,7 +28,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 3 | 29.09 | [PW1](practical-work/pw1.qmd) |  | 30.09 | [PW1](practical-work/pw1.qmd) |  |
 | 4 | 06.10 | Docker & Compose | | 07.10 | [PW1](practical-work/pw1.qmd) |  |
 | ⏰ 5 | 13.10 | Application protocols |  | 14.10 | [PW1](practical-work/pw1.qmd) |  |
-|  | 20.10 | *Semaine de travail personnel* |  | 21.10 | *— no class —* |  |
+|  | 20.10 | *Semaine de travail personnel* |  | 21.10 | *no class* |  |
 | 6 | 27.10 | SMTP & ncat |  | 28.10 | [PW2](practical-work/pw2.qmd) kickoff |  |
 | 7 | 03.11 | **Mid-term evaluation (TE1)** |  | 04.11 | [PW2](practical-work/pw2.qmd) |  |
 | 8 | 10.11 | TCP & UDP programming (1/2) |  | 11.11 | [PW2](practical-work/pw2.qmd) |  |
@@ -37,7 +37,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | ⏰ 11 | 01.12 | SSH & SCP |  | 02.12 | [PW2](practical-work/pw2.qmd) |  |
 | 12 | 08.12 | HTTP & curl |  | 09.12 | [PW3](practical-work/pw3.qmd) |  |
 | 13 | 15.12 | Web infrastructures |  | 16.12 | [PW3](practical-work/pw3.qmd) |  |
-|  | 22.12–08.01 | *Winter break* |  |  | *— no class —* |  |
+|  | 22.12–08.01 | *Winter break* |  |  | *no class* |  |
 | 14 | 12.01 | Caching & performance |  | 13.01 | [PW3](practical-work/pw3.qmd) |  |
 | ⏰ 15 | 19.01 | Semester review & exam preparation |  | 20.01 | [PW3](practical-work/pw3.qmd) |  |
 
@@ -56,7 +56,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 3 | 28.09 | [PW1](practical-work/pw1.qmd) |  | 29.09 | [PW1](practical-work/pw1.qmd) |  |
 | 4 | 05.10 | Docker & Compose | | 06.10 | [PW1](practical-work/pw1.qmd) |  |
 | 5 | 12.10 | Application protocols |  | 13.10 | [PW1](practical-work/pw1.qmd) |  |
-|  | 19.10 | *Semaine de travail personnel* |  | 20.10 | *— no class —* |  |
+|  | 19.10 | *Semaine de travail personnel* |  | 20.10 | *no class* |  |
 | ⏰ 6 | 26.10 | SMTP & ncat |  | 27.10 | [PW1](practical-work/pw1.qmd) |  |
 | 7 | 02.11 | **Mid-term evaluation (TE1)** |  | 03.11 | [PW2](practical-work/pw2.qmd) kickoff |  |
 | 8 | 09.11 | TCP & UDP programming (1/2) |  | 10.11 | [PW2](practical-work/pw2.qmd) |  |
@@ -65,7 +65,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | ⏰ 11 | 30.11 | SSH & SCP |  | 01.12 | [PW2](practical-work/pw2.qmd) |  |
 | 12 | 07.12 | HTTP & curl |  | 08.12 | [PW3](practical-work/pw3.qmd) |  |
 | 13 | 14.12 | Web infrastructures |  | 15.12 | [PW3](practical-work/pw3.qmd) |  |
-|  | 21.12–08.01 | *Winter break* |  |  | *— no class —* |  |
+|  | 21.12–08.01 | *Winter break* |  |  | *no class* |  |
 | 14 | 11.01 | Caching & performance |  | 12.01 | [PW3](practical-work/pw3.qmd) |  |
 | ⏰ 15 | 18.01 | Semester review & exam preparation |  | 19.01 | [PW3](practical-work/pw3.qmd) |  |
 

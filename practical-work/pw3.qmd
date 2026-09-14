@@ -1,9 +1,9 @@
 ---
-title: "Practical work 3 — Web application deployed to the cloud"
+title: "Practical work 3: Web application deployed to the cloud"
 ---
 
 ::: {.callout-warning}
-Work in progress — subject, milestones and grading rubric will be
+Work in progress: subject, milestones and grading rubric will be
 published before the practical work starts.
 :::
 
@@ -22,7 +22,7 @@ performance.
 | 1 | *TBD* |
 | 2 | *TBD* |
 | 3 | *TBD* |
-| 4 | *TBD* — final submission |
+| 4 | *TBD* (final submission) |
 
 ## Grading
 

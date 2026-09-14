@@ -1,6 +1,6 @@
 ---
 title: "Environment setup"
-subtitle: "Chapter 00 — do this before the first course"
+subtitle: "Chapter 00: do this before the first course"
 ---
 
 Before the semester starts, you will install everything the course relies
@@ -9,7 +9,7 @@ Java and Maven, and IntelliJ IDEA.
 
 Every step ends with a **verification command**. If all verifications pass,
 you are ready. If you get stuck, check the troubleshooting boxes first,
-then ask us — we will also take a moment during the first course for
+then ask us. We will also take a moment during the first course for
 remaining problems.
 
 ::: {.callout-note}
@@ -21,18 +21,18 @@ macOS or Linux.
 
 ::: {.callout-note}
 On **Windows**, skip to [Install WSL](#windows-only-install-wsl); on
-**Linux**, skip to [Terminal basics](#terminal-basics) — `apt` already
+**Linux**, skip to [Terminal basics](#terminal-basics): `apt` already
 covers this.
 :::
 
-[Homebrew](https://brew.sh) is the de-facto package manager for macOS —
+[Homebrew](https://brew.sh) is the de-facto package manager for macOS,
 the equivalent of Ubuntu's `apt`: it installs, updates and removes
 developer tools cleanly. You will use it to install the course tooling
 (starting with Git below).
 
 Install it by following the instructions on <https://brew.sh> (one
-command), and **follow the "Next steps" the installer prints** at the end
-— they add `brew` to your shell's PATH.
+command), and **follow the "Next steps" the installer prints** at the end.
+They add `brew` to your shell's PATH.
 
 **Verification**: open a new terminal; `brew --version` prints a version.
 
@@ -44,7 +44,7 @@ On **macOS or Linux**, skip to [Terminal basics](#terminal-basics).
 
 Software development on Windows is harder than on Linux or macOS. The
 Windows Subsystem for Linux (WSL) gives you a real Linux environment inside
-Windows — you will use it for the whole semester: **every command in this
+Windows. You will use it for the whole semester: **every command in this
 course runs in the Ubuntu terminal**, no other environment (Git Bash,
 Cygwin, …) is supported.
 
@@ -68,7 +68,7 @@ wsl --update --web-download
 wsl --set-default-version 2
 
 # List available distributions, then install the latest Ubuntu LTS
-# version shown in YOUR list (marked "LTS", e.g. Ubuntu-26.04 — use the
+# version shown in YOUR list (marked "LTS", e.g. Ubuntu-26.04. Use the
 # versioned entry, not the unversioned "Ubuntu" one)
 wsl --list --online
 wsl --install --distribution Ubuntu-<latest-LTS-version>
@@ -78,7 +78,7 @@ You will be asked to create a username and password for Ubuntu (we suggest
 the same as your Windows account).
 
 ::: {.callout-tip}
-When typing your password, **nothing appears on screen** — that is normal
+When typing your password, **nothing appears on screen**: that is normal
 terminal behavior. Your keystrokes are registered; remember this password,
 `sudo` will ask for it.
 :::
@@ -90,13 +90,13 @@ sudo apt update && sudo apt upgrade
 ```
 
 ::: {.callout-tip title="What did I just type?"}
-- `sudo` runs a command with superuser privileges — Linux asks for
+- `sudo` runs a command with superuser privileges: Linux asks for
   **your** password (typed invisibly) before allowing it. That is why
   installs and system updates start with it.
 - `apt` is Ubuntu's **package manager**: it installs, updates and removes
-  software from a curated catalog — `apt update` refreshes the catalog,
+  software from a curated catalog: `apt update` refreshes the catalog,
   `apt upgrade` updates your installed packages. You will use it all
-  semester. (Windows has equivalents — see [Go further](#go-further).)
+  semester. (Windows has equivalents, see [Go further](#go-further).)
 :::
 
 ### Make Ubuntu your default terminal
@@ -114,20 +114,20 @@ Close and reopen Windows Terminal: it should drop you into Ubuntu.
 
 ::: {.callout-tip}
 You can still open a PowerShell tab anytime via the **down arrow** in the
-title bar — and holding `Ctrl` while selecting *Windows PowerShell* opens
+title bar, and holding `Ctrl` while selecting *Windows PowerShell* opens
 it **as administrator**. You will need that for the next steps.
 :::
 
 ### Where your files live
 
 When you open the Ubuntu terminal, you land in the **home directory** of
-your Ubuntu user, located under `/home` and usually written `~` — the `~`
+your Ubuntu user, located under `/home` and usually written `~`: the `~`
 symbol is a shorthand for your home directory. This is where **all your
 projects go**.
 
 The two worlds can see each other:
 
-- From Ubuntu, your Windows drives are mounted under `/mnt` — e.g.
+- From Ubuntu, your Windows drives are mounted under `/mnt`, e.g.
   `C:\Users` is `/mnt/c/Users`.
 - From Windows, your Ubuntu home is reachable in the File Explorer at
   `\\wsl.localhost\Ubuntu-<version>\home\<user>`:
@@ -151,12 +151,12 @@ Add-MpPreference -ExclusionPath '\\wsl.localhost\Ubuntu-<your-version>'
 
 (If you use another antivirus, exclude the same path in its settings.)
 
-**Verification**: open Windows Terminal — it opens Ubuntu directly, and
+**Verification**: open Windows Terminal: it opens Ubuntu directly, and
 `cat /etc/os-release` prints your Ubuntu version.
 
 ::: {.callout-important collapse="true" title="WSL troubleshooting"}
-- **Error 403 during install/update**: your network blocks the download —
-  try another network (e.g. phone hotspot).
+- **Error 403 during install/update**: your network blocks the download.
+  Try another network (e.g. phone hotspot).
 - **WSL not available**: check your Windows version (WSL needs Windows 10
   1607+): `systeminfo | Select-String "^OS Name","^OS Version"`.
 - **Required features**: in an administrator PowerShell:
@@ -190,7 +190,7 @@ exit                  # exit the terminal session
 ```
 
 **Verification**: create a directory, create a file in it, list it, delete
-both — without touching the mouse.
+both, without touching the mouse.
 
 ## Git and GitHub
 
@@ -208,7 +208,7 @@ sudo apt install git
 ### macOS
 
 ```sh
-# Via Homebrew — macOS ships a Git with the Apple developer tools, but
+# Via Homebrew: macOS ships a Git with the Apple developer tools, but
 # it is usually several versions behind; prefer Homebrew's up-to-date one
 brew install git
 ```
@@ -223,7 +223,7 @@ git config --global user.email "your.email@example.com"
 ```
 
 Finally, create a [GitHub account](https://github.com/signup) if you do
-not have one yet — use an email address you keep after your studies; you
+not have one yet. Use an email address you keep after your studies: you
 will build a portfolio on it.
 
 **Verification**: `git --version` prints a version, and you can log in on
@@ -231,7 +231,7 @@ github.com.
 
 ## Java and Maven, via SDKMAN!
 
-[SDKMAN!](https://sdkman.io/) manages Java toolchain versions — it lets
+[SDKMAN!](https://sdkman.io/) manages Java toolchain versions: it lets
 you install and switch between several Java versions cleanly.
 
 Install it by following the instructions on <https://sdkman.io/> (one
@@ -265,8 +265,8 @@ mvn --version     # prints Maven, running on that Java
 
 ## IntelliJ IDEA
 
-IntelliJ IDEA is the supported IDE for this course (any edition — we use
-no Ultimate-only feature; other IDEs are allowed but unsupported).
+IntelliJ IDEA is the supported IDE for this course (any edition: we use
+no Ultimate-only feature, and other IDEs are allowed but unsupported).
 
 1. Optional: activate the free
    [JetBrains student license](https://www.jetbrains.com/community/education/#students)
@@ -276,7 +276,7 @@ no Ultimate-only feature; other IDEs are allowed but unsupported).
 3. From the Toolbox App, install **IntelliJ IDEA** (Community or Ultimate).
 
 ::: {.callout-important collapse="true" title="Windows only: connect IntelliJ to WSL"}
-Allow IntelliJ to reach WSL through the Windows Firewall — in an
+Allow IntelliJ to reach WSL through the Windows Firewall, in an
 administrator PowerShell:
 
 ```powershell
@@ -299,11 +299,11 @@ Two rules to respect for the whole semester:
 ![](images/00-environment-setup/intellij-idea-terminal-settings.png){width="80%"}
 
 If IntelliJ cannot find Java/Maven in WSL, verify the Windows Defender
-exclusion from the WSL section — it is a
+exclusion from the WSL section: it is a
 [known blocker](https://youtrack.jetbrains.com/issue/IDEA-273533/Impossible-to-configure-SDK-on-windows-with-WSL).
 :::
 
-**Verification**: create a throwaway project in IntelliJ — it detects your
+**Verification**: create a throwaway project in IntelliJ: it detects your
 Java 25 installation (on Windows: from WSL), and its terminal opens your
 Unix shell.
 
@@ -328,8 +328,8 @@ You are ready for the first course when every line passes:
 ::: {.callout-note collapse="true" title="A package manager for Windows"}
 Ubuntu's `apt` has Windows equivalents:
 [WinGet](https://learn.microsoft.com/windows/package-manager/),
-[Chocolatey](https://chocolatey.org/), [Scoop](https://scoop.sh/) — not
-required for the course, but handy.
+[Chocolatey](https://chocolatey.org/), [Scoop](https://scoop.sh/) (not
+required for the course, but handy).
 :::
 
 ::: {.callout-note collapse="true" title="Reclaim WSL disk space"}
@@ -350,4 +350,4 @@ wsl --manage Ubuntu --set-sparse true
   [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
   by L. Delafontaine and H. Louis, licensed
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- [How to install Linux on Windows with WSL](https://learn.microsoft.com/windows/wsl/install) — Microsoft.
+- [How to install Linux on Windows with WSL](https://learn.microsoft.com/windows/wsl/install) (Microsoft).

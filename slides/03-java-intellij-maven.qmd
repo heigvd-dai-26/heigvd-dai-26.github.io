@@ -20,7 +20,7 @@ subtitle: "DAI · Chapter 03"
 - General-purpose, object-oriented language.
 - Write once, run anywhere (WORA).
 - Created by James Gosling, 1995, at Sun Microsystems.
-- The documentation seems scary; you will get used to it, and it is
+- The documentation seems scary. You will get used to it, and it is
   very useful.
 :::
 ::: {.column width="40%"}
@@ -104,8 +104,8 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 ## Summary: Java
 
 - General-purpose, class-based, object-oriented language.
-- Compiled to bytecode, executed by the JVM; portable by design.
-- Versions evolve; LTS releases matter (Java 25 today).
+- Compiled to bytecode, executed by the JVM. Portable by design.
+- Versions evolve. LTS releases matter (Java 25 today).
 - Version managers (SDKMAN!) install and switch between versions.
 
 # IntelliJ IDEA
@@ -127,7 +127,7 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 ## Community Edition and Ultimate Edition
 
 - **Community** (free) and **Ultimate** (paid).
-- Free student license available; get it with your HEIG-VD email.
+- Free student license available. Get it with your HEIG-VD email.
 - The Community Edition is sufficient for this course.
 
 ## JetBrains Toolbox App
@@ -148,12 +148,12 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 - IntelliJ creates a `.idea` directory with the project configuration.
 - It allows sharing project settings between developers.
 - Some of its files contain **local** configuration and must be ignored
-  in Git; chapter 03 shows what to keep.
+  in Git. Chapter 03 shows what to keep.
 
 ## Summary: IntelliJ IDEA
 
 - The reference IDE for Java development.
-- Community Edition is enough; the student license unlocks Ultimate.
+- Community Edition is enough. The student license unlocks Ultimate.
 - The `.idea` directory is shared, except its local parts
   (`.gitignore`).
 
@@ -176,7 +176,7 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 
 ## Maven project structure
 
-Standardized directory structure; conventions simplify the build:
+Standardized directory structure. Conventions simplify the build:
 
 ```text
 my-project/
@@ -256,10 +256,10 @@ Configuration and build settings, shared among developers:
 
 ## Finished? Was it easy? Was it hard?
 
-Let us know what was easy and what was difficult; it helps us improve
+Let us know what was easy and what was difficult. It helps us improve
 the course and come back to you when needed.
 
-GitHub Discussions; reactions welcome!
+GitHub Discussions. Reactions welcome!
 
 ## Credits
 

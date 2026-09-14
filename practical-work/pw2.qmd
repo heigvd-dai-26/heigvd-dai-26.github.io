@@ -1,9 +1,9 @@
 ---
-title: "Practical work 2 — Network application with TCP/UDP"
+title: "Practical work 2: Network application with TCP/UDP"
 ---
 
 ::: {.callout-warning}
-Work in progress — subject, milestones and grading rubric will be
+Work in progress: subject, milestones and grading rubric will be
 published before the practical work starts.
 :::
 
@@ -23,7 +23,7 @@ programming · Network concurrency.
 | 1 | *TBD* |
 | 2 | *TBD* |
 | 3 | *TBD* |
-| 4 | *TBD* — final submission |
+| 4 | *TBD* (final submission) |
 
 ## Grading
 

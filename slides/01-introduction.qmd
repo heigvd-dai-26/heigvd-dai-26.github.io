@@ -38,7 +38,7 @@ subtitle: "DAI · Chapter 01"
 - [Fiche d'unité](https://heigvd-dai-26.github.io/resources.html) (2026-2027)
 - Three (3) ECTS credits (~90 hours of work):
   - 64 periods of 45 minutes (= 48 hours in class).
-  - The rest outside class; we do our best to keep it reasonable.
+  - The rest outside class. We do our best to keep it reasonable.
 
 > **Connaissances préalables recommandées** : programmation (Java, C) ;
 > programmation orientée objet ; TCP/IP.
@@ -131,7 +131,7 @@ The entire week-by-week program is available on the
 - Three (3) practical works, in groups: **20%** (labo grade).
 - Two (2) evaluations, individually: **80%** (cours grade):
   - TE1 (mid-term) 40% · TE2 (final) 60%.
-- No exam session; everything happens during the semester.
+- No exam session. Everything happens during the semester.
 
 You can change groups between practical works. We try to return grades
 and feedback quickly, and we can be flexible on deadlines, with a good
@@ -201,9 +201,9 @@ appreciated!
 
 ## *"Un cours en anglais..?"*
 
-- Written material in **English**, the language of the field; a great
+- Written material in **English**, the language of the field. A great
   opportunity to practice.
-- The teaching staff speaks **French**; evaluations are in **French**.
+- The teaching staff speaks **French**. Evaluations are in **French**.
 - Difficulties with English? Let us know.
 
 ## *"What about ChatGPT, Copilot, Claude…?"* (1/2)
@@ -222,21 +222,21 @@ The rules:
 
 - You **must be able to explain what you did and why**.
 - You **must state when you used external help** (tools and sources).
-- You **must be able to do the work on your own**; tools come and go.
+- You **must be able to do the work on your own**. Tools come and go.
 
 **Your personal and scientific integrity is at stake.** If we have
 doubts, we will ask you to explain your work.
 
 ## *"Linux, macOS or Windows?"*
 
-- Software development on Windows is harder: use **WSL**; chapter 00
+- Software development on Windows is harder: use **WSL**. Chapter 00
   guides you through it.
 - On macOS: **Homebrew** for the tooling, also in chapter 00.
 - Whatever the OS: **every verification in
   [chapter 00](https://heigvd-dai-26.github.io/chapters/00-environment-setup.html)
   must pass.**
 
-ARM computer (Apple Silicon)? Mostly fine; tell us as soon as something
+ARM computer (Apple Silicon)? Mostly fine. Tell us as soon as something
 misbehaves.
 
 # Questions?

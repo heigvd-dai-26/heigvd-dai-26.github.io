@@ -32,7 +32,7 @@ subtitle: "DAI · Chapter 02"
 ::: {.columns}
 ::: {.column width="55%"}
 - Remote repository (server, `origin`) and local **clones**.
-- Fully **distributed**: each clone contains the full history; work
+- Fully **distributed**: each clone contains the full history. Work
   offline.
 :::
 ::: {.column width="45%"}
@@ -79,7 +79,7 @@ subtitle: "DAI · Chapter 02"
 
 ::: {.columns}
 ::: {.column width="55%"}
-- **Merge**: the default; what we use in this course.
+- **Merge**: the default, used in this course.
 - **Rebase**: replay commits, linear history.
 - **Squash**: collapse a branch into one commit.
 :::
@@ -107,7 +107,7 @@ subtitle: "DAI · Chapter 02"
 - `.gitignore` lists what Git must **not** track.
 - Cleanliness (no build artifacts) and security (no secrets).
 - Commit **source files only**: never `target/`, never binaries.
-- Tip: avoid gitignore generators; too many unnecessary rules.
+- Tip: avoid gitignore generators, they add too many unnecessary rules.
 
 ## Summary: Git
 
@@ -137,16 +137,16 @@ server.**
 ## Social platform
 
 - Follow users, star projects, discover code.
-- Your profile is a **portfolio**; recruiters look at it.
+- Your profile is a **portfolio**. Recruiters look at it.
 - **Fork** repositories: copy, change, contribute back.
-- Free **Pro** account for students; apply with your HEIG-VD email
+- Free **Pro** account for students. Apply with your HEIG-VD email
   (GitHub Education).
 
 ## Users and organizations
 
 - Repositories belong to a **user** or an **organization**.
 - Organizations share repositories between members.
-- This course lives in one: **github.com/heigvd-dai-26**; each PW
+- This course lives in one: **github.com/heigvd-dai-26**. Each PW
   team can create its own.
 
 ## Issues, pull requests and forks
@@ -188,7 +188,7 @@ The workflow of your practical works, and of the industry.
 ## Markdown and output formats
 
 - Plain text in, many formats out: web pages, PDF, slides.
-- **Diffable**: Git shows which *sentence* changed; a `.docx` cannot.
+- **Diffable**: Git shows which *sentence* changed. A `.docx` cannot.
 - This deck and the whole course site are written in a flavour of
   Markdown ([Quarto](https://quarto.org/)'s `.qmd`).
 
@@ -236,10 +236,10 @@ The workflow of your practical works, and of the industry.
 
 ## Finished? Was it easy? Was it hard?
 
-Let us know what was easy and what was difficult; it helps us improve
+Let us know what was easy and what was difficult. It helps us improve
 the course and come back to you when needed.
 
-GitHub Discussions; reactions welcome!
+GitHub Discussions. Reactions welcome!
 
 ## Credits
 

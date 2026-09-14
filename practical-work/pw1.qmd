@@ -1,9 +1,9 @@
 ---
-title: "Practical work 1 — Java CLI in a container"
+title: "Practical work 1: Java CLI in a container"
 ---
 
 ::: {.callout-warning}
-Work in progress — subject, milestones and grading rubric will be
+Work in progress: subject, milestones and grading rubric will be
 published before the practical work starts.
 :::
 
@@ -22,7 +22,7 @@ Covers chapters: Java, IntelliJ & Maven · Java I/O · Docker & Compose.
 | 1 | *TBD* |
 | 2 | *TBD* |
 | 3 | *TBD* |
-| 4 | *TBD* — final submission |
+| 4 | *TBD* (final submission) |
 
 ## Grading
 

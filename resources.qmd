@@ -4,9 +4,9 @@ title: "Resources"
 
 Documents and references for the teaching unit.
 
-- [Fiche d'unité DAI 2026–2027](resources/fiche-unite-dai-2026-2027.pdf)
-  — the official description of the unit: objectives, content, grading.
-- [Utilisation des outils d'IA — Principes](resources/ia-principes-heig-vd.pdf)
-  — the HEIG-VD guidelines for using AI tools in your work.
-- [Java documentation — networking](https://docs.oracle.com/javase/tutorial/networking/index.html)
-  — the official Java documentation for networking.
+- [Fiche d'unité DAI 2026–2027](resources/fiche-unite-dai-2026-2027.pdf):
+  the official description of the unit (objectives, content, grading).
+- [Utilisation des outils d'IA — Principes](resources/ia-principes-heig-vd.pdf):
+  the HEIG-VD guidelines for using AI tools in your work.
+- [Java networking documentation](https://docs.oracle.com/javase/tutorial/networking/index.html):
+  the official Java documentation for networking.

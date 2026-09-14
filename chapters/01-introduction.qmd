@@ -13,39 +13,39 @@ Welcome to **Développement d'applications internet (DAI)**!
 The Internet runs on programs talking to each other. In this course you
 will learn to build them:
 
-- **Network programming** (inputs/outputs, encodings, TCP and UDP) —
+- **Network programming** (inputs/outputs, encodings, TCP and UDP):
   write client–server applications with the Socket API, from the bytes
   up.
-- **Application-level protocols** (SMTP, SSH, HTTP… and your own) —
+- **Application-level protocols** (SMTP, SSH, HTTP… and your own):
   understand the protocols the Internet runs on, then design one
   yourself.
 - **Web infrastructures** (reverse proxy, load balancer, sticky
-  sessions) — deploy your applications the way they run in production.
-- **Reading and writing technical documentation** — the skill behind all
+  sessions): deploy your applications the way they run in production.
+- **Reading and writing technical documentation**: the skill behind all
   the others: specifications, READMEs, and the reports you will write.
 
 At the end of the course, you will be able to create applications that
-communicate over the network — business applications, APIs, games,
+communicate over the network: business applications, APIs, games,
 anything.
 
 Along the way you will adopt the tools of professional software
-development: Git and GitHub, Docker, Maven, the terminal — the same
+development: Git and GitHub, Docker, Maven, the terminal, the same
 workflow you will use in industry.
 
 ## How the course works
 
 Each week combines a **cours** (theory, kept short) and a **labo**
-(practice — most of your learning happens here). The
+(practice: most of your learning happens here). The
 [schedule](../index.qmd) maps every week to its content for your class.
 
 - **Chapters** hold the material: theory, exercises with solutions, and a
-  collapsible *Go further* section for the curious — the core content is
+  collapsible *Go further* section for the curious. The core content is
   what evaluations cover.
-- **Practical works (PW)** are group projects spanning several weeks —
+- **Practical works (PW)** are group projects spanning several weeks:
   they anchor the theory in something real, and you choose your own
   subject (we validate the idea).
 - All communication happens in one place: the course
-  [GitHub Discussions]({{< var discussions-url >}}) — questions, answers,
+  [GitHub Discussions]({{< var discussions-url >}}): questions, answers,
   announcements. There is no Cyberlearn, no Teams. Ask anything; there
   are no stupid questions.
 
@@ -53,11 +53,11 @@ Each week combines a **cours** (theory, kept short) and a **labo**
 Colored boxes like this one highlight information throughout the course:
 **note** (worth knowing, even when skimming), **tip** (optional help),
 **important** (needed to succeed), **warning** (risk ahead) and
-**caution** (negative consequences). Collapsed boxes — solutions,
-*Go further* — expand on click.
+**caution** (negative consequences). Collapsed boxes (solutions,
+*Go further*) expand on click.
 :::
 
-The material is in English — the language of the field — while classes
+The material is in English, the language of the field, while classes
 and evaluations are in French. Course content may be improved during the
 semester; we will tell you when something important changes.
 
@@ -67,26 +67,26 @@ $$
 \text{final grade} = \underbrace{(\text{TE1} \times 0.4 + \text{TE2} \times 0.6)}_{\text{cours}} \times\ 0.8\ +\ \underbrace{\text{PW}}_{\text{labo}} \times\ 0.2
 $$
 
-- **TE1** — mid-term evaluation.
-- **TE2** — final evaluation.
-- **PW** — the average of your three practical works, each graded on its
+- **TE1**: mid-term evaluation.
+- **TE2**: final evaluation.
+- **PW**: the average of your three practical works, each graded on its
   report and deliverables (rubrics published with each PW).
 
-There is no exam session exam — everything happens during the semester.
+There is no exam session. Everything happens during the semester.
 
 ## AI tools
 
 AI assistants (Copilot, ChatGPT, Claude, …) exist and you will use them
-in your career — pretending otherwise would be dishonest. You can use
+in your career. Pretending otherwise would be dishonest. You can use
 them **responsibly and within the
 [guidelines set by the school](../resources/ia-principes-heig-vd.pdf)**.
 Ground rules:
 
-- Use them to **understand** — explain an error, explore an approach —
+- Use them to **understand** (explain an error, explore an approach)
   rather than to produce work you cannot explain.
 - You are accountable for everything you submit: if you cannot explain
   your code line by line, it is not your code.
-- Evaluations happen without AI assistance — if you let it do the
+- Evaluations happen without AI assistance: if you let it do the
   learning, it will show there.
 
 ## Your week-1 checklist
@@ -94,7 +94,7 @@ Ground rules:
 1. Environment ready? Every verification of
    [chapter 00](00-environment-setup.qmd) passes. If something resists,
    this week is the moment to ask.
-2. Complete [chapter 02 — Git, GitHub & Markdown](02-git-github.qmd),
+2. Complete [chapter 02: Git, GitHub & Markdown](02-git-github.qmd),
    including the SSH and signed-commits setup: everything else this
    semester builds on it.
 
