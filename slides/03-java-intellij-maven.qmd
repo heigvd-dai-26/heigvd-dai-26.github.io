@@ -1,6 +1,6 @@
 ---
 title: "Java, IntelliJ IDEA and Maven"
-subtitle: "DAI — Chapter 03"
+subtitle: "DAI · Chapter 03"
 ---
 
 ## Objectives
@@ -20,7 +20,7 @@ subtitle: "DAI — Chapter 03"
 - General-purpose, object-oriented language.
 - Write once, run anywhere (WORA).
 - Created by James Gosling, 1995, at Sun Microsystems.
-- The documentation seems scary — you will get used to it, and it is
+- The documentation seems scary; you will get used to it, and it is
   very useful.
 :::
 ::: {.column width="40%"}
@@ -45,7 +45,7 @@ subtitle: "DAI — Chapter 03"
 
 ::: {.columns}
 ::: {.column width="60%"}
-- **Java 25** is the latest LTS — the version of this course.
+- **Java 25** is the latest LTS: the version of this course.
 - [SDKMAN!](https://sdkman.io/) manages multiple Java versions (you
   installed it in chapter 00).
 - Match versions within a project for consistency.
@@ -91,20 +91,20 @@ Modern way: package into a **JAR** file with Maven, run with `java -jar`:
 java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 ```
 
-(Yes — the Minecraft server is a JAR file.)
+(Yes, the Minecraft server is a JAR file.)
 
 ## Garbage collection
 
-- Java has automatic memory management — no manual `malloc`/`free` as in
+- Java has automatic memory management: no manual `malloc`/`free` as in
   C or C++.
 - The **garbage collector** ("GC") runs periodically to free memory.
 - An object is eligible when it is no longer referenced (out of scope or
   `null`).
 
-## Summary — Java
+## Summary: Java
 
 - General-purpose, class-based, object-oriented language.
-- Compiled to bytecode, executed by the JVM — portable by design.
+- Compiled to bytecode, executed by the JVM; portable by design.
 - Versions evolve; LTS releases matter (Java 25 today).
 - Version managers (SDKMAN!) install and switch between versions.
 
@@ -127,7 +127,7 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 ## Community Edition and Ultimate Edition
 
 - **Community** (free) and **Ultimate** (paid).
-- Free student license available — get it with your HEIG-VD email.
+- Free student license available; get it with your HEIG-VD email.
 - The Community Edition is sufficient for this course.
 
 ## JetBrains Toolbox App
@@ -148,13 +148,13 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 - IntelliJ creates a `.idea` directory with the project configuration.
 - It allows sharing project settings between developers.
 - Some of its files contain **local** configuration and must be ignored
-  in Git — chapter 03 shows what to keep.
+  in Git; chapter 03 shows what to keep.
 
-## Summary — IntelliJ IDEA
+## Summary: IntelliJ IDEA
 
 - The reference IDE for Java development.
 - Community Edition is enough; the student license unlocks Ultimate.
-- The `.idea` directory is shared — except its local parts
+- The `.idea` directory is shared, except its local parts
   (`.gitignore`).
 
 # Maven
@@ -176,7 +176,7 @@ java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
 
 ## Maven project structure
 
-Standardized directory structure — conventions simplify the build:
+Standardized directory structure; conventions simplify the build:
 
 ```text
 my-project/
@@ -214,10 +214,10 @@ Configuration and build settings, shared among developers:
 - Maven defines the build process, composed of **phases** loading
   plugin **goals**.
 - The phases you will use daily:
-  - `compile` — compile the sources.
-  - `test` — run the unit tests.
-  - `package` — build the JAR.
-  - `clean` — remove build outputs (`target/`).
+  - `compile`: compile the sources.
+  - `test`: run the unit tests.
+  - `package`: build the JAR.
+  - `clean`: remove build outputs (`target/`).
 
 ## Maven Repository
 
@@ -225,7 +225,7 @@ Configuration and build settings, shared among developers:
   Java libraries.
 - Maven downloads dependencies automatically.
 - You can publish your own libraries.
-- Many libraries available — such as
+- Many libraries available, such as
   [picocli](https://picocli.info/), for building CLI applications.
 
 ## Maven wrapper
@@ -234,7 +234,7 @@ Configuration and build settings, shared among developers:
 - Ensures a consistent Maven version across the team.
 - Use `./mvnw` (or `mvnw.cmd` on Windows) instead of `mvn`.
 
-## Summary — Maven
+## Summary: Maven
 
 - Project management, dependency manager and build tool in one.
 - Standard directory structure and standard build process.
@@ -248,18 +248,18 @@ Configuration and build settings, shared among developers:
 
 - Create a Maven project in IntelliJ IDEA.
 - Build and run a small CLI application with
-  [picocli](https://picocli.info/) — your first external dependency.
+  [picocli](https://picocli.info/), your first external dependency.
 - Package it as a JAR and run it from the terminal.
-- Publish the project on GitHub — with signed commits.
+- Publish the project on GitHub, with signed commits.
 
 **Do not hesitate to help each other! There's no need to rush!**
 
 ## Finished? Was it easy? Was it hard?
 
-Let us know what was easy and what was difficult — it helps us improve
+Let us know what was easy and what was difficult; it helps us improve
 the course and come back to you when needed.
 
-GitHub Discussions — reactions welcome!
+GitHub Discussions; reactions welcome!
 
 ## Credits
 
@@ -268,7 +268,7 @@ GitHub Discussions — reactions welcome!
   [Claude](https://claude.com) (Anthropic).
 - Based on the
   [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
-  by L. Delafontaine and H. Louis — licensed
+  by L. Delafontaine and H. Louis, licensed
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
   this deck.
 - Java logo by [Oracle](https://www.java.com/); SDKMAN! logo by

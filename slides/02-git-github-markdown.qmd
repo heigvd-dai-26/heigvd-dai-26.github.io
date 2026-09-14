@@ -1,6 +1,6 @@
 ---
 title: "Git, GitHub & Markdown"
-subtitle: "DAI — Chapter 02"
+subtitle: "DAI · Chapter 02"
 ---
 
 ## Objectives
@@ -8,7 +8,7 @@ subtitle: "DAI — Chapter 02"
 - Understand how to use Git, GitHub and Markdown.
 - Create and manage repositories on GitHub.
 - Write and format documentation using Markdown.
-- Share and collaborate effectively using Git and GitHub — with SSH
+- Share and collaborate effectively using Git and GitHub, with SSH
   authentication and **signed commits**.
 
 # Git
@@ -32,7 +32,7 @@ subtitle: "DAI — Chapter 02"
 ::: {.columns}
 ::: {.column width="55%"}
 - Remote repository (server, `origin`) and local **clones**.
-- Fully **distributed**: each clone contains the full history — work
+- Fully **distributed**: each clone contains the full history; work
   offline.
 :::
 ::: {.column width="45%"}
@@ -46,7 +46,7 @@ subtitle: "DAI — Chapter 02"
 ::: {.column width="55%"}
 - Commits = snapshots of the repository.
 - Each commit has a unique, unalterable **hash**.
-- **Tags** name commits — often releases.
+- **Tags** name commits, often releases.
 - **Signed commits** prove authorship → "Verified" badge.
 :::
 ::: {.column width="45%"}
@@ -56,9 +56,9 @@ subtitle: "DAI — Chapter 02"
 
 ## The three areas
 
-1. **Working directory** — the files you edit.
-2. **Staging area** — what goes into the next commit (`git add`).
-3. **Repository** — the committed history (`git commit`).
+1. **Working directory**: the files you edit.
+2. **Staging area**: what goes into the next commit (`git add`).
+3. **Repository**: the committed history (`git commit`).
 
 `git status` tells you where every change currently is.
 
@@ -79,9 +79,9 @@ subtitle: "DAI — Chapter 02"
 
 ::: {.columns}
 ::: {.column width="55%"}
-- **Merge** — the default; what we use in this course.
-- **Rebase** — replay commits, linear history.
-- **Squash** — collapse a branch into one commit.
+- **Merge**: the default; what we use in this course.
+- **Rebase**: replay commits, linear history.
+- **Squash**: collapse a branch into one commit.
 :::
 ::: {.column width="45%"}
 ![](https://wac-cdn.atlassian.com/dam/jcr:4639eeb8-e417-434a-a3f8-a972277fc66a/02%20Merging%20main%20into%20the%20feature%20branh.svg)
@@ -94,7 +94,7 @@ subtitle: "DAI — Chapter 02"
 ::: {.column width="55%"}
 - Arise when the **same lines** are edited on both sides.
 - Git detects them and asks **you** to resolve.
-- Tricky at first — and a crucial skill. You will practice it today,
+- Tricky at first, and a crucial skill. You will practice it today,
   on purpose.
 :::
 ::: {.column width="45%"}
@@ -106,17 +106,17 @@ subtitle: "DAI — Chapter 02"
 
 - `.gitignore` lists what Git must **not** track.
 - Cleanliness (no build artifacts) and security (no secrets).
-- Commit **source files only** — never `target/`, never binaries.
-- Tip: avoid gitignore generators — too many unnecessary rules.
+- Commit **source files only**: never `target/`, never binaries.
+- Tip: avoid gitignore generators; too many unnecessary rules.
 
-## Summary — Git
+## Summary: Git
 
 - Git is a distributed VCS.
 - Commits track changes; branches track parallel versions.
 - Merge, rebase or squash bring work back together.
-- Conflicts are detected — and resolved by you.
+- Conflicts are detected, and resolved by you.
 
-**Learn Git from the command line — it works everywhere, even on a
+**Learn Git from the command line: it works everywhere, even on a
 server.**
 
 # GitHub
@@ -137,16 +137,16 @@ server.**
 ## Social platform
 
 - Follow users, star projects, discover code.
-- Your profile is a **portfolio** — recruiters look at it.
+- Your profile is a **portfolio**; recruiters look at it.
 - **Fork** repositories: copy, change, contribute back.
-- Free **Pro** account for students — apply with your HEIG-VD email
+- Free **Pro** account for students; apply with your HEIG-VD email
   (GitHub Education).
 
 ## Users and organizations
 
 - Repositories belong to a **user** or an **organization**.
 - Organizations share repositories between members.
-- This course lives in one: **github.com/heigvd-dai-26** — and each PW
+- This course lives in one: **github.com/heigvd-dai-26**; each PW
   team can create its own.
 
 ## Issues, pull requests and forks
@@ -158,7 +158,7 @@ server.**
 5. A teammate reviews and merges if OK.
 6. Delete the branch.
 
-The workflow of your practical works — and of the industry.
+The workflow of your practical works, and of the industry.
 
 ## The rejected push
 
@@ -188,8 +188,9 @@ The workflow of your practical works — and of the industry.
 ## Markdown and output formats
 
 - Plain text in, many formats out: web pages, PDF, slides.
-- **Diffable**: Git shows which *sentence* changed — a `.docx` cannot.
-- This deck and the whole course site are written in Markdown.
+- **Diffable**: Git shows which *sentence* changed; a `.docx` cannot.
+- This deck and the whole course site are written in a flavour of
+  Markdown ([Quarto](https://quarto.org/)'s `.qmd`).
 
 ## Syntax
 
@@ -210,14 +211,14 @@ The workflow of your practical works — and of the industry.
 ## Specifications
 
 - No single standard.
-- **CommonMark** — the strict specification.
-- **GitHub Flavored Markdown** — CommonMark + tables, task lists,
+- **CommonMark**: the strict specification.
+- **GitHub Flavored Markdown**: CommonMark + tables, task lists,
   strikethrough. What you write on GitHub.
 
-## Summary — Markdown
+## Summary: Markdown
 
 - Easy to learn and use.
-- Documentation, READMEs, reports — and slides.
+- Documentation, READMEs, reports, and slides.
 - Exports to many formats.
 
 # Now it's your turn!
@@ -227,7 +228,7 @@ The workflow of your practical works — and of the industry.
 - Configure your Git identity, enable 2FA.
 - Set up **SSH authentication** and **commit signing**.
 - Create your **GitHub profile README** in Markdown.
-- Cause — and resolve — one merge conflict, on purpose.
+- Cause and resolve one merge conflict, on purpose.
 
 [Chapter 02 on the course site](https://heigvd-dai-26.github.io/chapters/02-git-github.html)
 
@@ -235,10 +236,10 @@ The workflow of your practical works — and of the industry.
 
 ## Finished? Was it easy? Was it hard?
 
-Let us know what was easy and what was difficult — it helps us improve
+Let us know what was easy and what was difficult; it helps us improve
 the course and come back to you when needed.
 
-GitHub Discussions — reactions welcome!
+GitHub Discussions; reactions welcome!
 
 ## Credits
 
@@ -247,7 +248,7 @@ GitHub Discussions — reactions welcome!
   [Claude](https://claude.com) (Anthropic).
 - Based on the
   [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
-  by L. Delafontaine and H. Louis — licensed
+  by L. Delafontaine and H. Louis, licensed
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
   this deck.
 - Git logo by [Git](https://git-scm.com/); Git illustrations by

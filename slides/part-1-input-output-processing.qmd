@@ -1,6 +1,6 @@
 ---
 title: "Introduction to part 1: Input/output processing"
-subtitle: "DAI — Part 1"
+subtitle: "DAI · Part 1"
 ---
 
 # Do you know what happens when you browse the Web? How do you think it works?
@@ -41,7 +41,7 @@ The whole process uses **input/output** (IO) operations!
   [Claude](https://claude.com) (Anthropic).
 - Based on the
   [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
-  by L. Delafontaine and H. Louis — licensed
+  by L. Delafontaine and H. Louis, licensed
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
   this deck.
 :::
