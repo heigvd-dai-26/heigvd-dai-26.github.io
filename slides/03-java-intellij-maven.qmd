@@ -51,7 +51,7 @@ subtitle: "DAI · Chapter 03"
 - Match versions within a project for consistency.
 :::
 ::: {.column width="40%"}
-![](https://sdkman.io/assets/img/sdk-man-small-pattern.svg){width="70%"}
+![](https://sdkman.io/assets/img/sdkman-logo.png){width="70%"}
 :::
 :::
 

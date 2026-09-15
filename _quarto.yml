@@ -19,6 +19,8 @@ website:
             text: "01 · Introduction"
           - href: chapters/02-git-github.qmd
             text: "02 · Git, GitHub & Markdown"
+          - href: chapters/03-java-intellij-maven.qmd
+            text: "03 · Java, IntelliJ & Maven"
       - section: "Practical work"
         contents:
           - href: practical-work/pw1.qmd

@@ -1,0 +1,679 @@
+---
+title: "Java, IntelliJ IDEA and Maven"
+subtitle: "Chapter 03"
+---
+
+[Slides for this chapter](../slides/03-java-intellij-maven.qmd)
+
+## Objectives
+
+By the end of this chapter, you should be able to:
+
+- Explain how Java runs on all platforms.
+- Install and switch between Java versions with SDKMAN!.
+- Develop Java applications with IntelliJ IDEA and Maven.
+- Manage dependencies and build a distributable JAR with Maven.
+- Write and run a first unit test.
+
+::: {.callout-important}
+The tools (SDKMAN!, Java 25, Maven, IntelliJ IDEA) were installed in
+[chapter 00](00-environment-setup.qmd). If any verification of its final
+checklist fails, fix that first.
+:::
+
+## Java
+
+> Java is a general-purpose, class-based, object-oriented programming
+> language. It is intended to let programmers write once, run anywhere
+> (WORA). (<https://www.java.com/>)
+
+Created by James Gosling at Sun Microsystems (now Oracle) and released in
+1995, Java remains one of the most used languages, especially for
+client-server applications.
+
+### The Java virtual machine
+
+Java source code is compiled to **bytecode**, which is executed by the
+**Java virtual machine (JVM)**. The same compiled code runs on every
+platform that has a JVM: that is what makes Java portable.
+
+Many JVM implementations exist. Two packages matter to you:
+
+- The **JDK** (Java Development Kit): what you need to *develop*.
+- The **JRE** (Java Runtime Environment): what you need to *run*.
+
+We use the **Eclipse Temurin** distribution.
+
+### Versions and version managers
+
+Java evolves in versions, with a **Long Term Support (LTS)** release
+every two years. **Java 25** is the current LTS and the version of this
+course.
+
+Projects can require different Java versions, so developers use a version
+manager. You installed [SDKMAN!](https://sdkman.io/) in chapter 00: it
+installs and switches between versions cleanly. Within a project, use the
+same version as the other developers.
+
+### Compiling and running Java programs
+
+Given a `HelloWorld.java` file:
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        String message = "Hello, world!";
+
+        System.out.println(message);
+    }
+}
+```
+
+Compile it with `javac` and run the bytecode with `java`:
+
+```sh
+javac HelloWorld.java
+java HelloWorld
+```
+
+Real applications are packaged into a **JAR** (Java ARchive) file: a ZIP
+containing the bytecode and resources, runnable anywhere Java is
+installed:
+
+```sh
+java -Xmx1024M -Xms1024M -jar minecraft_server.1.21.jar nogui
+```
+
+(Yes, the Minecraft server is a JAR. `-Xmx` and `-Xms` set the maximum
+and initial memory of the JVM, one of many tuning knobs.)
+
+### Garbage collection
+
+Java manages memory automatically: no manual allocation and freeing as in
+C or C++. The **garbage collector** (GC) runs periodically and frees
+objects that are no longer referenced (out of scope or set to `null`).
+
+## IntelliJ IDEA
+
+> IntelliJ IDEA is an integrated development environment (IDE) written in
+> Java for developing computer software.
+> (<https://www.jetbrains.com/idea/>)
+
+IntelliJ IDEA is the reference IDE for Java development. It exists in two
+editions: **Community** (free, sufficient for this course) and
+**Ultimate** (paid, free for you with the
+[student license](https://www.jetbrains.com/community/education/#students)).
+Another IDE is allowed, but IntelliJ is what we support.
+
+### Configuration files and Git
+
+When you create a project, IntelliJ creates a `.idea` directory:
+
+- Some files hold **project configuration**, shared by all developers.
+  They are committed, so everyone gets the same setup.
+- Some files hold **local configuration**, specific to your machine.
+  They must be ignored by Git.
+
+You will clean this up in the exercises.
+
+## Maven
+
+> Apache Maven is a software project management and comprehension tool.
+> (<https://maven.apache.org/>)
+
+Maven is two things at once:
+
+- A **dependency manager**: it downloads and manages the external
+  libraries your application uses.
+- A **build automation tool**: it compiles, tests and packages your
+  application, the same way on every machine.
+
+### Project structure
+
+Maven defines a standard directory layout, so every developer finds
+everything in the same place:
+
+```text
+my-project/
+├── pom.xml
+└── src/
+    ├── main/
+    │   ├── java/          # application sources
+    │   └── resources/     # config files, assets
+    └── test/
+        └── java/          # unit tests
+```
+
+### The `pom.xml` file
+
+The Project Object Model (POM) file is the core of a Maven project,
+shared by all developers. Its main sections:
+
+- `groupId`: the namespace of the project (the organization).
+- `artifactId`: the name of the project.
+- `version`: the version of the project.
+- `dependencies`: the external libraries used by the application.
+- `build`/`plugins`: how the application is compiled, tested, packaged.
+
+The `artifactId` and `version` determine the name of the generated JAR.
+
+::: {.callout-note}
+**Plugin or dependency?** A *plugin* performs a build task (compile,
+package) and does not end up in your JAR. A *dependency* is a library
+your code uses, and it ships with your application.
+:::
+
+### The Maven lifecycle
+
+The build process is a **lifecycle** of **phases**, and each phase runs
+plugin **goals**. The phases you will use daily:
+
+- `compile`: compile the sources.
+- `test`: run the unit tests.
+- `package`: build the JAR (runs `compile` and `test` first).
+- `clean`: delete the build outputs (`target/`).
+
+### Maven Central
+
+The [Maven Repository](https://mvnrepository.com/) indexes the public
+libraries you can use. Search a library, copy its dependency declaration
+into your `pom.xml`, and Maven downloads it automatically, transitive
+dependencies included.
+
+### The Maven wrapper
+
+The **Maven wrapper** is a small script (`mvnw` on Linux/macOS,
+`mvnw.cmd` on Windows) committed to the repository. It downloads and runs
+a pinned version of Maven, so every developer (and every server) builds
+with the same version, without installing Maven first. Once initialized,
+use `./mvnw` instead of `mvn`.
+
+::: {.callout-tip collapse="true" title="Maven cheat sheet"}
+```sh
+./mvnw dependency:go-offline   # download all dependencies
+./mvnw clean                   # delete compiled classes
+./mvnw compile                 # compile the source code
+./mvnw test                    # run the unit tests
+./mvnw package                 # package the application
+./mvnw clean package           # several phases in one command
+```
+:::
+
+## Unit tests
+
+A **unit test** is code that verifies a small piece of your code: given
+this input, this function must return that output. Tests live in
+`src/test/java`, mirror your package structure, and run in the `test`
+phase, so **a broken test fails the build** before a broken JAR reaches
+anyone.
+
+The standard library is [JUnit](https://junit.org/). A test is a method
+annotated with `@Test` that makes assertions:
+
+```java
+package ch.heigvd;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+class GreetingTest {
+
+  @Test
+  void greetsByName() {
+    assertEquals("Hello DAI!", Greeting.greet("DAI"));
+  }
+}
+```
+
+You will write your first test in the exercises, and tests will be
+expected in your practical works.
+
+## Exercises
+
+### Exercise 1: Juggle Java versions {#sec-ex1}
+
+Projects will not always use the version you have. Practice switching
+with SDKMAN!:
+
+```sh
+# List what is available and installed
+sdk list java
+
+# Install the PREVIOUS LTS (21) next to your Java 25
+sdk install java <21-version>-tem
+
+# Use it in the current terminal only
+sdk use java <21-version>-tem
+java --version
+
+# Back to Java 25 as the default everywhere
+sdk default java <25-version>-tem
+java --version
+```
+
+**Verification**: `java --version` shows 21 after `sdk use`, and 25 again
+in a new terminal.
+
+### Exercise 2: Create the Maven project {#sec-ex2}
+
+1. In IntelliJ IDEA, create a **New Project** with the **Maven** build
+   system. Set the group ID to `ch.heigvd`, the artifact ID to
+   `java-intellij-idea-and-maven`, and **check that the selected JDK is
+   the latest LTS (25)**.
+2. Open the `Main` file and press **Play**: the Run tab prints
+   `Hello World!`.
+3. In the IntelliJ terminal, initialize the **Maven wrapper**:
+
+```sh
+mvn wrapper:wrapper
+```
+
+This creates `mvnw`, `mvnw.cmd` and `.mvn/wrapper/`, all committed to
+Git. From now on, use `./mvnw`.
+
+**Verification**: `./mvnw --version` prints Maven, running on Java 25.
+
+::: {.callout-tip}
+Store the build as an IntelliJ **Run/Debug configuration** (type Maven,
+command `dependency:go-offline clean compile package`, check *Store as
+project file*): you and the graders can then build with one click.
+:::
+
+::: {.callout-warning collapse="true" title="Windows + WSL: IntelliJ and the Maven wrapper"}
+Recent IntelliJ versions have a bug selecting *Use Maven wrapper* in a
+Run/Debug configuration on WSL. If it fails, set it at the IDE level
+instead: **Settings > Build, Execution, Deployment > Build Tools >
+Maven**, set *Maven home path* to *Use Maven wrapper*, and keep *Inherit
+from settings* checked in the configuration. Related reports:
+[IDEA-370490](https://youtrack.jetbrains.com/issue/IDEA-370490),
+[IDEA-368924](https://youtrack.jetbrains.com/issue/IDEA-368924).
+:::
+
+### Exercise 3: Package a JAR {#sec-ex3}
+
+Tell Maven what the entry point of your JAR is, by adding the
+`maven-jar-plugin` to the `<build><plugins>` section of your `pom.xml`
+(check the
+[latest version](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin)):
+
+```xml
+<plugin>
+  <artifactId>maven-jar-plugin</artifactId>
+  <version>3.4.2</version>
+  <configuration>
+    <archive>
+      <manifest>
+        <mainClass>ch.heigvd.Main</mainClass>
+      </manifest>
+    </archive>
+  </configuration>
+</plugin>
+```
+
+::: {.callout-important}
+Do not blindly copy-paste snippets, here or anywhere. Read them and adapt
+them to your project.
+:::
+
+Then build and run:
+
+```sh
+./mvnw dependency:go-offline
+./mvnw package
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar
+```
+
+**Verification**: the application output appears, this time from a JAR
+you could hand to anyone with Java installed.
+
+### Exercise 4: A real CLI with picocli {#sec-ex4}
+
+> Picocli aims to be the easiest way to create rich command line
+> applications that can run on and off the JVM. (<https://picocli.info/>)
+
+Your first external dependency. Add picocli to the `<dependencies>`
+section (check the
+[latest version](https://mvnrepository.com/artifact/info.picocli/picocli)):
+
+```xml
+<dependency>
+  <groupId>info.picocli</groupId>
+  <artifactId>picocli</artifactId>
+  <version>4.7.7</version>
+</dependency>
+```
+
+Replace `src/main/java/ch/heigvd/Main.java` with a first picocli command:
+
+```java
+package ch.heigvd;
+
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
+
+@CommandLine.Command(
+    name = "hello",
+    description = "Print a 'Hello World!' type of message.",
+    version = "1.0.0",
+    showDefaultValues = true,
+    mixinStandardHelpOptions = true)
+class Main implements Callable<Integer> {
+
+  @CommandLine.Parameters(
+      index = "0",
+      description = "The name of the user.",
+      defaultValue = "World")
+  protected String name;
+
+  @Override
+  public Integer call() {
+    System.out.println("Hello " + name + "!");
+    return 0;
+  }
+
+  public static void main(String... args) {
+    int exitCode = new CommandLine(new Main()).execute(args);
+
+    System.exit(exitCode);
+  }
+}
+```
+
+`@CommandLine.Command` defines a command, `@CommandLine.Parameters` a
+positional argument, and `call()` runs when the command executes.
+
+::: {.callout-tip}
+IntelliJ does not recognize `CommandLine`? Right-click the project >
+**Maven** > **Reload project**.
+:::
+
+Package the JAR again and run it. **It fails**:
+
+```text
+Exception in thread "main" java.lang.NoClassDefFoundError: picocli/CommandLine
+```
+
+This error is worth understanding: `maven-jar-plugin` does **not**
+include dependencies in the JAR. Your code is there, picocli is not.
+Replace the `maven-jar-plugin` block with the `maven-shade-plugin`, which
+builds a JAR with all dependencies included (check the
+[latest version](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin)):
+
+```xml
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-shade-plugin</artifactId>
+  <version>3.6.0</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>shade</goal>
+      </goals>
+      <phase>package</phase>
+      <configuration>
+        <transformers>
+          <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+            <mainClass>ch.heigvd.Main</mainClass>
+          </transformer>
+          <transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+            <resource>MANIFEST.MF</resource>
+          </transformer>
+        </transformers>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
+```
+
+Rebuild and run. `target/` now also contains an `original-...jar` (the
+one without dependencies) and a `dependency-reduced-pom.xml`, both
+by-products of shading.
+
+**Verification**:
+
+```sh
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar --help
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar "DAI student"
+```
+
+The help message and `Hello DAI student!` appear.
+
+::: {.callout-note collapse="true" title="Why is packaging so complicated?"}
+Java builds many kinds of artifacts (libraries, web applications, desktop
+applications), each with different packaging needs, so Maven does not
+assume dependencies belong inside the JAR. For a standalone CLI they do,
+hence the shade plugin. Deeper build topics come in later teaching units.
+:::
+
+### Exercise 5: Subcommands {#sec-ex5}
+
+Real CLIs have subcommands (think `git commit`, `git push`). Refactor
+into a `hello` and a `goodbye` subcommand. Create
+`src/main/java/ch/heigvd/commands/Hello.java`:
+
+```java
+package ch.heigvd.commands;
+
+import ch.heigvd.Main;
+import java.util.concurrent.Callable;
+import picocli.CommandLine;
+
+@CommandLine.Command(name = "hello", description = "Print a 'Hello World!' type of message.")
+public class Hello implements Callable<Integer> {
+
+  @CommandLine.ParentCommand protected Main parent;
+
+  @CommandLine.Option(
+      names = {"-g", "--greetings"},
+      description = "The greetings to address the user.",
+      defaultValue = "Hello")
+  protected String greetings;
+
+  @Override
+  public Integer call() {
+    System.out.println(greetings + " " + parent.getName() + "!");
+    return 0;
+  }
+}
+```
+
+Create `Goodbye.java` in the same package on the same model (option
+`-f`/`--farewells`, default `Goodbye`). Then update `Main.java`:
+
+```java
+package ch.heigvd;
+
+import ch.heigvd.commands.Goodbye;
+import ch.heigvd.commands.Hello;
+import java.io.File;
+import picocli.CommandLine;
+
+@CommandLine.Command(
+    description = "A small CLI with subcommands to demonstrate picocli.",
+    version = "1.0.0",
+    showDefaultValues = true,
+    subcommands = {
+      Hello.class,
+      Goodbye.class,
+    },
+    scope = CommandLine.ScopeType.INHERIT,
+    mixinStandardHelpOptions = true)
+public class Main {
+
+  @CommandLine.Parameters(
+      index = "0",
+      description = "The name of the user.",
+      defaultValue = "World")
+  protected String name;
+
+  public String getName() {
+    return this.name;
+  }
+
+  public static void main(String[] args) {
+    String jarFilename =
+        new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath())
+            .getName();
+
+    int exitCode = new CommandLine(new Main()).setCommandName(jarFilename).execute(args);
+
+    System.exit(exitCode);
+  }
+}
+```
+
+New pieces: `subcommands` registers them, `scope = INHERIT` shares the
+parent's options, `@CommandLine.ParentCommand` gives a subcommand access
+to its parent, and `@CommandLine.Option` defines a `-x`/`--xyz` style
+argument.
+
+**Verification**:
+
+```sh
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar hello
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar \
+  "étudiant.e de DAI" hello --greetings "Bonjour"
+java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar \
+  "étudiant.e de DAI" goodbye --farewells "Au revoir"
+```
+
+picocli will be used in most practical works. Its
+[documentation](https://picocli.info/) is excellent, explore it.
+
+### Exercise 6: A first unit test {#sec-ex6}
+
+1. Add JUnit to your `<dependencies>` (check the
+   [latest version](https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter),
+   scope `test` so it does not ship in your JAR):
+
+```xml
+<dependency>
+  <groupId>org.junit.jupiter</groupId>
+  <artifactId>junit-jupiter</artifactId>
+  <version>5.13.4</version>
+  <scope>test</scope>
+</dependency>
+```
+
+2. Extract the greeting logic into a testable method (e.g. a
+   `Greeting.greet(String greetings, String name)` static method that
+   your commands call), and write a test for it in
+   `src/test/java/ch/heigvd/GreetingTest.java` (model in the
+   [Unit tests](#unit-tests) section).
+3. Run the tests:
+
+```sh
+./mvnw test
+```
+
+**Verification**: the build reports your test passing. Break the expected
+string on purpose, run again, and watch the build fail. That is the
+point.
+
+### Exercise 7: Publish on GitHub {#sec-ex7}
+
+Everything you learned in [chapter 02](02-git-github.qmd), applied:
+
+1. `git init --initial-branch=main` in the project.
+2. **Clean the `.gitignore`**: IntelliJ generates one full of rules for
+   tools you do not use. Only ignore what your project actually
+   produces:
+
+```gitignore
+## IntelliJ IDEA
+.idea/libraries/
+.idea/shelf/
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/workspace.xml
+*.iws
+*.iml
+*.ipr
+
+## Linux
+*~
+
+## macOS
+.DS_Store
+
+## Maven
+target/
+
+## Windows
+Thumbs.db
+[Dd]esktop.ini
+```
+
+   Delete the `.idea/.gitignore` file.
+
+3. Write a `README.md`: what the project is, how to build it, how to run
+   it. It is the first thing anyone (including the graders) reads.
+4. Create an **empty** GitHub repository (no README, license or
+   gitignore), then:
+
+```sh
+git remote add origin <your repository ssh url>
+git add .
+git status    # check that target/ and local .idea files are NOT staged
+git commit -m "Initial commit"
+git push --set-upstream origin main
+```
+
+5. Share the repository link in the
+   [GitHub Discussions]({{< var discussions-url >}}) (category *Show and
+   tell*).
+
+**Verification**: the repository on GitHub shows your code, your README,
+your signed commits, and no `target/` directory.
+
+## Test your knowledge
+
+- How can Java run on all platforms?
+- How do you install and switch between Java versions?
+- Why must some files created by IntelliJ IDEA be ignored by Git?
+- What is the purpose of the `pom.xml` file?
+- What is the difference between a Maven plugin and a dependency?
+- Why did the JAR fail to run before the shade plugin, and what changed?
+- What happens to the build when a unit test fails, and why is that
+  useful?
+
+## Go further
+
+Optional content: useful general knowledge, not required for the
+evaluations.
+
+::: {.callout-note collapse="true" title="Spotless: automatic code formatting"}
+[Spotless](https://github.com/diffplug/spotless/tree/main/plugin-maven)
+formats your Java files and `pom.xml` automatically (Google Java Format),
+and fails the build when the formatting is off. Add the
+`spotless-maven-plugin` to your build plugins with the `check` goal bound
+to the `package` phase, then:
+
+```sh
+./mvnw spotless:check   # report formatting issues
+./mvnw spotless:apply   # fix them
+```
+
+Consistent formatting is a gift to your team (and to the graders).
+:::
+
+::: {.callout-note collapse="true" title="Alternatives"}
+JVM languages: [Kotlin](https://kotlinlang.org/),
+[Scala](https://www.scala-lang.org/), [Groovy](https://groovy-lang.org/).
+Build tools: [Gradle](https://gradle.org/), [Ant](https://ant.apache.org/),
+[Bazel](https://bazel.build/). Version manager:
+[asdf](https://asdf-vm.com/). CLI libraries elsewhere:
+[clap](https://github.com/clap-rs/clap) (Rust),
+[Cobra](https://github.com/spf13/cobra) (Go).
+:::
+
+## Sources
+
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
