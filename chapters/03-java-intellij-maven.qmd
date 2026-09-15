@@ -165,13 +165,46 @@ your code uses, and it ships with your application.
 
 ### The Maven lifecycle
 
-The build process is a **lifecycle** of **phases**, and each phase runs
-plugin **goals**. The phases you will use daily:
+Maven organizes the build around three standard **lifecycles**:
 
-- `compile`: compile the sources.
-- `test`: run the unit tests.
-- `package`: build the JAR (runs `compile` and `test` first).
-- `clean`: delete the build outputs (`target/`).
+- **default**: builds the project (compile, test, package, deploy).
+- **clean**: deletes the build outputs (`target/`).
+- **site**: generates documentation and reports (not used in this
+  course).
+
+Each lifecycle is a **sequence of phases**, the logical steps of the
+build. The main phases of the default lifecycle, in order:
+
+| Phase | What it does |
+|-------|--------------|
+| `validate` | check the project is correct and complete |
+| `compile` | compile the source code |
+| `test` | run the unit tests |
+| `package` | package the compiled code into a JAR |
+| `verify` | run checks on integration test results |
+| `install` | install the JAR into your local repository |
+| `deploy` | copy the JAR to a remote repository |
+
+The rule that explains most Maven behavior: **running a phase runs all
+the previous phases of its lifecycle**. `./mvnw package` actually runs
+`validate`, `compile`, `test`, then `package`. And `./mvnw clean package`
+combines two lifecycles: clean up, then build.
+
+A **goal** is a single task provided by a plugin. Goals are **bound to
+phases**: when a phase runs, its goals run. Default bindings include:
+
+- `compile` phase: runs the `compiler:compile` goal.
+- `test` phase: runs the `surefire:test` goal.
+- `package` phase: runs the `jar:jar` goal.
+
+A goal can also run directly, outside any lifecycle: you already did it
+with `mvn wrapper:wrapper`, and `./mvnw dependency:tree` (try it later)
+prints your dependency tree without building anything.
+
+In short: a **lifecycle** is the overall process, a **phase** is a step
+in it, a **goal** is the plugin action executed at that step, and the
+task is the actual work done (turning `.java` files into `.class`
+files).
 
 ### Maven Central
 
@@ -396,6 +429,8 @@ Exception in thread "main" java.lang.NoClassDefFoundError: picocli/CommandLine
 
 This error is worth understanding: `maven-jar-plugin` does **not**
 include dependencies in the JAR. Your code is there, picocli is not.
+(See [Go further](#go-further) for what the plugin *can* do about
+dependencies, and why it is not enough.)
 Replace the `maven-jar-plugin` block with the `maven-shade-plugin`, which
 builds a JAR with all dependencies included (check the
 [latest version](https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-shade-plugin)):
@@ -643,6 +678,24 @@ your signed commits, and no `target/` directory.
 
 Optional content: useful general knowledge, not required for the
 evaluations.
+
+::: {.callout-note collapse="true" title="Why maven-jar-plugin cannot ship your dependencies"}
+`maven-jar-plugin` has a partial answer to the dependency problem:
+
+```xml
+<manifest>
+  <addClasspath>true</addClasspath>
+  <mainClass>ch.heigvd.Main</mainClass>
+</manifest>
+```
+
+`addClasspath` writes a line like `Class-Path: picocli-4.7.7.jar` into
+the JAR's `MANIFEST.MF`. At run time, Java then looks for those JARs
+**next to yours on disk**. Your JAR still does not *contain* picocli, it
+only points at it, so you would have to distribute the dependency JARs
+alongside your application. That is why a standalone CLI uses the shade
+plugin instead: one self-contained JAR, nothing else to ship.
+:::
 
 ::: {.callout-note collapse="true" title="Spotless: automatic code formatting"}
 [Spotless](https://github.com/diffplug/spotless/tree/main/plugin-maven)
