@@ -300,7 +300,7 @@ then freed when 8-bit bytes became the norm.
 
 ## UTF-16
 
-- 2 bytes per character in the BMP, 4 above it (a surrogate pair).
+- 2 or 4 bytes per character.
 - Java uses it inside its strings.
 - Not compatible with ASCII: `A` is one byte in ASCII (`0x41`), but two
   bytes in UTF-16 (`0x00 0x41`).
