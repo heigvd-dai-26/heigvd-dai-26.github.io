@@ -21,6 +21,8 @@ website:
             text: "02 · Git, GitHub & Markdown"
           - href: chapters/03-java-intellij-maven.qmd
             text: "03 · Java, IntelliJ & Maven"
+          - href: chapters/04-java-io.qmd
+            text: "04 · Java I/O"
       - section: "Practical work"
         contents:
           - href: practical-work/pw1.qmd

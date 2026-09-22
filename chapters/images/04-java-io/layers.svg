@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 250" font-family="Helvetica, Arial, sans-serif">
+  <title>Java I/O layers: text classes wrap binary classes</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#445"/>
+    </marker>
+    <style>
+      .bytes { fill: #e6eef9; stroke: #3b5b8c; stroke-width: 1.5; }
+      .chars { fill: #fbf0dc; stroke: #9a6a17; stroke-width: 1.5; }
+      .code  { fill: #ffffff; stroke: #445; stroke-width: 1.5; }
+      .cls   { font-family: Menlo, Consolas, monospace; font-size: 15px; font-weight: bold; fill: #222; }
+      .sub   { font-size: 13px; fill: #444; }
+      .lbl   { font-size: 13px; fill: #555; font-style: italic; }
+      .edge  { stroke: #445; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <!-- source -->
+  <ellipse cx="55" cy="100" rx="42" ry="10" class="code"/>
+  <path d="M13,100 v50 a42,10 0 0 0 84,0 v-50" class="code"/>
+  <ellipse cx="55" cy="100" rx="42" ry="10" class="code"/>
+  <text x="55" y="130" text-anchor="middle" class="sub">file</text>
+  <text x="55" y="147" text-anchor="middle" class="sub">or socket</text>
+
+  <!-- FileInputStream -->
+  <rect x="130" y="95" width="175" height="60" rx="8" class="bytes"/>
+  <text x="217" y="121" text-anchor="middle" class="cls">FileInputStream</text>
+  <text x="217" y="141" text-anchor="middle" class="sub">bytes</text>
+
+  <!-- binary row -->
+  <rect x="370" y="15" width="205" height="60" rx="8" class="bytes"/>
+  <text x="472" y="41" text-anchor="middle" class="cls">BufferedInputStream</text>
+  <text x="472" y="61" text-anchor="middle" class="sub">bytes, buffered</text>
+
+  <rect x="830" y="15" width="140" height="60" rx="30" class="code"/>
+  <text x="900" y="41" text-anchor="middle" class="sub">your code</text>
+  <text x="900" y="59" text-anchor="middle" class="sub">binary data</text>
+
+  <!-- text row -->
+  <rect x="370" y="175" width="205" height="60" rx="8" class="chars"/>
+  <text x="472" y="201" text-anchor="middle" class="cls">InputStreamReader</text>
+  <text x="472" y="221" text-anchor="middle" class="sub">charset: bytes → chars</text>
+
+  <rect x="605" y="175" width="195" height="60" rx="8" class="chars"/>
+  <text x="702" y="201" text-anchor="middle" class="cls">BufferedReader</text>
+  <text x="702" y="221" text-anchor="middle" class="sub">chars, buffered, readLine()</text>
+
+  <rect x="830" y="175" width="140" height="60" rx="30" class="code"/>
+  <text x="900" y="201" text-anchor="middle" class="sub">your code</text>
+  <text x="900" y="219" text-anchor="middle" class="sub">text data</text>
+
+  <!-- edges -->
+  <path d="M97,125 H128" class="edge"/>
+  <path d="M305,115 C340,115 335,45 368,45" class="edge"/>
+  <path d="M305,135 C340,135 335,205 368,205" class="edge"/>
+  <path d="M575,45 H828" class="edge"/>
+  <path d="M575,205 H603" class="edge"/>
+  <path d="M800,205 H828" class="edge"/>
+
+  <!-- legend -->
+  <rect x="615" y="100" width="16" height="16" rx="3" class="bytes"/>
+  <text x="638" y="113" class="lbl">binary classes (bytes)</text>
+  <rect x="615" y="124" width="16" height="16" rx="3" class="chars"/>
+  <text x="638" y="137" class="lbl">text classes (characters)</text>
+</svg>

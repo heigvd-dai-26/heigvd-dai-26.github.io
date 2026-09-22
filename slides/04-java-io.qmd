@@ -1,0 +1,522 @@
+---
+title: "Java I/O"
+subtitle: "DAI · Chapter 04"
+---
+
+## Objectives
+
+- Understand sources, streams and sinks.
+- Use the Java I/O API to read and write files, and later sockets.
+- Tell the difference between binary data and text data.
+- Understand character encodings, and always specify one in your code.
+- Speed up I/O with buffers.
+- Handle line endings and errors correctly.
+
+## Why I/O in a network course?
+
+- Network programming is about reading and writing data.
+- In Java, **files and network connections use the same API**:
+  `InputStream`, `OutputStream`, `Reader`, `Writer`.
+- Same abstraction: you write bytes to a stream. To a file, they are
+  written on disk. To a socket, they travel over the network to another
+  program.
+- Files are the easy case: no connection to open, no peer that can
+  disappear.
+
+## Sources, streams and sinks
+
+- **Source** (producer): a file, a network connection, the keyboard.
+- **Sink** (consumer): a file, a network connection, the screen.
+- **Stream**: an ordered flow of data, read or written piece by piece:
+  from a source into your program, or from your program to a sink.
+
+## The `java.io` package
+
+- Every class in this chapter comes from `java.io`.
+- Not `java.nio`, a more advanced API that we do not cover.
+- And not `java.util.stream` (`.map()`, `.filter()`), which is unrelated
+  despite its name.
+
+## Binary data vs text data
+
+- All data is stored as bytes. What differs is how you use them.
+- **Binary data**: raw bytes (images, audio, archives).
+- **Text data**: bytes interpreted as characters (code, CSV, JSON). This
+  requires a **character encoding**.
+
+|          | Binary (bytes)   | Text (characters) |
+|----------|------------------|-------------------|
+| Read     | `InputStream`    | `Reader`          |
+| Write    | `OutputStream`   | `Writer`          |
+
+# Binary data
+
+## Processing binary data
+
+The simplest kind of processing, always in three steps:
+
+1. **Open** a stream on the file.
+2. **Read or write** the bytes as they are, one at a time.
+3. **Close** the stream.
+
+| To…   | Abstract class | For a file         |
+|-------|----------------|--------------------|
+| Read  | `InputStream`  | `FileInputStream`  |
+| Write | `OutputStream` | `FileOutputStream` |
+
+## Writing bytes
+
+Write the 256 possible byte values to a file:
+
+```java
+OutputStream out = new FileOutputStream("bytes.bin");
+for (int i = 0; i < 256; i++) {
+  out.write(i); // writes the lowest 8 bits of i
+}
+out.close();
+```
+
+- `write(int)` writes **one byte**: the lowest 8 bits of the `int`.
+- Example: [`01-reading-and-writing-binary-data`]({{< var examples-url >}}/tree/main/04-java-io/01-reading-and-writing-binary-data).
+
+## Reading bytes
+
+Read them back, one byte at a time:
+
+```java
+InputStream in = new FileInputStream("bytes.bin");
+int b; // 0-255, or -1 at the end of the stream
+while ((b = in.read()) != -1) {
+  System.out.print(b + " ");
+}
+in.close();
+```
+
+- `read()` **blocks** until data arrives (on a socket, this can take a
+  while).
+- `read()` returns an `int`: 0 to 255, or `-1` at the end.
+- Always close what you open.
+
+## One byte at a time is slow
+
+- Every `read()` or `write()` on a file stream is a **system call**.
+- 10 MiB, one byte at a time: 10 million system calls.
+- On an Apple M3 laptop, writing 10 MiB this way takes **12.8 s**, and
+  reading it back takes **3.9 s**.
+
+::: {.notes}
+Write slower than read? Not Java, not the disk: each write makes the file
+system do more work. Point: both are slow without a buffer.
+:::
+
+## Buffering
+
+- A **buffer** (8 KiB by default) sits between your program and the OS.
+- `read()` and `write()` work in the buffer, in memory. The OS is only
+  called when the buffer is empty (reading) or full (writing).
+- About one system call per 8 KiB instead of one per byte.
+
+## Buffered streams
+
+- A buffered stream **wraps** another stream (the decorator pattern):
+
+```java
+InputStream in = new BufferedInputStream(
+    new FileInputStream("bytes.bin"));
+OutputStream out = new BufferedOutputStream(
+    new FileOutputStream("copy.bin"));
+```
+
+- Same loop, same methods (`read()`, `write()`, `close()`).
+- Closing the outer stream also closes the inner one.
+
+## Buffering pays off
+
+Timings for 10 MiB, measured on an Apple M3 laptop:
+
+|            | Unbuffered | Buffered |
+|------------|-----------:|---------:|
+| Write      | 12,770 ms  |    59 ms |
+| Read       |  3,942 ms  |    55 ms |
+
+About 200 times faster for writing, 70 times for reading.
+
+::: {.notes}
+Not 8,000x faster: the buffer removes the system calls (1 µs each), not the
+10 million Java write() calls (~5 ns each). 64 KiB buffer: 52 ms vs 57 ms.
+:::
+
+## Reading and writing blocks
+
+Move a whole block at once, with your own array:
+
+```java
+byte[] buffer = new byte[8192];
+int n; // number of bytes read, or -1 at the end of the stream
+while ((n = in.read(buffer)) != -1) {
+  out.write(buffer, 0, n); // only the n bytes that were read
+}
+```
+
+- `read(byte[])` returns how many bytes it read, often fewer than the
+  array size.
+- `write(buffer)` would also write the old bytes at the end of the array.
+- Copying 10 MiB in 8 KiB blocks: under 20 ms. Sockets work the same way.
+
+## Flush
+
+- Written data waits in the buffer until the buffer is full.
+- `flush()` sends the buffer to the OS **now**.
+- `close()` flushes first, so a closed file is complete.
+- On a network connection that stays open, **flush after each message**,
+  or the other side waits forever.
+
+## Endianness
+
+- A number stored on several bytes needs a byte order. `0x12345678` is
+  stored as:
+  - `0x12 0x34 0x56 0x78` in **big endian** (most significant byte first).
+  - `0x78 0x56 0x34 0x12` in **little endian** (least significant byte first).
+- Byte streams have no endianness. File formats and protocols do.
+- IP, TCP and UDP use big endian ("network byte order"). BMP and WAV
+  use little endian.
+
+# Text data
+
+## Bytes are not characters
+
+- A byte is just 8 bits. A character is an **interpretation** of one or
+  more bytes.
+- The writer and the reader must agree on this interpretation: the
+  **character encoding** (or charset).
+- The encoding is usually **not stored in the file**.
+
+## ASCII and code pages
+
+- **ASCII** (1963) is a 7-bit code: 128 characters, English only. `A`
+  is 65 (`0x41`).
+- Stored in an 8-bit byte, ASCII only uses the values 0 to 127.
+- A **code page** gives a meaning to the values 128 to 255, and keeps
+  ASCII for 0 to 127. Each code page uses them differently.
+- Examples: ISO-8859-1 (Latin-1), ISO-8859-15 (adds `€`),
+  Windows-1252, Mac OS Roman…
+- 256 values leave no room for languages with thousands of characters,
+  such as Chinese.
+
+::: {.notes}
+Why 7 bits? To save transmission costs. The 8th bit was used for parity,
+then freed when 8-bit bytes became the norm.
+:::
+
+## Reading the ASCII table
+
+::: {.columns}
+::: {.column width="36%"}
+::: {style="font-size: 0.75em"}
+- Column: the 3 high bits. Row: the 4 low bits.
+- `A`: column 4 (`100`), row 1 (`0001`): `100 0001` = `0x41` = 65.
+- Columns 0 and 1: control characters (`LF`, `CR`, `ESC`…).
+- `A` to `Z` are `0x41` to `0x5A`, in order.
+:::
+:::
+::: {.column width="64%"}
+![](../chapters/images/04-java-io/ascii-table.svg){fig-alt="The 128 ASCII characters in 8 columns (3 high bits) and 16 rows (4 low bits). A is highlighted at column 4, row 1."}
+:::
+:::
+
+## Unicode
+
+::: {.columns}
+::: {.column width="70%"}
+- Code pages cannot hold all languages. **Unicode** is one catalogue of
+  (almost) all characters, symbols and emojis.
+- Each character gets a unique number, its **code point** (`U+` and
+  hexadecimal digits).
+- `A` = `U+0041` (as in ASCII), `é` = `U+00E9`, `€` = `U+20AC`,
+  `😂` = `U+1F602`.
+- Unicode defines the character, not how it looks (the font).
+:::
+::: {.column width="30%"}
+![](../chapters/images/04-java-io/unicode-website.png)
+:::
+:::
+
+## Code points and planes
+
+- Unicode first used the code points `U+0000` to `U+FFFF` (65,536):
+  today the **Basic Multilingual Plane** (BMP).
+- It now has more than 150,000 characters, up to `U+10FFFF`. Emojis,
+  for example, are above the BMP.
+- So a code point does **not always fit in 16 bits**: `U+10FFFF` needs 21.
+- And it is **not an encoding**: it gives each character a number, not
+  the bytes to store it.
+
+## From code points to bytes: UTF
+
+- Storing a code point as bytes is the job of an **encoding**: a UTF
+  (Unicode Transformation Format).
+
+::: {style="font-size: 0.8em"}
+| Encoding | Bytes per character | Used by                             |
+|----------|---------------------|-------------------------------------|
+| UTF-8    | 1 to 4              | The web, Linux, macOS, most files   |
+| UTF-16   | 2 or 4              | Java, JavaScript, Windows (inside)  |
+| UTF-32   | always 4            | Rarely used: simple, but large      |
+:::
+
+- Same code point, different bytes: `é` (`U+00E9`) is `C3 A9` in UTF-8
+  and `00 E9` in UTF-16.
+
+## UTF-8
+
+::: {style="font-size: 0.8em"}
+| Code points          | Bytes | Bit pattern                               |
+|----------------------|------:|-------------------------------------------|
+| `U+0000`-`U+007F`    | 1     | `0xxxxxxx`                                |
+| `U+0080`-`U+07FF`    | 2     | `110xxxxx 10xxxxxx`                       |
+| `U+0800`-`U+FFFF`    | 3     | `1110xxxx 10xxxxxx 10xxxxxx`              |
+| `U+10000`-`U+10FFFF` | 4     | `11110xxx 10xxxxxx 10xxxxxx 10xxxxxx`     |
+:::
+
+- The `x` bits hold the code point. The first bits give the byte's role:
+  - `0`: a 1-byte character (ASCII).
+  - `110`, `1110`, `11110`: start of a 2, 3 or 4-byte character.
+  - `10`: continuation byte.
+
+## UTF-8: encoding `€`
+
+- `€` = `U+20AC` = `0010 0000 1010 1100`: 16 bits, so 3 bytes
+  (`1110xxxx 10xxxxxx 10xxxxxx`).
+- Fill the `x` bits from left to right:
+
+::: {.center}
+`1110`**`0010`** `10`**`000010`** `10`**`101100`** = `E2 82 AC`
+:::
+
+- An ASCII file is also a valid UTF-8 file: ASCII characters keep their
+  single byte.
+- UTF-8 is the encoding of the web, Linux and macOS. **When you have
+  the choice, choose UTF-8.**
+
+## UTF-16
+
+- 2 bytes per character in the BMP, 4 above it (a surrogate pair).
+- Java uses it inside its strings.
+- Not compatible with ASCII: `A` is one byte in ASCII (`0x41`), but two
+  bytes in UTF-16 (`0x00 0x41`).
+- Two bytes per character means a byte order (see Endianness): `A` is
+  `0x00 0x41` in UTF-16BE (big endian), `0x41 0x00` in UTF-16LE.
+- You will rarely write files in UTF-16.
+
+## `élève` in four encodings
+
+```text
+US-ASCII    5 bytes: 3F 6C 3F 76 65
+ISO-8859-1  5 bytes: E9 6C E8 76 65
+UTF-8       7 bytes: C3 A9 6C C3 A8 76 65
+UTF-16     12 bytes: FE FF 00 E9 00 6C 00 E8 00 76 00 65
+```
+
+- US-ASCII has no `é` or `è`: Java writes `?` (`3F`) instead, and they
+  are lost.
+- UTF-8 bytes decoded as ISO-8859-1 give `Ã©lÃ¨ve` (*mojibake*): each
+  2-byte UTF-8 letter becomes 2 characters.
+
+## Java and Unicode
+
+- A Java `String` holds Unicode text: any language, any emoji.
+- Encoding happens at the border: when bytes become characters
+  (reading) or characters become bytes (writing). That is where you
+  give the charset.
+- The default charset is UTF-8 since Java 18. **Specify it anyway.**
+
+## Reading text
+
+```java
+BufferedReader reader = new BufferedReader(
+    new InputStreamReader(
+        new FileInputStream("in.txt"), StandardCharsets.UTF_8));
+```
+
+Read it from the inside out:
+
+1. `FileInputStream` reads bytes from the file.
+2. `InputStreamReader` decodes the bytes into characters, with a charset.
+3. `BufferedReader` adds a buffer.
+
+## Text is built on top of bytes
+
+![](../chapters/images/04-java-io/layers.svg){width="100%" fig-alt="FileInputStream, then either BufferedInputStream for binary data, or InputStreamReader then BufferedReader for text."}
+
+- Both branches start from the same byte stream: text classes wrap
+  binary ones.
+- `FileInputStream` + `InputStreamReader` is so common that one class
+  combines them: `FileReader`.
+- Writing works the same way: `FileOutputStream` → `OutputStreamWriter`
+  → `BufferedWriter`.
+
+## Line endings
+
+| OS             | Line ending | Characters   |
+|----------------|-------------|--------------|
+| Linux, macOS   | LF          | `\n`         |
+| Windows        | CR LF       | `\r\n`       |
+
+- `BufferedReader.readLine()` returns one line **without** its ending.
+- When writing, you add it yourself. Use a constant, not
+  `System.lineSeparator()` or `newLine()`.
+- HTTP and SMTP require `\r\n` on every OS.
+
+## Quiz
+
+A CLI converts `input.txt` to uppercase and writes it in US-ASCII:
+
+```text
+Bonjour, comment ça va aujourd'hui ?
+```
+
+What is in `output.txt`?
+
+. . .
+
+```text
+BONJOUR, COMMENT ?A VA AUJOURD'HUI ?
+```
+
+`Ç` does not exist in US-ASCII: it is replaced by `?`, and lost for
+good.
+
+# Errors and resources
+
+## What can go wrong
+
+- Missing file or no permission: `FileNotFoundException`.
+- Full disk, lost connection…: `IOException`, the parent of all I/O
+  errors (**checked**: you must handle it).
+- Unknown charset name: `UnsupportedCharsetException` (**unchecked**:
+  you don't have to).
+- Whatever happens, **close what you opened**.
+
+## Bad (why?)
+
+```java
+try {
+  Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
+  Writer writer = new FileWriter("out.txt", StandardCharsets.UTF_8);
+  writer.write(reader.read());
+  writer.close();
+  reader.close();
+} catch (IOException e) {
+  System.err.println("Error: " + e.getMessage());
+}
+```
+
+. . .
+
+- If an exception occurs before the `close()` calls, they are skipped:
+  the files stay open.
+
+## Better: `finally`
+
+```java
+Reader reader = null;
+Writer writer = null;
+try {
+  reader = new FileReader("in.txt", StandardCharsets.UTF_8);
+  writer = new FileWriter("out.txt", StandardCharsets.UTF_8);
+  writer.write(reader.read());
+} catch (IOException e) {
+  System.err.println("Error: " + e.getMessage());
+} finally {
+  if (writer != null) {
+    try { writer.close(); } catch (IOException e) { /* report */ }
+  }
+  if (reader != null) {
+    try { reader.close(); } catch (IOException e) { /* report */ }
+  }
+}
+```
+
+- `finally` always runs. This is correct, but long and fragile.
+
+## Good: `try`-with-resources
+
+```java
+try (Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
+    Writer writer = new FileWriter("out.txt", StandardCharsets.UTF_8)) {
+  int c;
+  while ((c = reader.read()) != -1) {
+    writer.write(c);
+  }
+} catch (IOException e) {
+  System.err.println("Error: " + e.getMessage());
+}
+```
+
+- Resources are closed automatically, in reverse order, even when an
+  exception occurs.
+- Works with every `AutoCloseable`: streams, readers, writers, sockets.
+
+## Common pitfalls
+
+- No charset: it works on your machine and breaks elsewhere.
+- No buffer: correct, but slow.
+- No close or no flush: incomplete files and lost messages.
+- `PrintWriter` hides errors: use `BufferedWriter` instead.
+- `BufferedReader.ready()` does not mean "end of file": loop until
+  `readLine()` returns `null`.
+
+## Summary
+
+- Files and the network use the same API: streams.
+- Binary data: `InputStream` / `OutputStream`. Text data: `Reader` /
+  `Writer`, **with a charset**.
+- Unicode gives code points, UTF-8 turns them into bytes.
+- Always buffer, and flush when the stream stays open.
+- Choose the line ending explicitly.
+- Use `try`-with-resources for everything you open.
+
+# Questions?
+
+# Exercises
+
+## What will you do?
+
+Eight short exercises in `04-java-io` of the
+[code examples]({{< var examples-url >}}):
+
+- Write, read and inspect bytes.
+- Measure the effect of buffering.
+- Encode `é` in UTF-8 by hand, and count the characters of a string
+  with an emoji.
+- Convert a Latin-1 file to UTF-8, drop a byte order mark, fix line
+  endings.
+- Fix a copy method that leaks resources.
+
+Then: [practical work 1](../practical-work/pw1.qmd).
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Finished? Was it easy? Was it hard?
+
+Let us know what was easy and what was difficult. It helps us improve
+the course and come back to you when needed.
+
+GitHub Discussions. Reactions welcome!
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck, itself based on the original course by O. Liechti and
+  J. Ehrensberger.
+- Buffering benchmark and code point example adapted from the DAI course
+  of J. Ehrensberger.
+- Unicode website screenshot: [unicode.org](https://home.unicode.org/),
+  from the HEIG-VD DAI course.
+:::

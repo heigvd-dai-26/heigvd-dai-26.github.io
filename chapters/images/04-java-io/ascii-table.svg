@@ -1,0 +1,335 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-34 0 724 500" font-family="Helvetica, Arial, sans-serif">
+<title>ASCII table: column = 3 high bits, row = 4 low bits. A is column 4 (100), row 1 (0001): 0x41.</title>
+<style>.cell{stroke:#bbb;stroke-width:1} .ch{font-family:Menlo,Consolas,monospace;font-size:16px;fill:#222} .ctl{font-family:Menlo,Consolas,monospace;font-size:11px;fill:#666} .hd{font-size:15px;font-weight:bold;fill:#222} .bits{font-family:Menlo,Consolas,monospace;font-size:12px;fill:#3b5b8c}</style>
+<text x="84" y="22" text-anchor="end" class="bits">high 3 bits →</text>
+<text x="84" y="44" text-anchor="end" class="bits">low 4 bits ↓</text>
+<rect x="92" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="129.0" y="24" text-anchor="middle" class="hd">0</text>
+<text x="129.0" y="45" text-anchor="middle" class="bits">000</text>
+<rect x="166" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="203.0" y="24" text-anchor="middle" class="hd">1</text>
+<text x="203.0" y="45" text-anchor="middle" class="bits">001</text>
+<rect x="240" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="277.0" y="24" text-anchor="middle" class="hd">2</text>
+<text x="277.0" y="45" text-anchor="middle" class="bits">010</text>
+<rect x="314" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="351.0" y="24" text-anchor="middle" class="hd">3</text>
+<text x="351.0" y="45" text-anchor="middle" class="bits">011</text>
+<rect x="388" y="4" width="74" height="54" fill="#e6eef9" stroke="#3b5b8c"/>
+<text x="425.0" y="24" text-anchor="middle" class="hd">4</text>
+<text x="425.0" y="45" text-anchor="middle" class="bits">100</text>
+<rect x="462" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="499.0" y="24" text-anchor="middle" class="hd">5</text>
+<text x="499.0" y="45" text-anchor="middle" class="bits">101</text>
+<rect x="536" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="573.0" y="24" text-anchor="middle" class="hd">6</text>
+<text x="573.0" y="45" text-anchor="middle" class="bits">110</text>
+<rect x="610" y="4" width="74" height="54" fill="none" stroke="none"/>
+<text x="647.0" y="24" text-anchor="middle" class="hd">7</text>
+<text x="647.0" y="45" text-anchor="middle" class="bits">111</text>
+<rect x="4" y="62" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="81" text-anchor="middle" class="hd">0</text>
+<text x="82" y="80" text-anchor="end" class="bits">0000</text>
+<rect x="4" y="89" width="84" height="27" fill="#e6eef9" stroke="#3b5b8c"/>
+<text x="22" y="108" text-anchor="middle" class="hd">1</text>
+<text x="82" y="107" text-anchor="end" class="bits">0001</text>
+<rect x="4" y="116" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="135" text-anchor="middle" class="hd">2</text>
+<text x="82" y="134" text-anchor="end" class="bits">0010</text>
+<rect x="4" y="143" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="162" text-anchor="middle" class="hd">3</text>
+<text x="82" y="161" text-anchor="end" class="bits">0011</text>
+<rect x="4" y="170" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="189" text-anchor="middle" class="hd">4</text>
+<text x="82" y="188" text-anchor="end" class="bits">0100</text>
+<rect x="4" y="197" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="216" text-anchor="middle" class="hd">5</text>
+<text x="82" y="215" text-anchor="end" class="bits">0101</text>
+<rect x="4" y="224" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="243" text-anchor="middle" class="hd">6</text>
+<text x="82" y="242" text-anchor="end" class="bits">0110</text>
+<rect x="4" y="251" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="270" text-anchor="middle" class="hd">7</text>
+<text x="82" y="269" text-anchor="end" class="bits">0111</text>
+<rect x="4" y="278" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="297" text-anchor="middle" class="hd">8</text>
+<text x="82" y="296" text-anchor="end" class="bits">1000</text>
+<rect x="4" y="305" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="324" text-anchor="middle" class="hd">9</text>
+<text x="82" y="323" text-anchor="end" class="bits">1001</text>
+<rect x="4" y="332" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="351" text-anchor="middle" class="hd">A</text>
+<text x="82" y="350" text-anchor="end" class="bits">1010</text>
+<rect x="4" y="359" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="378" text-anchor="middle" class="hd">B</text>
+<text x="82" y="377" text-anchor="end" class="bits">1011</text>
+<rect x="4" y="386" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="405" text-anchor="middle" class="hd">C</text>
+<text x="82" y="404" text-anchor="end" class="bits">1100</text>
+<rect x="4" y="413" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="432" text-anchor="middle" class="hd">D</text>
+<text x="82" y="431" text-anchor="end" class="bits">1101</text>
+<rect x="4" y="440" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="459" text-anchor="middle" class="hd">E</text>
+<text x="82" y="458" text-anchor="end" class="bits">1110</text>
+<rect x="4" y="467" width="84" height="27" fill="none" stroke="none"/>
+<text x="22" y="486" text-anchor="middle" class="hd">F</text>
+<text x="82" y="485" text-anchor="end" class="bits">1111</text>
+<rect x="92" y="62" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="81" text-anchor="middle" class="ctl">NUL</text>
+<rect x="92" y="89" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="108" text-anchor="middle" class="ctl">SOH</text>
+<rect x="92" y="116" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="135" text-anchor="middle" class="ctl">STX</text>
+<rect x="92" y="143" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="162" text-anchor="middle" class="ctl">ETX</text>
+<rect x="92" y="170" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="189" text-anchor="middle" class="ctl">EOT</text>
+<rect x="92" y="197" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="216" text-anchor="middle" class="ctl">ENQ</text>
+<rect x="92" y="224" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="243" text-anchor="middle" class="ctl">ACK</text>
+<rect x="92" y="251" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="270" text-anchor="middle" class="ctl">BEL</text>
+<rect x="92" y="278" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="297" text-anchor="middle" class="ctl">BS</text>
+<rect x="92" y="305" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="324" text-anchor="middle" class="ctl">HT</text>
+<rect x="92" y="332" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="351" text-anchor="middle" class="ctl">LF</text>
+<rect x="92" y="359" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="378" text-anchor="middle" class="ctl">VT</text>
+<rect x="92" y="386" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="405" text-anchor="middle" class="ctl">FF</text>
+<rect x="92" y="413" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="432" text-anchor="middle" class="ctl">CR</text>
+<rect x="92" y="440" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="459" text-anchor="middle" class="ctl">SO</text>
+<rect x="92" y="467" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="129.0" y="486" text-anchor="middle" class="ctl">SI</text>
+<rect x="166" y="62" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="81" text-anchor="middle" class="ctl">DLE</text>
+<rect x="166" y="89" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="108" text-anchor="middle" class="ctl">DC1</text>
+<rect x="166" y="116" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="135" text-anchor="middle" class="ctl">DC2</text>
+<rect x="166" y="143" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="162" text-anchor="middle" class="ctl">DC3</text>
+<rect x="166" y="170" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="189" text-anchor="middle" class="ctl">DC4</text>
+<rect x="166" y="197" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="216" text-anchor="middle" class="ctl">NAK</text>
+<rect x="166" y="224" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="243" text-anchor="middle" class="ctl">SYN</text>
+<rect x="166" y="251" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="270" text-anchor="middle" class="ctl">ETB</text>
+<rect x="166" y="278" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="297" text-anchor="middle" class="ctl">CAN</text>
+<rect x="166" y="305" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="324" text-anchor="middle" class="ctl">EM</text>
+<rect x="166" y="332" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="351" text-anchor="middle" class="ctl">SUB</text>
+<rect x="166" y="359" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="378" text-anchor="middle" class="ctl">ESC</text>
+<rect x="166" y="386" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="405" text-anchor="middle" class="ctl">FS</text>
+<rect x="166" y="413" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="432" text-anchor="middle" class="ctl">GS</text>
+<rect x="166" y="440" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="459" text-anchor="middle" class="ctl">RS</text>
+<rect x="166" y="467" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="203.0" y="486" text-anchor="middle" class="ctl">US</text>
+<rect x="240" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="81" text-anchor="middle" class="ctl">SP</text>
+<rect x="240" y="89" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="108" text-anchor="middle" class="ch">!</text>
+<rect x="240" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="135" text-anchor="middle" class="ch">&quot;</text>
+<rect x="240" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="162" text-anchor="middle" class="ch">#</text>
+<rect x="240" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="189" text-anchor="middle" class="ch">$</text>
+<rect x="240" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="216" text-anchor="middle" class="ch">%</text>
+<rect x="240" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="243" text-anchor="middle" class="ch">&amp;</text>
+<rect x="240" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="270" text-anchor="middle" class="ch">&#x27;</text>
+<rect x="240" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="297" text-anchor="middle" class="ch">(</text>
+<rect x="240" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="324" text-anchor="middle" class="ch">)</text>
+<rect x="240" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="351" text-anchor="middle" class="ch">*</text>
+<rect x="240" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="378" text-anchor="middle" class="ch">+</text>
+<rect x="240" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="405" text-anchor="middle" class="ch">,</text>
+<rect x="240" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="432" text-anchor="middle" class="ch">-</text>
+<rect x="240" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="459" text-anchor="middle" class="ch">.</text>
+<rect x="240" y="467" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="277.0" y="486" text-anchor="middle" class="ch">/</text>
+<rect x="314" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="81" text-anchor="middle" class="ch">0</text>
+<rect x="314" y="89" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="108" text-anchor="middle" class="ch">1</text>
+<rect x="314" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="135" text-anchor="middle" class="ch">2</text>
+<rect x="314" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="162" text-anchor="middle" class="ch">3</text>
+<rect x="314" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="189" text-anchor="middle" class="ch">4</text>
+<rect x="314" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="216" text-anchor="middle" class="ch">5</text>
+<rect x="314" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="243" text-anchor="middle" class="ch">6</text>
+<rect x="314" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="270" text-anchor="middle" class="ch">7</text>
+<rect x="314" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="297" text-anchor="middle" class="ch">8</text>
+<rect x="314" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="324" text-anchor="middle" class="ch">9</text>
+<rect x="314" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="351" text-anchor="middle" class="ch">:</text>
+<rect x="314" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="378" text-anchor="middle" class="ch">;</text>
+<rect x="314" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="405" text-anchor="middle" class="ch">&lt;</text>
+<rect x="314" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="432" text-anchor="middle" class="ch">=</text>
+<rect x="314" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="459" text-anchor="middle" class="ch">&gt;</text>
+<rect x="314" y="467" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="351.0" y="486" text-anchor="middle" class="ch">?</text>
+<rect x="388" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="81" text-anchor="middle" class="ch">@</text>
+<rect x="388" y="89" width="74" height="27" fill="#fbf0dc" class="cell"/>
+<text x="425.0" y="108" text-anchor="middle" class="ch" font-weight="bold">A</text>
+<rect x="388" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="135" text-anchor="middle" class="ch">B</text>
+<rect x="388" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="162" text-anchor="middle" class="ch">C</text>
+<rect x="388" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="189" text-anchor="middle" class="ch">D</text>
+<rect x="388" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="216" text-anchor="middle" class="ch">E</text>
+<rect x="388" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="243" text-anchor="middle" class="ch">F</text>
+<rect x="388" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="270" text-anchor="middle" class="ch">G</text>
+<rect x="388" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="297" text-anchor="middle" class="ch">H</text>
+<rect x="388" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="324" text-anchor="middle" class="ch">I</text>
+<rect x="388" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="351" text-anchor="middle" class="ch">J</text>
+<rect x="388" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="378" text-anchor="middle" class="ch">K</text>
+<rect x="388" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="405" text-anchor="middle" class="ch">L</text>
+<rect x="388" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="432" text-anchor="middle" class="ch">M</text>
+<rect x="388" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="459" text-anchor="middle" class="ch">N</text>
+<rect x="388" y="467" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="425.0" y="486" text-anchor="middle" class="ch">O</text>
+<rect x="462" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="81" text-anchor="middle" class="ch">P</text>
+<rect x="462" y="89" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="108" text-anchor="middle" class="ch">Q</text>
+<rect x="462" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="135" text-anchor="middle" class="ch">R</text>
+<rect x="462" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="162" text-anchor="middle" class="ch">S</text>
+<rect x="462" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="189" text-anchor="middle" class="ch">T</text>
+<rect x="462" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="216" text-anchor="middle" class="ch">U</text>
+<rect x="462" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="243" text-anchor="middle" class="ch">V</text>
+<rect x="462" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="270" text-anchor="middle" class="ch">W</text>
+<rect x="462" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="297" text-anchor="middle" class="ch">X</text>
+<rect x="462" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="324" text-anchor="middle" class="ch">Y</text>
+<rect x="462" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="351" text-anchor="middle" class="ch">Z</text>
+<rect x="462" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="378" text-anchor="middle" class="ch">[</text>
+<rect x="462" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="405" text-anchor="middle" class="ch">\</text>
+<rect x="462" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="432" text-anchor="middle" class="ch">]</text>
+<rect x="462" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="459" text-anchor="middle" class="ch">^</text>
+<rect x="462" y="467" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="499.0" y="486" text-anchor="middle" class="ch">_</text>
+<rect x="536" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="81" text-anchor="middle" class="ch">`</text>
+<rect x="536" y="89" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="108" text-anchor="middle" class="ch">a</text>
+<rect x="536" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="135" text-anchor="middle" class="ch">b</text>
+<rect x="536" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="162" text-anchor="middle" class="ch">c</text>
+<rect x="536" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="189" text-anchor="middle" class="ch">d</text>
+<rect x="536" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="216" text-anchor="middle" class="ch">e</text>
+<rect x="536" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="243" text-anchor="middle" class="ch">f</text>
+<rect x="536" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="270" text-anchor="middle" class="ch">g</text>
+<rect x="536" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="297" text-anchor="middle" class="ch">h</text>
+<rect x="536" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="324" text-anchor="middle" class="ch">i</text>
+<rect x="536" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="351" text-anchor="middle" class="ch">j</text>
+<rect x="536" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="378" text-anchor="middle" class="ch">k</text>
+<rect x="536" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="405" text-anchor="middle" class="ch">l</text>
+<rect x="536" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="432" text-anchor="middle" class="ch">m</text>
+<rect x="536" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="459" text-anchor="middle" class="ch">n</text>
+<rect x="536" y="467" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="573.0" y="486" text-anchor="middle" class="ch">o</text>
+<rect x="610" y="62" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="81" text-anchor="middle" class="ch">p</text>
+<rect x="610" y="89" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="108" text-anchor="middle" class="ch">q</text>
+<rect x="610" y="116" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="135" text-anchor="middle" class="ch">r</text>
+<rect x="610" y="143" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="162" text-anchor="middle" class="ch">s</text>
+<rect x="610" y="170" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="189" text-anchor="middle" class="ch">t</text>
+<rect x="610" y="197" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="216" text-anchor="middle" class="ch">u</text>
+<rect x="610" y="224" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="243" text-anchor="middle" class="ch">v</text>
+<rect x="610" y="251" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="270" text-anchor="middle" class="ch">w</text>
+<rect x="610" y="278" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="297" text-anchor="middle" class="ch">x</text>
+<rect x="610" y="305" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="324" text-anchor="middle" class="ch">y</text>
+<rect x="610" y="332" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="351" text-anchor="middle" class="ch">z</text>
+<rect x="610" y="359" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="378" text-anchor="middle" class="ch">{</text>
+<rect x="610" y="386" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="405" text-anchor="middle" class="ch">|</text>
+<rect x="610" y="413" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="432" text-anchor="middle" class="ch">}</text>
+<rect x="610" y="440" width="74" height="27" fill="#ffffff" class="cell"/>
+<text x="647.0" y="459" text-anchor="middle" class="ch">~</text>
+<rect x="610" y="467" width="74" height="27" fill="#f2f2f2" class="cell"/>
+<text x="647.0" y="486" text-anchor="middle" class="ctl">DEL</text>
+<rect x="388" y="89" width="74" height="27" fill="none" stroke="#9a6a17" stroke-width="3"/>
+</svg>
