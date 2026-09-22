@@ -370,13 +370,7 @@ formats and languages. **When you choose, choose UTF-8.**
 ### UTF-16
 
 UTF-16 stores each code point in 2 bytes, or 4 above the BMP. Java uses
-it inside its strings (see below).
-
-A code point above the BMP is stored as a **surrogate pair**: two 16-bit
-units taken from a range that Unicode reserves for this purpose
-(`U+D800` to `U+DFFF`, where no character is ever assigned). `😂`
-(`U+1F602`) becomes the pair `0xD83D 0xDE02`. Neither half is a
-character on its own. It is **not compatible with ASCII**: `A`
+it inside its strings (see below). It is **not compatible with ASCII**: `A`
 is one byte in ASCII (`0x41`), but two bytes in UTF-16 (`0x00 0x41`).
 And two bytes per character means a byte order (see
 [Endianness](#endianness)): `A` is `0x00 0x41` in UTF-16BE (big endian)
@@ -405,8 +399,8 @@ longer starts with `name`, then removes the BOM.
 A Java `String` holds Unicode text, so it can contain any language. But:
 
 - A `char` is 16 bits: one UTF-16 *unit*, not one character. A code
-  point above the BMP (an emoji) needs **two** `char`s, its surrogate
-  pair. `"I😂DAI".length()`
+  point above the BMP (an emoji) needs **two** `char`s (see *Go
+  further*: surrogate pairs). `"I😂DAI".length()`
   returns 6, not 5. Use `codePoints()` when you need real characters
   ([exercise 4](#sec-ex4)). Example [`08-code-points`]({{< var examples-url >}}/tree/main/04-java-io/08-code-points) walks
   through `"I😂DAI"` twice: with `charAt()` (6 `char`s, the emoji
@@ -983,6 +977,19 @@ reader fails first, so the writer is never opened.
 
 Optional content: useful general knowledge, not required for the
 evaluations.
+
+::: {.callout-note collapse="true" title="Surrogate pairs: how UTF-16 stores emojis"}
+A 16-bit unit holds only the code points of the BMP (up to `U+FFFF`). A
+code point above it is stored as a **surrogate pair**: two 16-bit units
+taken from a range that Unicode reserves for this purpose (`U+D800` to
+`U+DFFF`, where no character is ever assigned). The first unit is
+between `D800` and `DBFF`, the second between `DC00` and `DFFF`, so a
+program that meets one knows it must read the other.
+
+`😂` (`U+1F602`) becomes the pair `0xD83D 0xDE02`, which is why Java
+stores it in two `char`s (55357 and 56834 in example `08-code-points`).
+Neither half is a character on its own.
+:::
 
 ::: {.callout-note collapse="true" title="Reading numbers and byte orders"}
 `DataInputStream` and `DataOutputStream` read and write Java primitive
