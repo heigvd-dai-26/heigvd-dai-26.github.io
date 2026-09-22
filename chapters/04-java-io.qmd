@@ -272,6 +272,44 @@ The encoding is usually **not stored in the file**. You have to know it,
 or the file format has to state it (HTML and XML have a field for it,
 JSON requires UTF-8).
 
+### Text in Java
+
+`Reader` and `Writer` work with characters, not bytes. `FileReader` and
+`FileWriter` read and write text files, and take a **charset**: it tells
+Java how to turn bytes into characters, and back.
+
+```java
+Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
+Writer writer = new FileWriter("out.txt", StandardCharsets.UTF_8);
+
+int c; // a char value 0-65535, or -1 at the end of the stream
+while ((c = reader.read()) != -1) {
+  writer.write(c);
+}
+```
+
+Example [`04-reading-and-writing-text-data`]({{< var examples-url >}}/tree/main/04-java-io/04-reading-and-writing-text-data)
+copies its own source file character by character this way.
+
+What is a charset, and what happens if it is wrong? The rest of this
+section answers both questions, starting with the second one.
+
+### What if you get the encoding wrong?
+
+Decode bytes with the wrong charset and you get garbage, known as
+**mojibake**:
+
+- `élève` written in UTF-8 and read as ISO-8859-1 or Windows-1252
+  shows `Ã©lÃ¨ve`: each 2-byte UTF-8 character appears as two Latin-1
+  characters.
+- Write `élève` in US-ASCII and you get `?l?ve`: characters that do not
+  exist in the target charset are replaced by `?`, and lost for good.
+
+Example [`03-character-encodings`]({{< var examples-url >}}/tree/main/04-java-io/03-character-encodings): encodes "student" in English,
+French, Japanese, Ukrainian and Arabic with five charsets, then decodes
+the bytes as UTF-8. Look at the number of bytes, and at where `?` or
+garbage appears.
+
 ### ASCII and code pages
 
 **ASCII** (1963) maps 128 values to characters, so it uses 7 bits: `A`
@@ -414,38 +452,10 @@ platform (before, it depended on the operating system). **Specify it
 anyway**: the code says what it does, it behaves the same on older
 Java versions, and the files you read are not always UTF-8.
 
-### What if you get the encoding wrong?
+### The reader chain
 
-Decode bytes with the wrong charset and you get garbage, known as
-**mojibake**:
-
-- `élève` written in UTF-8 and read as ISO-8859-1 or Windows-1252
-  shows `Ã©lÃ¨ve`: each 2-byte UTF-8 character appears as two Latin-1
-  characters.
-- Write `élève` in US-ASCII and you get `?l?ve`: characters that do not
-  exist in the target charset are replaced by `?`, and lost for good.
-
-Example [`03-character-encodings`]({{< var examples-url >}}/tree/main/04-java-io/03-character-encodings): encodes "student" in English,
-French, Japanese, Ukrainian and Arabic with five charsets, then decodes
-the bytes as UTF-8. Look at the number of bytes, and at where `?` or
-garbage appears.
-
-### Reading and writing text
-
-`FileReader` and `FileWriter` read and write characters, and accept a
-charset:
-
-```java
-Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
-Writer writer = new FileWriter("out.txt", StandardCharsets.UTF_8);
-
-int c; // a char value 0-65535, or -1 at the end of the stream
-while ((c = reader.read()) != -1) {
-  writer.write(c);
-}
-```
-
-The general form builds the chain explicitly, and adds a buffer:
+Behind `FileReader` there is a chain of streams. The general form builds
+it explicitly, and adds a buffer:
 
 ```java
 BufferedReader reader = new BufferedReader(
@@ -458,16 +468,14 @@ Read it from the inside out, as a chain of layers:
 
 ![](images/04-java-io/layers.svg){fig-alt="FileInputStream reads bytes from a file or socket. For binary data, a BufferedInputStream wraps it. For text, an InputStreamReader decodes the bytes into characters with a charset, and a BufferedReader wraps that."}
 
-
 1. `FileInputStream`: bytes from the file.
 2. `InputStreamReader`: decodes the bytes into characters with the
    given charset.
 3. `BufferedReader`: adds a buffer.
 
-Examples: [`04-reading-and-writing-text-data`]({{< var examples-url >}}/tree/main/04-java-io/04-reading-and-writing-text-data) copies its own
-source file character by character with `FileReader` and `FileWriter`
-(UTF-8), and [`05-reading-and-writing-text-data-with-buffers`]({{< var examples-url >}}/tree/main/04-java-io/05-reading-and-writing-text-data-with-buffers)
-does the same copy with `BufferedReader` and `BufferedWriter`.
+Example [`05-reading-and-writing-text-data-with-buffers`]({{< var examples-url >}}/tree/main/04-java-io/05-reading-and-writing-text-data-with-buffers)
+does the same copy as example 04, with `BufferedReader` and
+`BufferedWriter`.
 
 **Text is always built on top of bytes**: both branches of the diagram
 start from the same byte stream, and the text classes wrap the binary
@@ -619,7 +627,7 @@ exist.
 ## Which class for which job?
 
 A quick reference. Remember that the columns combine: text classes wrap
-binary ones (see [the diagram](#reading-and-writing-text)).
+binary ones (see [the diagram](#the-reader-chain)).
 
 | You need to…                              | Binary data                                   | Text data                                                     |
 |-------------------------------------------|-----------------------------------------------|---------------------------------------------------------------|

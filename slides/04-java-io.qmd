@@ -191,6 +191,31 @@ while ((n = in.read(buffer)) != -1) {
   **character encoding** (or charset).
 - The encoding is usually **not stored in the file**.
 
+## Text in Java
+
+```java
+Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
+Writer writer = new FileWriter("out.txt", StandardCharsets.UTF_8);
+```
+
+- `Reader` and `Writer` work with characters, not bytes.
+- The **charset** tells Java how to turn bytes into characters, and back.
+- What is a charset, and what happens if it is wrong?
+
+## `élève` in four encodings
+
+```text
+US-ASCII    5 bytes: 3F 6C 3F 76 65
+ISO-8859-1  5 bytes: E9 6C E8 76 65
+UTF-8       7 bytes: C3 A9 6C C3 A8 76 65
+UTF-16     12 bytes: FE FF 00 E9 00 6C 00 E8 00 76 00 65
+```
+
+- US-ASCII has no `é` or `è`: Java writes `?` (`3F`) instead, and they
+  are lost.
+- UTF-8 bytes decoded as ISO-8859-1 give `Ã©lÃ¨ve` (*mojibake*): each
+  2-byte UTF-8 letter becomes 2 characters.
+
 ## ASCII and code pages
 
 - **ASCII** (1963) is a 7-bit code: 128 characters, English only. `A`
@@ -234,22 +259,17 @@ then freed when 8-bit bytes became the norm.
   hexadecimal digits).
 - `A` = `U+0041` (as in ASCII), `é` = `U+00E9`, `€` = `U+20AC`,
   `😂` = `U+1F602`.
-- Unicode defines the character, not how it looks (the font).
+- Up to `U+10FFFF`: a code point does **not always fit in 16 bits**.
 :::
 ::: {.column width="30%"}
 ![](../chapters/images/04-java-io/unicode-website.png)
 :::
 :::
 
-## Code points and planes
-
-- Unicode first used the code points `U+0000` to `U+FFFF` (65,536):
-  today the **Basic Multilingual Plane** (BMP).
-- It now has more than 150,000 characters, up to `U+10FFFF`. Emojis,
-  for example, are above the BMP.
-- So a code point does **not always fit in 16 bits**: `U+10FFFF` needs 21.
-- And it is **not an encoding**: it gives each character a number, not
-  the bytes to store it.
+::: {.notes}
+Unicode defines the character, not how it looks (that is the font).
+Unicode started with 16 bits; emojis are above U+FFFF.
+:::
 
 ## From code points to bytes: UTF
 
@@ -298,30 +318,6 @@ then freed when 8-bit bytes became the norm.
 - UTF-8 is the encoding of the web, Linux and macOS. **When you have
   the choice, choose UTF-8.**
 
-## UTF-16
-
-- 2 or 4 bytes per character.
-- Java uses it inside its strings.
-- Not compatible with ASCII: `A` is one byte in ASCII (`0x41`), but two
-  bytes in UTF-16 (`0x00 0x41`).
-- Two bytes per character means a byte order (see Endianness): `A` is
-  `0x00 0x41` in UTF-16BE (big endian), `0x41 0x00` in UTF-16LE.
-- You will rarely write files in UTF-16.
-
-## `élève` in four encodings
-
-```text
-US-ASCII    5 bytes: 3F 6C 3F 76 65
-ISO-8859-1  5 bytes: E9 6C E8 76 65
-UTF-8       7 bytes: C3 A9 6C C3 A8 76 65
-UTF-16     12 bytes: FE FF 00 E9 00 6C 00 E8 00 76 00 65
-```
-
-- US-ASCII has no `é` or `è`: Java writes `?` (`3F`) instead, and they
-  are lost.
-- UTF-8 bytes decoded as ISO-8859-1 give `Ã©lÃ¨ve` (*mojibake*): each
-  2-byte UTF-8 letter becomes 2 characters.
-
 ## Java and Unicode
 
 - A Java `String` holds Unicode text: any language, any emoji.
@@ -369,7 +365,8 @@ Read it from the inside out:
 
 ## Quiz
 
-A CLI converts `input.txt` to uppercase and writes it in US-ASCII:
+A CLI reads `input.txt` (UTF-8), converts it to uppercase and writes
+`output.txt` in US-ASCII. `input.txt` contains:
 
 ```text
 Bonjour, comment ça va aujourd'hui ?
