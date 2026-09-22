@@ -142,7 +142,10 @@ while ((b = in.read()) != -1) {
 in.close();
 ```
 
-Example: `01-reading-and-writing-binary-data`.
+Example [`01-reading-and-writing-binary-data`]({{< var examples-url >}}/tree/main/04-java-io/01-reading-and-writing-binary-data): `BinaryWriteFileExample` writes the bytes 0 to 255
+to `binary-file.bin`, and `BinaryReadFileExample` reads them back one at
+a time and prints them. Run the reader first to see what happens when
+the file does not exist.
 
 Three details to understand:
 
@@ -194,7 +197,9 @@ Your loop does not change: the buffered stream is still an
 to add a feature is called a **decorator**. Closing the outer stream
 also closes the inner one.
 
-Example: `02-reading-and-writing-binary-data-with-buffers`.
+Example [`02-reading-and-writing-binary-data-with-buffers`]({{< var examples-url >}}/tree/main/04-java-io/02-reading-and-writing-binary-data-with-buffers): the same
+programs with `BufferedInputStream` and `BufferedOutputStream`. Compare
+with example 01: only the line that opens the stream changes.
 
 ::: {.callout-important title="Flush"}
 Data written to a buffered stream waits in memory until the buffer is
@@ -230,7 +235,9 @@ Copying 10 MiB this way takes under 20 ms (4 to 18 ms in our runs),
 against about 60 ms byte by byte through a buffered stream. With a
 socket, you will read blocks in exactly the same way.
 
-Example: `10-reading-and-writing-blocks`.
+Example [`10-reading-and-writing-blocks`]({{< var examples-url >}}/tree/main/04-java-io/10-reading-and-writing-blocks): copies its own source in
+64-byte blocks and prints the size of each block. The last block is
+smaller.
 
 ### Endianness
 
@@ -363,7 +370,13 @@ formats and languages. **When you choose, choose UTF-8.**
 ### UTF-16
 
 UTF-16 stores each code point in 2 bytes, or 4 above the BMP. Java uses
-it inside its strings (see below). It is **not compatible with ASCII**: `A`
+it inside its strings (see below).
+
+A code point above the BMP is stored as a **surrogate pair**: two 16-bit
+units taken from a range that Unicode reserves for this purpose
+(`U+D800` to `U+DFFF`, where no character is ever assigned). `😂`
+(`U+1F602`) becomes the pair `0xD83D 0xDE02`. Neither half is a
+character on its own. It is **not compatible with ASCII**: `A`
 is one byte in ASCII (`0x41`), but two bytes in UTF-16 (`0x00 0x41`).
 And two bytes per character means a byte order (see
 [Endianness](#endianness)): `A` is `0x00 0x41` in UTF-16BE (big endian)
@@ -383,16 +396,21 @@ header.startsWith("name");         // false!
 ```
 
 If your program reads files that come from Windows, skip the `U+FEFF` at
-the start ([exercise 6](#sec-ex6)). Example: `09-byte-order-mark`.
+the start ([exercise 6](#sec-ex6)). Example [`09-byte-order-mark`]({{< var examples-url >}}/tree/main/04-java-io/09-byte-order-mark)
+writes a CSV file that starts with a BOM, shows that the header no
+longer starts with `name`, then removes the BOM.
 
 ### Java and Unicode
 
 A Java `String` holds Unicode text, so it can contain any language. But:
 
 - A `char` is 16 bits: one UTF-16 *unit*, not one character. A code
-  point above the BMP (an emoji) needs **two** `char`s. `"I😂DAI".length()`
+  point above the BMP (an emoji) needs **two** `char`s, its surrogate
+  pair. `"I😂DAI".length()`
   returns 6, not 5. Use `codePoints()` when you need real characters
-  (example `08-code-points`, [exercise 4](#sec-ex4)).
+  ([exercise 4](#sec-ex4)). Example [`08-code-points`]({{< var examples-url >}}/tree/main/04-java-io/08-code-points) walks
+  through `"I😂DAI"` twice: with `charAt()` (6 `char`s, the emoji
+  appears as two numbers) and with `codePoints()` (5 code points).
 - Encoding happens at the border, when characters become bytes (writing)
   or bytes become characters (reading). That is where you give the
   charset.
@@ -413,8 +431,10 @@ Decode bytes with the wrong charset and you get garbage, known as
 - Write `élève` in US-ASCII and you get `?l?ve`: characters that do not
   exist in the target charset are replaced by `?`, and lost for good.
 
-Example: `03-character-encodings` encodes "student" in five languages
-with five charsets.
+Example [`03-character-encodings`]({{< var examples-url >}}/tree/main/04-java-io/03-character-encodings): encodes "student" in English,
+French, Japanese, Ukrainian and Arabic with five charsets, then decodes
+the bytes as UTF-8. Look at the number of bytes, and at where `?` or
+garbage appears.
 
 ### Reading and writing text
 
@@ -450,8 +470,10 @@ Read it from the inside out, as a chain of layers:
    given charset.
 3. `BufferedReader`: adds a buffer.
 
-Examples: `04-reading-and-writing-text-data` (`FileReader` and
-`FileWriter`), `05-reading-and-writing-text-data-with-buffers`.
+Examples: [`04-reading-and-writing-text-data`]({{< var examples-url >}}/tree/main/04-java-io/04-reading-and-writing-text-data) copies its own
+source file character by character with `FileReader` and `FileWriter`
+(UTF-8), and [`05-reading-and-writing-text-data-with-buffers`]({{< var examples-url >}}/tree/main/04-java-io/05-reading-and-writing-text-data-with-buffers)
+does the same copy with `BufferedReader` and `BufferedWriter`.
 
 **Text is always built on top of bytes**: both branches of the diagram
 start from the same byte stream, and the text classes wrap the binary
@@ -495,8 +517,9 @@ different files on Windows and on Linux. Network protocols (HTTP, SMTP)
 require `\r\n` whatever your operating system, so the habit of choosing
 explicitly will pay off.
 
-Example: `06-end-of-line-characters` (it also uses the full
-`InputStreamReader` chain).
+Example [`06-end-of-line-characters`]({{< var examples-url >}}/tree/main/04-java-io/06-end-of-line-characters): copies its own source line by
+line with the full `InputStreamReader` chain, and writes `\n` after
+each line.
 
 ## Errors and resources
 
@@ -595,7 +618,9 @@ It works with every class that implements
 which includes all the streams, readers and writers of this chapter (and
 the sockets of later chapters). **Use it for every resource you open.**
 
-Example: `07-dealing-with-errors` runs the three versions.
+Example [`07-dealing-with-errors`]({{< var examples-url >}}/tree/main/04-java-io/07-dealing-with-errors): runs the three versions (no
+`finally`, `finally`, `try`-with-resources) on a file that does not
+exist.
 
 ## Which class for which job?
 
@@ -629,7 +654,14 @@ binary ones (see [the diagram](#reading-and-writing-text)).
 
 ## Exercises
 
-Work in the `04-java-io` directory of the
+::: {.callout-important title="First, the code examples"}
+Before the exercises, go through the
+[code examples](#code-examples) `01` to `10`, in order: run each one
+from its directory and read its code and comments. The exercises build
+on them.
+:::
+
+Then work in the `04-java-io` directory of the
 [code examples repository](#code-examples). The starting files of the
 exercises are in `exercises/`. On Windows, use your WSL terminal.
 
@@ -803,8 +835,10 @@ with code 1 (`echo $?`).
 ::: {.callout-tip collapse="true" title="Solution"}
 1. The terminal decodes the bytes as UTF-8. `E9` alone is not valid
    UTF-8, so it shows a replacement symbol.
-2. `utf8.txt` is 5 bytes larger: the five accented letters take 2 bytes
-   in UTF-8 instead of 1.
+2. The three layers: `FileInputStream` (bytes), `InputStreamReader`
+   (decodes with `inCharset`), `BufferedReader` (buffer), and the
+   mirror on the writing side. `utf8.txt` is 5 bytes larger: the five
+   accented letters take 2 bytes in UTF-8 instead of 1.
 3. `caf? cr?me br?l?e`: US-ASCII has no accented letters.
 4. `Charset.forName` throws an `UnsupportedCharsetException`, which is
    unchecked and outside the `try`. Catch it where the charsets are
@@ -839,6 +873,8 @@ try {
 file without a BOM is copied unchanged (`cmp` prints nothing).
 
 ::: {.callout-tip collapse="true" title="Solution"}
+1. `od -c` starts with `357 273 277`: the bytes `EF BB BF` in octal,
+   before `n a m e`.
 2. Yes: Java decoded the BOM as the character `U+FEFF`, and the writer
    encoded it again.
 3. `BufferedReader` can mark a position and come back to it. Before the
@@ -865,6 +901,18 @@ if (reader.read() != '\uFEFF') { // skip a BOM, keep anything else
 **Verification**: `od -c unix.txt` shows `\n` and no `\r`. With `crlf`,
 the output is identical to the input (`cmp utf8.txt out.txt` prints
 nothing).
+
+::: {.callout-tip collapse="true" title="Solution"}
+2. The `\r` before each `\n` disappeared: `readLine()` removed the
+   `\r\n`, and the program wrote `\n` only.
+3. Choose the ending from the third argument, then use it in the loop:
+
+```java
+String eol = args.length > 2 && args[2].equals("crlf") ? "\r\n" : "\n";
+// ...
+writer.write(line + eol);
+```
+:::
 
 ### Exercise 8: Close it properly {#sec-ex8}
 

@@ -482,15 +482,12 @@ try (Reader reader = new FileReader("in.txt", StandardCharsets.UTF_8);
 
 ## What will you do?
 
-Eight short exercises in `04-java-io` of the
-[code examples]({{< var examples-url >}}):
+First, run and read the [code examples]({{< var examples-url >}})
+`01` to `10` in `04-java-io`. Then eight short exercises:
 
-- Write, read and inspect bytes.
-- Measure the effect of buffering.
-- Encode `é` in UTF-8 by hand, and count the characters of a string
-  with an emoji.
-- Convert a Latin-1 file to UTF-8, drop a byte order mark, fix line
-  endings.
+- Write, read and inspect bytes, and measure buffering.
+- Encode `é` in UTF-8 by hand, and count characters.
+- Convert a Latin-1 file, drop a byte order mark, fix line endings.
 - Fix a copy method that leaks resources.
 
 Then: [practical work 1](../practical-work/pw1.qmd).
