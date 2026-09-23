@@ -65,7 +65,7 @@ You know why the `ç` is lost.
 | 1 | Idea posted, repository ready, Maven and picocli skeleton. |
 | 2 | Processing works: charset, buffering, resources. First tests. |
 | 3 | Errors handled, example files, README. |
-| 4 | Edge-case tests, "Design choices" section, PRs merged. |
+| 4 | Edge-case tests, README complete, PRs merged. |
 
 Dates for your class are on the practical work page. Submission the
 evening before the presentations.
@@ -76,9 +76,9 @@ evening before the presentations.
 
 | Category | Weight |
 |----------|-------:|
-| 1. Git, GitHub and Markdown | 28% |
+| 1. Git, GitHub and Markdown | 40% |
 | 2. Java and Maven | 16% |
-| 3. Java I/O | 36% |
+| 3. Java I/O | 24% |
 | 4. Tests | 4% |
 | 5. Presentation | 16% |
 
@@ -89,8 +89,7 @@ Read it **before** you start, not the evening before the deadline.
 
 - The files are read and written **correctly**: charset, buffering,
   resources closed, errors reported.
-- The **README**: what it does, how to run it, and a **Design choices**
-  section (your lab report).
+- The **README**: what it does, how to build and run it, with examples.
 - **Tests** on the processing, separated from the CLI.
 - A **team** history: issues, pull requests, reviews.
 

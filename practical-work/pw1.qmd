@@ -139,7 +139,7 @@ you are on track.
 | 1 | 23.09 | Group and idea published in a Discussion. Repository created, team and teachers added. Maven project with picocli, two empty commands, clean `.gitignore`. |
 | 2 | 29.09 | The processing works on a real file: charset, buffering, `try`-with-resources. First JUnit tests. |
 | 3 | 30.09 | Errors handled with clear messages. Example files in the repository. README with usage and outputs. |
-| 4 | 07.10 | Tests cover the edge cases. README "Design choices" section written. Last pull requests merged. |
+| 4 | 07.10 | Tests cover the edge cases. README complete. Last pull requests merged. |
 | ⏰ | **13.10, 23:59** | **Submission**: Discussion updated with the repository link and the commit hash. |
 | 🎤 | 14.10 | Presentations. |
 
@@ -150,7 +150,7 @@ you are on track.
 | 1 | 28.09 | Group and idea published in a Discussion. Repository created, team and teachers added. Maven project with picocli, two empty commands, clean `.gitignore`. |
 | 2 | 29.09 | The processing works on a real file: charset, buffering, `try`-with-resources. First JUnit tests. |
 | 3 | 06.10 | Errors handled with clear messages. Example files in the repository. README with usage and outputs. |
-| 4 | 12.10 | Tests cover the edge cases. README "Design choices" section written. Last pull requests merged. |
+| 4 | 12.10 | Tests cover the edge cases. README complete. Last pull requests merged. |
 | ⏰ | **12.10, 23:59** | **Submission**: Discussion updated with the repository link and the commit hash. |
 | 🎤 | 13.10 | Presentations. |
 
@@ -185,13 +185,13 @@ Each criterion is worth:
 - **0.1 point**: partially there, unclear or incomplete.
 - **0.2 point**: complete, correct, and showing a clear understanding.
 
-Final grade: 5 points of criteria + 1 = **6 maximum**.
+Final grade: 25 criteria × 0.2 = 5 points, + 1 = **6 maximum**.
 
 | Category | Criteria | Points | Weight |
 |----------|----------|-------:|-------:|
-| 1. Git, GitHub and Markdown | 1 to 7 | 1.4 | 28% |
-| 2. Java and Maven | 8 to 11 | 0.8 | 16% |
-| 3. Java I/O | 12 to 20 | 1.8 | 36% |
+| 1. Git, GitHub and Markdown | 1 to 10 | 2.0 | 40% |
+| 2. Java and Maven | 11 to 14 | 0.8 | 16% |
+| 3. Java I/O | 15 to 20 | 1.2 | 24% |
 | 4. Tests | 21 | 0.2 | 4% |
 | 5. Presentation | 22 to 25 | 0.8 | 16% |
 
@@ -199,36 +199,36 @@ Final grade: 5 points of criteria + 1 = **6 maximum**.
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 1 | The README is well structured, and gives the purpose of the application and its authors. | 0.2 |
-| 2 | The README shows how to use the application, with examples and outputs, and the commands to clone, build and run it. | 0.2 |
-| 3 | Issues and pull requests are used throughout the project to plan and integrate the work. | 0.2 |
-| 4 | Pull requests are reviewed and discussed by a teammate before being merged. | 0.2 |
-| 5 | The issue, pull request and commit messages describe what was done and why. | 0.2 |
-| 6 | Commits are signed. | 0.2 |
-| 7 | The repository contains example files to try the application. | 0.2 |
+| 1 | The README is well structured, easy to read and has a professional look. | 0.2 |
+| 2 | The README gives the authors and the purpose of the application. | 0.2 |
+| 3 | The README explains how to use the application, with examples and outputs. | 0.2 |
+| 4 | The README gives the explicit commands to clone and build the application with Git and Maven. | 0.2 |
+| 5 | Issues are created all along the project to plan the work. | 0.2 |
+| 6 | Pull requests are created all along the project to integrate the work iteratively. | 0.2 |
+| 7 | Pull requests are reviewed, discussed and merged by the team. | 0.2 |
+| 8 | The issue, pull request and commit messages are descriptive. | 0.2 |
+| 9 | The commits are signed. | 0.2 |
+| 10 | The repository contains meaningful example files to try the application. | 0.2 |
 
 ### Category 2: Java and Maven
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 8 | The codebase is structured, easy to read and documented. | 0.2 |
-| 9 | The Maven wrapper is in the repository, so the project builds without installing Maven. | 0.2 |
-| 10 | The build produces an executable JAR. | 0.2 |
-| 11 | The `.gitignore` ignores what the build and the IDE produce, and nothing else. | 0.2 |
+| 11 | The codebase is well structured, easy to understand and documented. | 0.2 |
+| 12 | The codebase contains the Maven wrapper, so the application builds without installing Maven. | 0.2 |
+| 13 | The build outputs an executable JAR file. | 0.2 |
+| 14 | The `.gitignore` ignores all unwanted files (Maven output, IDE files). | 0.2 |
 
 ### Category 3: Java I/O
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 12 | The CLI offers at least two commands, with a help message, mandatory and optional arguments. | 0.2 |
-| 13 | The CLI processes the input file and writes the result correctly. | 0.2 |
-| 14 | Text and binary data are read and written with the streams made for them, and the options of the format are explicit and chosen by the user. | 0.2 |
-| 15 | Reads and writes are buffered. | 0.2 |
-| 16 | Resources are always closed, even when an error occurs. | 0.2 |
-| 17 | The CLI shows clear error messages on invalid or missing input, and on processing errors. | 0.2 |
-| 18 | The details of the file format are handled explicitly, not left to the defaults of the platform. | 0.2 |
-| 19 | The processing goes slightly beyond the course examples. | 0.2 |
-| 20 | The README has a "Design choices" section that explains the I/O choices, and why they were made. | 0.2 |
+| 15 | The CLI offers at least two distinct commands with comprehensive help messages using mandatory and optional arguments for customization. | 0.2 |
+| 16 | The CLI processes the files efficiently. | 0.2 |
+| 17 | The CLI processes the files so that they are compatible across operating systems and languages. | 0.2 |
+| 18 | The CLI correctly manages resources in case a problem occurs when processing the files. | 0.2 |
+| 19 | The CLI correctly processes the input file(s) and writes the result(s) to the output file(s). | 0.2 |
+| 20 | The CLI displays explicit error messages on invalid/missing inputs and/or processing errors. | 0.2 |
 
 ### Category 4: Tests
 
