@@ -46,6 +46,7 @@ You know why the `ç` is lost.
   Other libraries may process the data, not open the files.
 - It uses **what the chapter teaches**: charsets, binary streams, or
   line endings.
+- The **processing is separate** from the CLI, and tested.
 - **Slightly more** than the course examples.
 
 ## Groups and idea
@@ -71,15 +72,15 @@ evening before the presentations.
 
 ## Grading
 
-23 criteria, each 0, 0.1 or 0.2 point. Grade = points + 1 (max 6).
+25 criteria, each 0, 0.1 or 0.2 point. Grade = points + 1 (max 6).
 
 | Category | Weight |
 |----------|-------:|
-| Java I/O | 36% |
-| Presentation | 24% |
-| Git, GitHub and Markdown | 20% |
-| Java and Maven | 12% |
-| Tests | 8% |
+| 1. Git, GitHub and Markdown | 28% |
+| 2. Java and Maven | 16% |
+| 3. Java I/O | 36% |
+| 4. Tests | 4% |
+| 5. Presentation | 16% |
 
 The full grid is on the [practical work page](../practical-work/pw1.qmd).
 Read it **before** you start, not the evening before the deadline.
@@ -90,7 +91,7 @@ Read it **before** you start, not the evening before the deadline.
   resources closed, errors reported.
 - The **README**: what it does, how to run it, and a **Design choices**
   section (your lab report).
-- A **test or two** on the processing, separated from the CLI.
+- **Tests** on the processing, separated from the CLI.
 - A **team** history: issues, pull requests, reviews.
 
 ## Presentations

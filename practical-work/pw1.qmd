@@ -114,6 +114,9 @@ too small or too large.
   validate your idea.
 - Be **slightly more than the course examples**, and slightly different.
   No need to shoot for the moon.
+- Keep the **processing separate from the CLI**: a method that reads a
+  stream and writes a stream, which the commands call. That is what you
+  test (see [How to test your processing](#how-to-test-your-processing)).
 
 ::: {.callout-tip collapse="true" title="Ideas, if you need one"}
 Convert between encodings, normalize line endings, count words or
@@ -182,65 +185,65 @@ Each criterion is worth:
 - **0.1 point**: partially there, unclear or incomplete.
 - **0.2 point**: complete, correct, and showing a clear understanding.
 
-Two criteria of the presentation count double (0, 0.2 or 0.4).
-
 Final grade: 5 points of criteria + 1 = **6 maximum**.
 
-| Category | Points | Weight |
-|----------|-------:|-------:|
-| Java I/O | 1.8 | 36% |
-| Presentation | 1.2 | 24% |
-| Git, GitHub and Markdown | 1.0 | 20% |
-| Java and Maven | 0.6 | 12% |
-| Tests | 0.4 | 8% |
+| Category | Criteria | Points | Weight |
+|----------|----------|-------:|-------:|
+| 1. Git, GitHub and Markdown | 1 to 7 | 1.4 | 28% |
+| 2. Java and Maven | 8 to 11 | 0.8 | 16% |
+| 3. Java I/O | 12 to 20 | 1.8 | 36% |
+| 4. Tests | 21 | 0.2 | 4% |
+| 5. Presentation | 22 to 25 | 0.8 | 16% |
 
-### Java I/O
-
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 1 | The CLI offers at least two commands, with a help message, mandatory and optional arguments. | 0.2 |
-| 2 | The CLI processes the input file and writes the result correctly. | 0.2 |
-| 3 | Every text read and write uses an explicit charset, which the user can choose. | 0.2 |
-| 4 | Reads and writes are buffered. | 0.2 |
-| 5 | Resources are always closed, even when an error occurs. | 0.2 |
-| 6 | The CLI shows clear error messages on invalid or missing input, and on processing errors. | 0.2 |
-| 7 | The format details are handled explicitly: line endings for text, byte order for binary data. | 0.2 |
-| 8 | The processing goes slightly beyond the course examples. | 0.2 |
-| 9 | The README has a "Design choices" section: charsets, buffering and error handling, and why. | 0.2 |
-
-### Git, GitHub and Markdown
+### Category 1: Git, GitHub and Markdown
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 10 | The README is well structured, and gives the purpose of the application and its authors. | 0.2 |
-| 11 | The README shows how to use the application, with examples and outputs, and the commands to clone, build and run it. | 0.2 |
-| 12 | Issues and pull requests are used throughout the project, and reviewed before merge. | 0.2 |
-| 13 | Commits are signed, and their messages describe what was done. | 0.2 |
-| 14 | The repository contains example files to try the application. | 0.2 |
+| 1 | The README is well structured, and gives the purpose of the application and its authors. | 0.2 |
+| 2 | The README shows how to use the application, with examples and outputs, and the commands to clone, build and run it. | 0.2 |
+| 3 | Issues and pull requests are used throughout the project to plan and integrate the work. | 0.2 |
+| 4 | Pull requests are reviewed and discussed by a teammate before being merged. | 0.2 |
+| 5 | The issue, pull request and commit messages describe what was done and why. | 0.2 |
+| 6 | Commits are signed. | 0.2 |
+| 7 | The repository contains example files to try the application. | 0.2 |
 
-### Presentation
-
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 15 | The presentation is clear, prepared, and within the time. | **0.4** |
-| 16 | The demo runs on real files, including a case where the application fails. | 0.2 |
-| 17 | The presentation explains what the tool does and why the I/O choices were made. | **0.4** |
-| 18 | Everyone speaks. | 0.2 |
-
-### Tests
+### Category 2: Java and Maven
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 19 | The processing is separated from the CLI, and covered by JUnit tests that run with `./mvnw test`. | 0.2 |
-| 20 | The tests check the processing on data built in the test, including an edge case, and pass on any machine. | 0.2 |
+| 8 | The codebase is structured, easy to read and documented. | 0.2 |
+| 9 | The Maven wrapper is in the repository, so the project builds without installing Maven. | 0.2 |
+| 10 | The build produces an executable JAR. | 0.2 |
+| 11 | The `.gitignore` ignores what the build and the IDE produce, and nothing else. | 0.2 |
 
-### Java and Maven
+### Category 3: Java I/O
 
 | # | Criterion | Points |
 |---|-----------|-------:|
-| 21 | The codebase is structured, easy to read and documented. | 0.2 |
-| 22 | The Maven wrapper builds an executable JAR. | 0.2 |
-| 23 | The `.gitignore` ignores what the build and the IDE produce, and nothing else. | 0.2 |
+| 12 | The CLI offers at least two commands, with a help message, mandatory and optional arguments. | 0.2 |
+| 13 | The CLI processes the input file and writes the result correctly. | 0.2 |
+| 14 | Text and binary data are read and written with the streams made for them, and the options of the format are explicit and chosen by the user. | 0.2 |
+| 15 | Reads and writes are buffered. | 0.2 |
+| 16 | Resources are always closed, even when an error occurs. | 0.2 |
+| 17 | The CLI shows clear error messages on invalid or missing input, and on processing errors. | 0.2 |
+| 18 | The details of the file format are handled explicitly, not left to the defaults of the platform. | 0.2 |
+| 19 | The processing goes slightly beyond the course examples. | 0.2 |
+| 20 | The README has a "Design choices" section that explains the I/O choices, and why they were made. | 0.2 |
+
+### Category 4: Tests
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 21 | The processing is separated from the CLI and covered by JUnit tests that run with `./mvnw test` on any machine, on data built in the test, including an edge case. | 0.2 |
+
+### Category 5: Presentation
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 22 | The presentation is clear, prepared, and within the time. | 0.2 |
+| 23 | The demo runs on real files, including a case where the application fails. | 0.2 |
+| 24 | The presentation explains what the tool does and why the I/O choices were made. | 0.2 |
+| 25 | Everyone speaks. | 0.2 |
 
 ## How to test your processing
 
@@ -316,8 +319,10 @@ Your practical work must respect the following rules.
 - A GitHub Discussion is opened during the **first session**, so that we
   can validate your idea.
 - The files are opened, read and written with the **Java I/O API** of
-  the course. Any library may process the data once the files are open.
-  Say in the README which libraries you use, and why.
+  the course. No library does that part for you.
+- Any Maven dependency may **process** the data once the files are open,
+  an image or audio library for example. The README says which
+  dependencies you use, and why.
 - The application does **slightly more, and something slightly
   different**, than the examples shown in the course.
 - The application **builds and runs from a fresh clone**, with
@@ -365,13 +370,6 @@ That is the Unix philosophy, and KISS says the same in four words:
 encodings and reports its errors, is worth more here than an ambitious
 one that crashes. If your implementation is too complex, we may
 penalize it.
-:::
-
-::: {.callout-tip collapse="true" title="External dependencies"}
-You may add any Maven dependency you want for the **processing**, for
-example an image or audio library. You may not use one to open, read or
-write the files: that part uses the Java I/O API of chapter 04. Explain
-in your README which dependencies you use and why.
 :::
 
 ::: {.callout-tip collapse="true" title="Work together on the repository"}
