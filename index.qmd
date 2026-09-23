@@ -24,7 +24,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | Week | Part 1 | Content (part 1) | Slides | Part 2 | Content (part 2) | Slides |
 |-----:|--------|------------------|--------|--------|------------------|--------|
 | 1 | 15.09 | [Introduction](chapters/01-introduction.qmd) · [Git, GitHub & Markdown](chapters/02-git-github.qmd) | [Intro](slides/01-introduction.qmd) · [Part 1](slides/part-1-input-output-processing.qmd) · [Git](slides/02-git-github-markdown.qmd) | 16.09 | [Java, IntelliJ & Maven](chapters/03-java-intellij-maven.qmd) | [Slides](slides/03-java-intellij-maven.qmd) |
-| 2 | 22.09 | [Java I/O](chapters/04-java-io.qmd) | [Slides](slides/04-java-io.qmd) | 23.09 | [PW1](practical-work/pw1.qmd) |  |
+| 2 | 22.09 | [Java I/O](chapters/04-java-io.qmd) | [Slides](slides/04-java-io.qmd) | 23.09 | [PW1](practical-work/pw1.qmd) kickoff | [Slides](slides/pw1.qmd) |
 | 3 | 29.09 | [PW1](practical-work/pw1.qmd) |  | 30.09 | [PW1](practical-work/pw1.qmd) |  |
 | 4 | 06.10 | Docker & Compose | | 07.10 | [PW1](practical-work/pw1.qmd) |  |
 | ⏰ 5 | 13.10 | Application protocols |  | 14.10 | [PW1](practical-work/pw1.qmd) |  |
@@ -53,7 +53,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 |-----:|--------|------------------|--------|--------|------------------|--------|
 | 1 | 14.09 | [Introduction](chapters/01-introduction.qmd) · [Git, GitHub & Markdown](chapters/02-git-github.qmd) | [Intro](slides/01-introduction.qmd) · [Part 1](slides/part-1-input-output-processing.qmd) · [Git](slides/02-git-github-markdown.qmd) | 15.09 | [Java, IntelliJ & Maven](chapters/03-java-intellij-maven.qmd) | [Slides](slides/03-java-intellij-maven.qmd) |
 | 2 | —¹ |  |  | 22.09 | [Java I/O](chapters/04-java-io.qmd) | [Slides](slides/04-java-io.qmd) |
-| 3 | 28.09 | [PW1](practical-work/pw1.qmd) |  | 29.09 | [PW1](practical-work/pw1.qmd) |  |
+| 3 | 28.09 | [PW1](practical-work/pw1.qmd) kickoff | [Slides](slides/pw1.qmd) | 29.09 | [PW1](practical-work/pw1.qmd) |  |
 | 4 | 05.10 | Docker & Compose | | 06.10 | [PW1](practical-work/pw1.qmd) |  |
 | 5 | 12.10 | Application protocols |  | 13.10 | [PW1](practical-work/pw1.qmd) |  |
 |  | 19.10 | *Semaine de travail personnel* |  | 20.10 | *no class* |  |

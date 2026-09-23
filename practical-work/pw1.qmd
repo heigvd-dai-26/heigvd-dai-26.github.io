@@ -1,29 +1,286 @@
 ---
-title: "Practical work 1: Java CLI in a container"
+title: "Practical work 1: a file processing CLI"
 ---
 
 ::: {.callout-warning}
-Work in progress: subject, milestones and grading rubric will be
-published before the practical work starts.
+Draft: the subject and the grading criteria may still change slightly
+before the kickoff.
 :::
+
+[Slides for this practical work](../slides/pw1.qmd)
 
 ## Overview
 
-Build, in groups, a Java command-line application (I/O processing), package
-it with Maven, containerize it with Docker and publish it to the GitHub
-Container Registry.
+You use command line tools every day: `git`, `mvn`, `java`, `docker`.
+In this practical work, you build your own, in a group: a CLI written
+with [picocli](https://picocli.info/) that reads one file, processes it,
+and writes the result to another file.
 
-Covers chapters: Java, IntelliJ & Maven · Java I/O · Docker & Compose.
+**You choose what the tool does.** It can count, transform or convert
+text, process an image or an audio file, encrypt or decrypt, add
+metadata to pictures, and so on. Be reasonable: the point is the
+processing of the data, not the algorithm.
 
-## Milestones
+This practical work puts [chapter 03](../chapters/03-java-intellij-maven.qmd)
+(Java, IntelliJ and Maven) and
+[chapter 04](../chapters/04-java-io.qmd) (Java I/O) into practice.
 
-| Session | Goal |
-|---------|------|
-| 1 | *TBD* |
-| 2 | *TBD* |
-| 3 | *TBD* |
-| 4 | *TBD* (final submission) |
+## Objectives
+
+- Build a real CLI with subcommands, options and a help message.
+- Read and write files with the Java I/O API, with the charset, the
+  buffering and the error handling under your control.
+- Test your processing with JUnit.
+- Work as a team with Git and GitHub: issues, pull requests, reviews.
+- Explain your work, in the README and in front of the class.
+
+## Groups
+
+You work in **groups of 3**. Pairs are allowed if the numbers do not
+work out. If you have no group, come and see us and we will find you
+one.
+
+To announce your group, open a **GitHub Discussion** in the
+[course organization]({{< var discussions-url >}}), category *Show and
+tell*, with:
+
+- **Title**: `[DAI {{< var year >}} Class <A or C>] PW1 - <first name> <last name>, …`
+- **Description**: a few lines about what your CLI will do.
+
+::: {.callout-important}
+Do this during the first session, even if your idea is not final. We
+use it to plan the presentations, and to tell you early if the scope is
+too small or too large.
+:::
+
+## What your CLI must do
+
+- Take an **input file** and an **output file** as arguments, plus
+  options of your choice (for example the input and output charsets).
+- Offer **at least two commands** (for example `uppercase` and
+  `lowercase`), each with a help message.
+- **Use the Java I/O API** from chapter 04 to read and write the files.
+  You may use other libraries for the processing itself, but not to
+  open, read or write the files.
+- **Use what the chapter teaches**: an explicit charset, binary streams,
+  or line endings, depending on your subject. We check this when we
+  validate your idea.
+- Be **slightly more than the course examples**, and slightly different.
+  No need to shoot for the moon.
+
+::: {.callout-tip collapse="true" title="Ideas, if you need one"}
+Convert between encodings, normalize line endings, count words or
+characters, extract or edit the metadata of pictures, convert a CSV file
+to JSON, change the volume of a WAV file, turn an image to grayscale,
+encrypt and decrypt a file, split and join large files.
+:::
+
+## Sessions and milestones
+
+The milestones are advice, not obligations. They help you know whether
+you are on track.
+
+::: {.panel-tabset}
+
+### DAI-TIC-A
+
+| # | Date | Milestone |
+|---|------|-----------|
+| 1 | 23.09 | Group and idea published in a Discussion. Repository created, team and teachers added. Maven project with picocli, two empty commands, clean `.gitignore`. |
+| 2 | 29.09 | The processing works on a real file: charset, buffering, `try`-with-resources. First JUnit tests. |
+| 3 | 30.09 | Errors handled with clear messages. Example files in the repository. README with usage and outputs. |
+| 4 | 07.10 | Tests cover the edge cases. README "Design choices" section written. Last pull requests merged. |
+| ⏰ | **13.10, 23:59** | **Submission**: Discussion updated with the repository link and the commit hash. |
+| 🎤 | 14.10 | Presentations. |
+
+### DAI-TIC-C
+
+| # | Date | Milestone |
+|---|------|-----------|
+| 1 | 28.09 | Group and idea published in a Discussion. Repository created, team and teachers added. Maven project with picocli, two empty commands, clean `.gitignore`. |
+| 2 | 29.09 | The processing works on a real file: charset, buffering, `try`-with-resources. First JUnit tests. |
+| 3 | 06.10 | Errors handled with clear messages. Example files in the repository. README with usage and outputs. |
+| 4 | 13.10 | Tests cover the edge cases. README "Design choices" section written. Last pull requests merged. |
+| ⏰ | **26.10, 23:59** | **Submission**: Discussion updated with the repository link and the commit hash. |
+| 🎤 | 27.10 | Presentations. |
+
+:::
+
+## Submission
+
+Update the Discussion you opened at the start with:
+
+- the link to your repository,
+- the **commit hash** you want us to grade.
+
+Each day of delay costs **1 point**. If your repository is private, add
+the teaching staff as collaborators, otherwise we cannot grade your
+work.
+
+## Presentations
+
+Each group has **8 minutes** to present its tool. Come 5 minutes before
+your slot, with your computer. A video projector is available.
+
+You are free to present as you like, but:
+
+- show the tool **running on real files**, including a case where it
+  fails.
+- explain the **what** and the **why**, not every line of code.
+- everyone speaks, and everyone can answer questions about the code.
 
 ## Grading
 
-*Rubric TBD.*
+Each criterion is worth:
+
+- **0 point**: missing, off topic, or showing very little understanding.
+- **0.1 point**: partially there, unclear or incomplete.
+- **0.2 point**: complete, correct, and showing a clear understanding.
+
+Two criteria of the presentation count double (0, 0.2 or 0.4).
+
+Final grade: 5 points of criteria + 1 = **6 maximum**.
+
+| Category | Points | Weight |
+|----------|-------:|-------:|
+| Java I/O | 1.8 | 36% |
+| Presentation | 1.2 | 24% |
+| Git, GitHub and Markdown | 1.0 | 20% |
+| Java and Maven | 0.6 | 12% |
+| Tests | 0.4 | 8% |
+
+### Java I/O
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 1 | The CLI offers at least two commands, with a help message, mandatory and optional arguments. | 0.2 |
+| 2 | The CLI processes the input file and writes the result correctly. | 0.2 |
+| 3 | Every text read and write uses an explicit charset, which the user can choose. | 0.2 |
+| 4 | Reads and writes are buffered. | 0.2 |
+| 5 | Resources are always closed, even when an error occurs. | 0.2 |
+| 6 | The CLI shows clear error messages on invalid or missing input, and on processing errors. | 0.2 |
+| 7 | The format details are handled explicitly: line endings for text, byte order for binary data. | 0.2 |
+| 8 | The processing goes slightly beyond the course examples. | 0.2 |
+| 9 | The README has a "Design choices" section: charsets, buffering and error handling, and why. | 0.2 |
+
+### Git, GitHub and Markdown
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 10 | The README is well structured, and gives the purpose of the application and its authors. | 0.2 |
+| 11 | The README shows how to use the application, with examples and outputs, and the commands to clone, build and run it. | 0.2 |
+| 12 | Issues and pull requests are used throughout the project, and reviewed before merge. | 0.2 |
+| 13 | Commits are signed, and their messages describe what was done. | 0.2 |
+| 14 | The repository contains example files to try the application. | 0.2 |
+
+### Presentation
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 15 | The presentation is clear, prepared, and within the time. | **0.4** |
+| 16 | The demo runs on real files, including a case where the application fails. | 0.2 |
+| 17 | The presentation explains what the tool does and why the I/O choices were made. | **0.4** |
+| 18 | Everyone speaks. | 0.2 |
+
+### Tests
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 19 | The processing is separated from the CLI, and covered by JUnit tests that run with `./mvnw test`. | 0.2 |
+| 20 | The tests check the processing on data built in the test, including an edge case, and pass on any machine. | 0.2 |
+
+### Java and Maven
+
+| # | Criterion | Points |
+|---|-----------|-------:|
+| 21 | The codebase is structured, easy to read and documented. | 0.2 |
+| 22 | The Maven wrapper builds an executable JAR. | 0.2 |
+| 23 | The `.gitignore` ignores what the build and the IDE produce, and nothing else. | 0.2 |
+
+## How to test your processing
+
+Tests are new for you, so we ask for little: **separate the processing
+from the CLI**, and test the processing on data built in the test. No
+files on disk, no paths, nothing that depends on your machine.
+
+Write the processing as a method that takes a `Reader` and a `Writer`
+(text) or an `InputStream` and an `OutputStream` (binary). The CLI then
+opens the files and calls it.
+
+```java
+public class UpperCase {
+  public static void process(Reader in, Writer out) throws IOException {
+    int c;
+    while ((c = in.read()) != -1) {
+      out.write(Character.toUpperCase(c));
+    }
+  }
+}
+```
+
+Text: feed it a `StringReader` and collect the result in a
+`StringWriter`.
+
+```java
+@Test
+void upperCasesAccentedLetters() throws IOException {
+  StringWriter out = new StringWriter();
+  UpperCase.process(new StringReader("élève"), out);
+  assertEquals("ÉLÈVE", out.toString());
+}
+```
+
+Binary: use `ByteArrayInputStream` and `ByteArrayOutputStream`, and
+compare with `assertArrayEquals`. When the exact output is hard to
+predict (an image filter, for example), test a **property** instead: a
+round trip that gives back the original, the size of the output, a
+header that is preserved, or that running the tool twice changes
+nothing.
+
+```java
+@Test
+void encryptingTwiceGivesTheOriginalBytes() throws IOException {
+  byte[] original = {0, 1, 2, (byte) 0xFF};
+
+  ByteArrayOutputStream encrypted = new ByteArrayOutputStream();
+  Xor.process(new ByteArrayInputStream(original), encrypted, 42);
+
+  ByteArrayOutputStream decrypted = new ByteArrayOutputStream();
+  Xor.process(new ByteArrayInputStream(encrypted.toByteArray()), decrypted, 42);
+
+  assertArrayEquals(original, decrypted.toByteArray());
+}
+```
+
+An **edge case** is a case that breaks a naive implementation: an empty
+file, a character that does not exist in the target charset, a file
+that does not end with a line ending.
+
+## Rules
+
+- Everyone in the group contributes, and everyone can explain the whole
+  project.
+- You may use any library for the processing, but the files are opened,
+  read and written with the Java I/O API of the course. Say in the
+  README which libraries you use, and why.
+- State your sources: code from the internet, code generated by an AI
+  tool, ideas taken elsewhere. Say what you used them for. See the
+  [AI principles](../resources.qmd).
+- Copying the code of another group gives a grade of 1 to everyone
+  involved.
+
+## Finished? Was it easy? Was it hard?
+
+Tell us what was easy and what was difficult. It helps us improve the
+course, and helps you if something did not work.
+
+[GitHub Discussions]({{< var discussions-url >}})
+
+## Sources
+
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

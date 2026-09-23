@@ -1,0 +1,147 @@
+---
+title: "Practical work 1"
+subtitle: "DAI · A file processing CLI"
+---
+
+## What you will build
+
+- A **command line tool**, written in Java with
+  [picocli](https://picocli.info/).
+- It reads **one file**, processes it, and writes **another file**.
+- **You choose what it does.** Text, images, audio, encryption, metadata…
+- In **groups of 3** (pairs allowed), over 4 sessions, then a
+  presentation.
+
+## Why this project
+
+- Chapter 03: Maven, an executable JAR, unit tests.
+- Chapter 04: charsets, buffering, `try`-with-resources, line endings.
+- Chapter 02: issues, pull requests, reviews, signed commits.
+- Next: the same code, reading from a socket instead of a file.
+
+## Demo
+
+```sh
+java -jar target/my-cli-1.0-SNAPSHOT.jar \
+  --input input.txt --output output.txt \
+  --input-encoding UTF-8 --output-encoding US-ASCII \
+  uppercase
+```
+
+```text
+$ cat input.txt
+Bonjour, comment ça va aujourd'hui ?
+
+$ cat output.txt
+BONJOUR, COMMENT ?A VA AUJOURD'HUI ?
+```
+
+You know why the `ç` is lost.
+
+## What your CLI must do
+
+- An **input file** and an **output file** as arguments, plus options.
+- **At least two commands**, each with a help message.
+- Files opened, read and written with the **Java I/O API** of chapter 04.
+  Other libraries may process the data, not open the files.
+- It uses **what the chapter teaches**: charsets, binary streams, or
+  line endings.
+- **Slightly more** than the course examples.
+
+## Groups and idea
+
+- **Groups of 3.** Pairs allowed. No group? Come and see us.
+- Open a **GitHub Discussion** today, category *Show and tell*:
+  - title: `[DAI {{< var year >}} Class <A or C>] PW1 - <names>`,
+  - description: a few lines on what your CLI will do.
+- We answer with a **go**, or with a suggestion to grow or shrink the
+  scope.
+
+## Sessions
+
+| # | Milestone |
+|---|-----------|
+| 1 | Idea posted, repository ready, Maven and picocli skeleton. |
+| 2 | Processing works: charset, buffering, resources. First tests. |
+| 3 | Errors handled, example files, README. |
+| 4 | Edge-case tests, "Design choices" section, PRs merged. |
+
+Submission the evening before the presentations.
+
+## Grading
+
+23 criteria, each 0, 0.1 or 0.2 point. Grade = points + 1 (max 6).
+
+| Category | Weight |
+|----------|-------:|
+| Java I/O | 36% |
+| Presentation | 24% |
+| Git, GitHub and Markdown | 20% |
+| Java and Maven | 12% |
+| Tests | 8% |
+
+The full grid is on the [practical work page](../practical-work/pw1.qmd).
+Read it **before** you start, not the evening before the deadline.
+
+## What we look at most
+
+- The files are read and written **correctly**: charset, buffering,
+  resources closed, errors reported.
+- The **README**: what it does, how to run it, and a **Design choices**
+  section (your lab report).
+- A **test or two** on the processing, separated from the CLI.
+- A **team** history: issues, pull requests, reviews.
+
+## Presentations
+
+- **8 minutes** per group, computer and projector.
+- Show the tool **running on real files**, including a failure.
+- Explain the **what** and the **why**, not every line.
+- Everyone speaks, everyone can answer questions about the code.
+
+## Rules
+
+- Everyone contributes, and everyone can explain the whole project.
+- State your sources: internet, AI tools, ideas. Say what you used them
+  for.
+- Copying another group gives a grade of 1 to everyone involved.
+- Late: 1 point per day.
+
+## Keep it simple
+
+> Write programs that do one thing and do it well.
+
+- The Unix philosophy: small tools, working together, on text streams.
+- KISS: *keep it simple, silly*. A tool that is too complex costs you
+  points, it does not win them.
+- Better a small tool that handles encodings and errors well, than a big
+  one that crashes.
+
+## Start now
+
+1. Form your group.
+2. Post your idea in the Discussions.
+3. Create the repository, add everyone and the teaching staff.
+4. `mvn` skeleton with picocli and two empty commands.
+
+[Practical work 1](../practical-work/pw1.qmd) has everything: milestones,
+dates, the full grid.
+
+## Finished? Was it easy? Was it hard?
+
+Tell us what was easy and what was difficult. It helps us improve the
+course and come back to you when needed.
+
+GitHub Discussions. Reactions welcome!
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck.
+:::

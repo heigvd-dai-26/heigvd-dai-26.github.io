@@ -26,7 +26,7 @@ website:
       - section: "Practical work"
         contents:
           - href: practical-work/pw1.qmd
-            text: "PW1 · Java CLI in a container"
+            text: "PW1 · File processing CLI"
           - href: practical-work/pw2.qmd
             text: "PW2 · Network application"
           - href: practical-work/pw3.qmd
