@@ -55,10 +55,10 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 2 | —¹ |  |  | 22.09 | [Java I/O](chapters/04-java-io.qmd) | [Slides](slides/04-java-io.qmd) |
 | 3 | 28.09 | [PW1](practical-work/pw1.qmd) kickoff | [Slides](slides/pw1.qmd) | 29.09 | [PW1](practical-work/pw1.qmd) |  |
 | 4 | 05.10 | Docker & Compose | | 06.10 | [PW1](practical-work/pw1.qmd) |  |
-| 5 | 12.10 | Application protocols |  | 13.10 | [PW1](practical-work/pw1.qmd) |  |
+| ⏰ 5 | 12.10 | Application protocols |  | 13.10 | [PW1](practical-work/pw1.qmd) presentations |  |
 |  | 19.10 | *Semaine de travail personnel* |  | 20.10 | *no class* |  |
-| ⏰ 6 | 26.10 | SMTP & ncat |  | 27.10 | [PW1](practical-work/pw1.qmd) |  |
-| 7 | 02.11 | **Mid-term evaluation (TE1)** |  | 03.11 | [PW2](practical-work/pw2.qmd) kickoff |  |
+| 6 | 26.10 | SMTP & ncat |  | 27.10 | [PW2](practical-work/pw2.qmd) kickoff |  |
+| 7 | 02.11 | **Mid-term evaluation (TE1)** |  | 03.11 | [PW2](practical-work/pw2.qmd) |  |
 | 8 | 09.11 | TCP & UDP programming (1/2) |  | 10.11 | [PW2](practical-work/pw2.qmd) |  |
 | 9 | 16.11 | TCP & UDP programming (2/2) |  | 17.11 | [PW2](practical-work/pw2.qmd) |  |
 | 10 | 23.11 | Network concurrency |  | 24.11 | [PW2](practical-work/pw2.qmd) |  |
