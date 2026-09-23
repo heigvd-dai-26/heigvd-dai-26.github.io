@@ -100,7 +100,7 @@ you are on track.
 | 1 | 28.09 | Group and idea published in a Discussion. Repository created, team and teachers added. Maven project with picocli, two empty commands, clean `.gitignore`. |
 | 2 | 29.09 | The processing works on a real file: charset, buffering, `try`-with-resources. First JUnit tests. |
 | 3 | 06.10 | Errors handled with clear messages. Example files in the repository. README with usage and outputs. |
-| | until 12.10 | Tests on the edge cases, README "Design choices" section, last pull requests merged. |
+| 4 | 12.10 | Tests cover the edge cases. README "Design choices" section written. Last pull requests merged. |
 | ⏰ | **12.10, 23:59** | **Submission**: Discussion updated with the repository link and the commit hash. |
 | 🎤 | 13.10 | Presentations. |
 

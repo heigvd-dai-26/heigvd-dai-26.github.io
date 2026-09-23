@@ -9,7 +9,7 @@ subtitle: "DAI · A file processing CLI"
   [picocli](https://picocli.info/).
 - It reads **one file**, processes it, and writes **another file**.
 - **You choose what it does.** Text, images, audio, encryption, metadata…
-- In **groups of 3** (pairs allowed), over a few sessions, then a
+- In **groups of 3** (pairs allowed), over 4 sessions, then a
   presentation.
 
 ## Why this project
