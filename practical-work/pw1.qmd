@@ -190,11 +190,11 @@ You are free to present as you like, but:
 | 2 | Romain Vuilleumier, Cédric Hérard | 14:55-15:03 |
 | 3 | Noé Lédderey, Enis Sadiku | 15:05-15:13 |
 | 4 | Romain Antunes, Gilles Maendly | 15:15-15:23 |
-| 5 | Aymeric Bonny, Nicolas Reymond | 15:25-15:33 |
+| 5 | Louis Garcia, Jeremy Bortone, Loris Voce Torquemada | 15:25-15:33 |
 | 6 | Michel Polunkin, Shanshe Gundishvili | 15:35-15:43 |
 | 7 | Marie Taccoen-Prost, Bastien Vienet | 15:45-15:53 |
 | 8 | Bilel Sahli, Fábio Cordeiro Rochinha | 15:55-16:03 |
-| 9 | Louis Garcia, Jeremy Bortone, Loris Voce Torquemada | 16:05-16:13 |
+| 9 | Aymeric Bonny, Nicolas Reymond | 16:05-16:13 |
 
 ### DAI-TIC-C
 
