@@ -176,6 +176,43 @@ You are free to present as you like, but:
 - explain the **what** and the **why**, not every line of code.
 - everyone speaks, and everyone can answer questions about the code.
 
+#### Timeslots
+
+::: {.panel-tabset}
+
+### DAI-TIC-A
+
+**Wednesday 14.10.2026, 14:45-16:15**
+
+| # | Group | Timeslot |
+|---|-------|----------|
+| 1 | Aurélien Dévaud, Eliott Jaquier | 14:45-14:53 |
+| 2 | Romain Vuilleumier, Cédric Hérard | 14:55-15:03 |
+| 3 | Noé Lédderey, Enis Sadiku | 15:05-15:13 |
+| 4 | Romain Antunes, Gilles Maendly | 15:15-15:23 |
+| 5 | Aymeric Bonny, Nicolas Reymond | 15:25-15:33 |
+| 6 | Michel Polunkin, Shanshe Gundishvili | 15:35-15:43 |
+| 7 | Marie Taccoen-Prost, Bastien Vienet | 15:45-15:53 |
+| 8 | Bilel Sahli, Fábio Cordeiro Rochinha | 15:55-16:03 |
+| 9 | Louis Garcia, Jeremy Bortone, Loris Voce Torquemada | 16:05-16:13 |
+
+### DAI-TIC-C
+
+**Tuesday 13.10.2026, 13:00-14:30**
+
+| # | Group | Timeslot |
+|---|-------|----------|
+| 1 | Toby Sturgess, Kerim Gürbaz, Yasser Gasmi | 13:00-13:08 |
+| 2 | Claudio Souto, Matthias Birling, Yannis Burkhalter | 13:10-13:18 |
+| 3 | Thomas Bosshart, Léo Zwahlen | 13:20-13:28 |
+| 4 | Corwin Hayslip, Manuel Cabras, João Da Luz | 13:30-13:38 |
+| 5 | Gabriel Pereira, Ethan Van Tilborgh | 13:40-13:48 |
+| 6 | Victor Leyre, Simon Dagerskog, Abdulkadir Arifoglu | 13:50-13:58 |
+| 7 | Jérémie Carrel, Omar Egal Ahmed, Kaeno Eyer | 14:00-14:08 |
+| 8 | Marianne Joseph, Matthieu Blanchard, Lisa Perriard | 14:10-14:18 |
+
+:::
+
 ## Grading
 
 Each criterion is worth:
