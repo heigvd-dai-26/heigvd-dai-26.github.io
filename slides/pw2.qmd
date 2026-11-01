@@ -3,57 +3,19 @@ title: "Practical work 2"
 subtitle: "DAI · A network application with TCP or UDP"
 ---
 
-## What you will build
-
-::: {style="font-size: 0.85em"}
-- A **network application**, in a group: an **application protocol**
-  and two Java programs that use it, a **server** and a **client**.
-- You define the protocol, and you choose its transport: TCP, UDP, or
-  both.
-- **You choose what the application does.** A chat, a chess game, a
-  shopping list, an Internet of Things (IoT) network simulation…
-- Be creative, but reasonable: the point is the protocol and the
-  network code.
-
-:::
-
-## Why this project
-
-- Chapter 06: application protocols.
-- The TCP & UDP programming chapters, and the Network concurrency
-  chapter.
-- Chapter 05: package and publish the application with Docker.
-
 ## Objectives
 
-- Define an application protocol, in a specification another team could
-  implement.
-- Implement the protocol as a client and a server, with TCP and/or UDP.
-- Serve several clients at the same time.
-- Package, publish and run the application with Docker.
-- Explain your work, in the README and in front of the class.
-
-## What your application must do
-
-::: {style="font-size: 0.8em"}
-- Follow an **application protocol you define**, in a specification
-  with the four sections of chapter 06. The SMS protocol is a model.
-- Two picocli commands: one starts the **server**, the other the
-  **client**.
-- The client has a **REPL** (Read-Eval-Print Loop): the user types
-  commands and reads the answers without leaving the application.
-- The server accepts **several clients at the same time**. No idea
-  where several clients make sense? Ask us.
-- **Packaged with Docker**, published on GitHub Container Registry.
-- **Slightly more** than the course examples, and slightly different.
-  No need to shoot for the moon.
-:::
+- A **network application**, in a group: an application protocol you
+  define, a **server** and a **client** in Java, over TCP, UDP, or
+  both.
+- You choose what it does: a chat, a chess game, a shopping list, an
+  IoT simulation… Slightly more than the course examples, no need to
+  shoot for the moon.
+- The client has a **REPL**; the server accepts **several clients at
+  the same time** (no idea where that makes sense? ask us).
+- Packaged with **Docker**, published on GitHub Container Registry.
 
 ## Demo 1: file transfer, with TCP
-
-- The server serves the files of its directory; the client lists and
-  downloads them in a REPL. Several clients at the same time, with a
-  pool of threads.
 
 ::: {style="font-size: 0.75em"}
 :::: {.columns}
@@ -84,9 +46,8 @@ Client disconnected
 
 ## Demo 2: weather station, with UDP
 
-- Sensors send their measures to **multicast** groups, fire and
-  forget. The weather station receives them, and answers a client in
-  **unicast**: all the measures, or their average.
+- Sensors **multicast** their measures, fire and forget; a client asks
+  the station in **unicast**.
 
 ::: {style="font-size: 0.7em"}
 ```{.text filename="Thermometer" code-line-numbers="false"}
@@ -115,241 +76,60 @@ Received average: 1003.83
 
 ## Groups and idea
 
-::: {style="font-size: 0.9em"}
-- Groups of **two to three** students. You choose your partners; no
-  partner? We assign you one.
-- Open a **GitHub Discussion** in the course organization, category
-  *Show and tell*:
-  - title: `[DAI {{< var year >}} Class <A or C>] PW2 - <first name> <last name>, …`,
-  - description: a few lines on what your application will do.
-- Do it **before the next course**, even if your idea is not final.
-- We use it to plan the presentations, and to tell you early if the
-  scope is too small or too large.
-:::
-
-## Submission
-
-- Update the Discussion you opened at the start with:
-  - the link to your repository,
-  - the **commit hash** you want us to grade.
-- Due: DAI-TIC-A **Tuesday 01.12, 23:59**; DAI-TIC-C **Monday
-  30.11, 23:59**.
-- The penalties are in the rules.
-
-## Presentations
-
-::: {style="font-size: 0.8em"}
-- DAI-TIC-A: **Wednesday 02.12**. DAI-TIC-C: **Tuesday 01.12**.
-- **8 minutes** per group. Come 5 minutes before your slot, with your
-  computer. A video projector is available.
-- Present as you like, but:
-  - show the client and the server **running**, including an error
-    case,
-  - explain the **protocol** and the choices behind it, not every line
-    of code,
-  - everyone speaks, and everyone can answer questions about the code.
-- The timeslots are published on the practical work page once the
-  groups are known.
-:::
+- **Two to three** students. No partner? We assign you one.
+- Open a **GitHub Discussion**, category *Show and tell*, with your
+  group and your idea, **before the next course**.
+- We may ask you to change the scope if it is too small or too large.
 
 ## Grading
 
-- Each criterion: **0** (missing, off topic, or very little
-  understanding), **0.1** (partially there, unclear or incomplete),
-  **0.2** (complete, correct, clear understanding).
-- Grade: 25 criteria × 0.2 = 5 points, + 1 = **6 maximum**.
-- The good practices of PW1 (Git, GitHub, README, Maven) are expected;
-  missing ones cost points (see the rules).
-
-## Categories
+- 25 criteria, each **0**, **0.1** or **0.2**; grade = points + 1, **6
+  maximum**.
 
 ::: {style="font-size: 0.8em"}
-| Category | Criteria | Points | Weight |
-|----------|----------|-------:|-------:|
-| 1. Docker and GitHub Container Registry | 1 to 4 | 0.8 | 16% |
-| 2. Application protocol | 5 to 12 | 1.6 | 32% |
-| 3. Network programming | 13 to 18 | 1.2 | 24% |
-| 4. Network concurrency | 19 to 20 | 0.4 | 8% |
-| 5. Tests | 21 | 0.2 | 4% |
-| 6. Presentation | 22 to 25 | 0.8 | 16% |
+| Category | Criteria | Weight |
+|----------|---------:|-------:|
+| Docker and GitHub Container Registry | 4 | 16% |
+| Application protocol | 8 | 32% |
+| Network programming | 6 | 24% |
+| Network concurrency | 2 | 8% |
+| Tests | 1 | 4% |
+| Presentation | 4 | 16% |
 :::
 
-## Category 1: Docker and GitHub Container Registry
+- The full grid is on the [practical work page](../practical-work/pw2.qmd).
 
-::: {style="font-size: 0.7em"}
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 1 | The application is packaged with Docker, using a Dockerfile. | 0.2 |
-| 2 | The image is published on GitHub Container Registry, and it is public. | 0.2 |
-| 3 | The README gives the explicit commands¹ to build the image and publish it on GitHub Container Registry. | 0.2 |
-| 4 | The README gives the explicit commands¹ to run the server and the client with Docker, so that a new user needs nothing else than Docker (`docker run` is enough, no need for Docker Compose). | 0.2 |
+## Rules
 
-: {tbl-colwidths="[6,82,12]"}
-:::
+- Everyone contributes, and everyone can explain the whole project.
+- Only the **Java classes of the course** for the network part.
+- PW1's good practices continue, and it **builds from a fresh clone**.
+- State your sources, AI included. Copying another group: grade **1**.
+- Each rule broken costs up to **1 point**.
 
-::: {style="font-size: 0.55em"}
-¹ Commands a new user or developer can run in a terminal to clone and
-build your application, as they are, without any additional
-information.
-:::
+## Submission and presentations
 
-## Category 2: Application protocol
-
-::: {style="font-size: 0.6em"}
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 5 | The specification is in the repository, linked from the README, and gives an overview of the application. | 0.2 |
-| 6 | The specification gives the transport protocol (TCP and/or UDP), and justifies the choice. | 0.2 |
-| 7 | The specification gives the port and the encoding. | 0.2 |
-| 8 | The specification defines where a message ends. | 0.2 |
-| 9 | The specification describes each message, with its syntax, its parameters and all its responses. | 0.2 |
-| 10 | The specification defines the error codes, and the answer to an unknown message and to a message sent at the wrong time. | 0.2 |
-| 11 | The application protocol is described using at least one successful communication example diagram. | 0.2 |
-| 12 | The application protocol is described using at least one unsuccessful/error communication example diagram. | 0.2 |
-
-: {tbl-colwidths="[6,82,12]"}
-:::
-
-## Category 3: Network programming
-
-::: {style="font-size: 0.65em"}
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 13 | The server listens on the port of the specification by default, and the client connects to a given host on that port by default. picocli options change both. | 0.2 |
-| 14 | The client offers a REPL to interact with the server without leaving the application. | 0.2 |
-| 15 | The server processes the messages as the specification defines them. | 0.2 |
-| 16 | The client processes the messages as the specification defines them. | 0.2 |
-| 17 | The client and the server release their resources when a problem occurs, or when one side closes the connection. | 0.2 |
-| 18 | The application displays explicit error messages² on invalid inputs and on network errors. | 0.2 |
-
-: {tbl-colwidths="[6,82,12]"}
-:::
-
-::: {style="font-size: 0.55em"}
-² Messages that clearly explain what went wrong and how to fix it,
-user-friendly and easy to understand.
-:::
-
-## Categories 4 and 5
-
-::: {style="font-size: 0.75em"}
-**Category 4: Network concurrency**
-
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 19 | The server accepts several clients at the same time. | 0.2 |
-| 20 | The data structures shared between clients are safe under concurrent accesses. | 0.2 |
-
-: {tbl-colwidths="[6,82,12]"}
-
-**Category 5: Tests**
-
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 21 | The protocol logic is separated from the network code and covered by JUnit tests that run with `./mvnw test` on any machine, including an invalid message. | 0.2 |
-
-: {tbl-colwidths="[6,82,12]"}
-:::
-
-## Category 6: Presentation
-
-::: {style="font-size: 0.75em"}
-| # | Criterion | Points |
-|---|-----------|-------:|
-| 22 | The presentation is clear, prepared, and fits in the allotted time. | 0.2 |
-| 23 | The demo shows the client and the server running, including an error case. | 0.2 |
-| 24 | The presentation explains the protocol and the choices behind it (transport, port, framing, errors), with a diagram. | 0.2 |
-| 25 | Everyone speaks, and everyone can answer questions about any part of the code. | 0.2 |
-
-: {tbl-colwidths="[6,82,12]"}
-:::
-
-## How to test your protocol
+- Update your Discussion with the **repository link and the commit
+  hash**. Each day late costs **1 point**.
 
 ::: {style="font-size: 0.85em"}
-- As in PW1, test the logic, not the network: a method takes the line
-  received and returns the answer to send.
-- The network code only reads lines, calls it, and writes the answers.
-  The tests need no server and no client. With the SMS protocol:
-
-```java
-@Test
-void answersAnUnknownMessageWithAnError() {
-  Session session = new Session();
-  assertEquals("ERROR -1", session.handle("HELLO"));
-}
-
-@Test
-void refusesListBeforeJoin() {
-  Session session = new Session();
-  assertEquals("ERROR -2", session.handle("LIST"));
-}
-```
+| | Due | Presentations |
+|---|---|---|
+| DAI-TIC-A | Tuesday 01.12, 23:59 | Wednesday 02.12 |
+| DAI-TIC-C | Monday 30.11, 23:59 | Tuesday 01.12 |
 :::
 
-## Rules: the team and the project (1/2)
-
-- Everyone contributes, and the history shows it. Everyone can explain
-  the whole project in detail, not only the part they wrote.
-- A GitHub Discussion is opened **before the next course**, so that
-  we can validate your idea.
-- The network communication uses only the **Java classes of the
-  course**. Any other library may serve the rest, the user interface
-  for example. The README says which dependencies you use, and why.
-
-## Rules: the team and the project (2/2)
-
-- The application does **slightly more, and something slightly
-  different**, than the course examples.
-- The good practices of PW1 continue: issues, reviewed pull requests,
-  descriptive and signed commits, the Maven wrapper, a clean
-  `.gitignore`, a README that explains how to build and run it.
-- It **builds and runs from a fresh clone**, with
-  `./mvnw clean package`, on a machine that is not yours. What we cannot
-  build, we cannot grade.
-
-## Rules: the submission
-
-- Discussion updated with the **repository link and the commit hash**
-  before the deadline. We grade that commit, not what comes after it.
-- **Private** repository: the teaching staff are collaborators. If we
-  cannot open it at the deadline, the work counts as not submitted.
-- Every started day of delay costs **1 point**.
-
-## Rules: honesty and penalties
-
-- State your sources: internet code, AI-generated code, ideas taken
-  elsewhere. Say what you used them for (see the AI principles).
-- Copying the code of another group gives a grade of **1** to everyone
-  involved.
-- Each rule not respected costs up to **1 point** on the final grade,
-  and several can add up.
-
-## Grades and feedback
-
-- Your grade goes into GAPS.
-- You receive an email with a comment for each criterion, a general
-  comment on your work, and the grade.
-- If anything is unclear, ask us.
+- **8 minutes** per group: the application running, with an error
+  case, and the protocol and its choices.
 
 ## Tips
 
-- **Keep it simple.** The Unix philosophy and KISS from PW1: a small
-  protocol, well specified, with its errors handled, is worth more than
-  an ambitious one that half works. Too complex may be penalized.
-- **Make your image public.** A package on GitHub Container Registry
-  starts **private**: **Package settings** > **Danger Zone** >
-  **Change visibility** > **Public** (chapter 05).
-
-## Tips: how and what to present
-
-- **Presenting.** Slides, a live demo, a poster: as you like. Skip the
-  objectives; show code only where it is interesting, complex or tricky.
-  Focus on the **what** and the **why**, for someone who knows the course
-  but not your project.
-
-[Practical work 2](../practical-work/pw2.qmd) has everything: the demos,
-the rules, the full grid.
+- **Keep it simple**: a small protocol, well specified, with its errors
+  handled, beats an ambitious one that half works.
+- Test the protocol logic **without the network**: a method takes a
+  message and returns the answer.
+- GitHub Container Registry packages start **private**: make yours
+  public.
 
 ## Credits
 

@@ -35,7 +35,7 @@ Docker, as in [chapter 05](../chapters/05-docker.qmd).
 - Implement the protocol as a client and a server, with TCP and/or UDP.
 - Serve several clients at the same time.
 - Package, publish and run the application with Docker.
-- Explain your work, in the README and in front of the class.
+- Explain your work.
 
 ## Demos
 
