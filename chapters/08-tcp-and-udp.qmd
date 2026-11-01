@@ -3,272 +3,399 @@ title: "TCP & UDP programming"
 subtitle: "Chapter 08"
 ---
 
-Slides: [part 1, TCP](../slides/08-tcp-programming.qmd) ·
-[part 2, UDP](../slides/08-udp-programming.qmd)
+Slides: [part 1](../slides/08-tcp-udp-part-1.qmd) ·
+[part 2](../slides/08-tcp-udp-part-2.qmd)
 
 ## Objectives
 
+As you have seen in previous chapters, applications communicate with each other
+using application protocols. In this chapter, you learn how to implement such
+communication by programming your own TCP and UDP clients and servers (or
+emitters and receivers) in Java. This allows you to create your own network
+applications, such as a chat server, a file server, a web server or a real-time
+multiplayer game server.
+
 By the end of this chapter, you should be able to:
 
-- Explain the Socket API: what a socket is, and which calls a client and
-  a server make.
-- Write a TCP server and a TCP client in Java, and exchange text and
-  binary data over the connection with the streams of
-  [chapter 04](04-java-io.qmd).
-- Implement where a message ends, and detect that the other side closed
-  the connection.
-- Debug a client or a server with `ncat`.
-- Write a UDP sender and receiver in Java, and answer a request with a
-  timeout and retries.
-- Tell unicast, broadcast and multicast apart, and use them for service
-  discovery.
-- Choose between TCP and UDP for an application, and justify the choice.
+- Program your own TCP client/server applications in Java with the Socket API.
+- Process data from TCP streams.
+- Program your own UDP emitter/receiver applications in Java with the Socket
+  API.
+- Process data from UDP datagrams.
+- Use the different ways to send a UDP datagram to one or multiple receivers.
+- Explain how UDP can be used for service discovery.
+- Make use of a REPL.
 
-In [chapter 06](06-application-protocols.qmd) you designed protocols on
-paper, and in [chapter 07](07-smtp-and-ncat.qmd) you talked to a server
-by hand. Here you write the programs. The chapter takes two weeks: part
-1 is TCP, part 2 is UDP. [Practical work 2](../practical-work/pw2.qmd)
-uses both.
+# Part 1/2
 
-## Code examples
+In this first part, you learn the basics of TCP and UDP programming in Java.
 
-All the programs of this chapter are in the
-[code examples repository]({{< var examples-url >}}), directory
-`08-tcp-and-udp`:
+## Explore the code examples
 
-```sh
-cd dai-code-examples
-git pull
-cd 08-tcp-and-udp
-```
+Individually, or in pair/group, **take 15 minutes to explore and discuss the
+code examples (part 1/2)** in the
+[code examples repository]({{< var examples-url >}}/tree/main/08-tcp-and-udp),
+directory `08-tcp-and-udp`. Clone the repository or pull the latest changes
+first.
 
-Each program is a single Java file, run with `java <File>.java` from its
-directory. Start the server first, in one terminal, then the client in a
-second terminal. Stop a server with `Ctrl` + `C`.
+Try to answer the following questions:
 
-# Part 1: TCP
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+You can use the following content to help you.
 
 ## The Socket API
 
-A **socket** is the end of a network communication, as the operating
-system offers it to a program. The program opens it, writes to it,
-reads from it, and closes it, much like a file. To exchange data, the
-sockets of both sides must be linked together.
+The Socket API lets programs create TCP and UDP network applications. In Java,
+it is described in the
+[`java.net` package](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/package-summary.html)
+of the
+[`java.base` module](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/module-summary.html).
 
-The API comes from BSD Unix (1983), in C. Every operating system offers
-it today, and every language wraps it: Java, Python, Go, Node.js. A
-client in one language works with a server in another, because only the
-bytes on the network count. The calls of the C version name the steps:
+It was originally developed in C for the Unix operating system by Berkeley
+University. It has been ported to Java, and is now available on many platforms
+and languages.
 
-| Side | Call | What it does |
-|---|---|---|
-| Both | `socket()` | Creates a socket |
-| Server | `bind()` | Chooses the address and port to listen on |
-| Server | `listen()` | Marks the socket as passive: it accepts connections |
-| Server | `accept()` | Waits for a client, returns a **new** socket for it |
-| Client | `connect()` | Opens a connection to a server |
-| Both | `read()`, `write()` | Receive and send bytes |
-| Both | `close()` | Closes the socket |
+## TCP
 
-Java groups them in the classes of the `java.net` package:
+TCP is a transport protocol: it transfers data between two applications.
 
-| Java | Calls | Role |
-|---|---|---|
-| `ServerSocket` | `socket`, `bind`, `listen`; `accept()` | The server's listening socket |
-| `Socket` | `socket`, `connect`; streams; `close()` | One TCP connection, on either side |
-| `DatagramSocket`, `DatagramPacket` | `socket`, `bind`; send, receive | UDP, in part 2 |
-| `MulticastSocket` | | UDP with multicast groups, in part 2 |
+TCP is **connection-oriented**: a connection must be established between the two
+applications before data can be exchanged, in both directions.
 
-## A TCP server and a TCP client
+TCP can only do **unicast**: a connection links exactly two applications. To
+communicate with several servers, a client must establish a separate TCP
+connection with each server.
 
-```{mermaid}
-sequenceDiagram
-    participant C as Client
-    participant S as Server
-    Note over S: new ServerSocket(6430)
-    Note over S: accept() waits
-    Note over C: new Socket("localhost", 6430)
-    C->>S: opens the connection
-    Note over S: accept() returns a Socket
-    C->>S: writes "Hello 1\n"
-    S-->>C: writes "Hello 1\n"
-    Note over C: close()
-    C->>S: closes the connection
-    Note over S: readLine() returns null, close()
-    Note over S: accept() waits for the next client
-```
+TCP is considered **reliable**: if data is lost (for example due to network
+issues), it is retransmitted. The application receives the data in order, or
+gets an error once TCP detects that the connection is broken.
 
-**The server** creates a `ServerSocket` on its port, then loops: wait
-for a client, serve it, close its socket, wait for the next one.
+A good analogy is a phone call: you must first establish a connection with the
+other person before you can talk to them. Once the connection is established,
+they hear everything you say. If they did not hear you well, you can repeat what
+you said until they hear you. They can, of course, also talk to you.
 
-1. `new ServerSocket(port)` binds the port and listens.
-2. `accept()` **blocks** until a client connects, then returns a
-   `Socket` for that client.
-3. The server reads and writes through that socket.
-4. When the exchange is over, it closes the client's socket, and calls
-   `accept()` again.
+TCP is **stream-oriented**: data is sent as a stream of bytes. TCP splits this
+stream into segments, and identifies each segment with a sequence number. Each
+segment travels as the payload of an IP packet.
 
-The server therefore holds two kinds of sockets: the `ServerSocket`,
-which only accepts connections, and one `Socket` per client, on the same
-port. The system tells the connections apart by four values: the
-address and port of the client, and the address and port of the server.
+Thanks to the sequence numbers, TCP reassembles the segments in the correct
+order. If a segment is lost, TCP retransmits it.
 
-**The client** needs one socket. `new Socket(host, port)` creates it and
-connects in one step. The system chooses the client's own port, a free
-temporary one ([chapter 06](06-application-protocols.qmd#port)).
+### TCP in the Socket API
 
-The echo server of `01-tcp-echo` sends back every line it receives:
+To make it simple, a TCP socket is just like a file that you can open, read
+from, write to and close. To exchange data, TCP sockets on both sides must be
+connected. The stream classes are the same as with files, seen in
+[chapter 04](04-java-io.qmd).
 
-```java
-try (ServerSocket serverSocket = new ServerSocket(port)) {
-  while (true) {
-    // accept() blocks until a client connects, then returns a socket for that client
-    try (Socket socket = serverSocket.accept();
-        BufferedReader in =
-            new BufferedReader(
-                new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-        BufferedWriter out =
-            new BufferedWriter(
-                new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8))) {
+A TCP socket uses an IP address and a port number. It can act as a client or as
+a server:
 
-      // readLine() returns null when the client closes the connection
-      String line;
-      while ((line = in.readLine()) != null) {
-        // readLine() removed the end of line: add it back
-        out.write(line + "\n");
-        out.flush();
-      }
-    } catch (IOException e) {
-      System.out.println("[Server] Error with this client: " + e.getMessage());
-    }
-  }
-}
-```
+- A TCP socket accepting connections is called a server socket (class
+  [`ServerSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html)).
+- A TCP socket initiating a connection is called a client socket (class
+  [`Socket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/Socket.html)).
 
-The client sends three lines and prints each answer:
+The following schema shows the workflow of a TCP client/server application:
+
+![TCP client/server workflow](images/08-tcp-and-udp/tcp-client-server-workflow.svg){fig-alt="Sequence diagram of a TCP client and server: create the server socket, accept, connect, read and write, close." width="80%"}
+
+::: {.callout-note title="Note on socket connection behavior"}
+As soon as the `ServerSocket` is created with a port, it starts listening for incoming
+connection requests.
+
+When a client creates a `new Socket(HOST, PORT);`, it attempts to establish a
+TCP connection with the server. It is a blocking call.
+
+By default, the operating system on the server side accepts the incoming TCP
+connection request and puts it in a queue. From the client's perspective, the
+connection is accepted and the socket is created, even though the server may not
+yet have called `ServerSocket.accept()`. At this point, the client is on hold:
+the data it sends, up to the size of the buffers, is kept by the server's
+operating system.
+
+When the server eventually calls `accept()`, a new `Socket` is created on the
+server side, bound to the first pending connection of the queue, and the server
+application receives any buffered data. The server and client can now communicate
+with each other.
+
+This explains why a client can connect to a server that is busy with another
+client. The number of pending connections is limited. It can be configured with
+the `backlog` parameter of the `ServerSocket`, and its behaviour depends on the
+platform (the
+[Javadoc](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html#%3Cinit%3E(int,int)>)
+says the operating system can ignore it).
+
+The Network concurrency chapter shows how to handle several clients on the
+server side.
+:::
+
+### Processing data from streams
+
+Sockets use data streams to send and receive data, just like files. You get an
+input stream to read data from a socket, and an output stream to write data to a
+socket:
 
 ```java
-try (Socket socket = new Socket(host, port);
-    BufferedReader in = ...;   // same as the server
-    BufferedWriter out = ...) {
+// Get input stream
+input = socket.getInputStream();
 
-  for (int i = 1; i <= 3; i++) {
-    String line = "Hello " + i;
-    // The server reads lines: the "\n" tells it where this one ends
-    out.write(line + "\n");
-    // Without flush(), the line stays in the buffer and the server never sees it
-    out.flush();
-    System.out.println("[Client] Received: " + in.readLine());
-  }
-}
+// Get output stream
+output = socket.getOutputStream();
 ```
 
-Run them:
-
-```sh
-cd 01-tcp-echo
-java EchoServer.java
-```
-
-```sh
-java EchoClient.java
-```
-
-```text
-[Client] Connected to localhost:6430
-[Client] Sent: Hello 1
-[Client] Received: Hello 1
-[Client] Sent: Hello 2
-[Client] Received: Hello 2
-[Client] Sent: Hello 3
-[Client] Received: Hello 3
-[Client] Closing the connection
-```
-
-The server prints `Client connected from 127.0.0.1:60179`: the client's
-port changes at each run. With `ncat localhost 6430` instead of the Java
-client, you type the lines yourself, and the address may show as
-`0:0:0:0:0:0:0:1`, the IPv6 form of `localhost`.
-
-Two errors you will meet:
-
-- No server on the port: `new Socket(...)` fails at once with
-  `java.net.ConnectException: Connection refused`.
-- A program already listens on the port: `new ServerSocket(...)` fails
-  with `Address already in use`. Stop the other server first (often one
-  you forgot in another terminal).
-
-## Streams over a socket
-
-A socket gives one `InputStream` and one `OutputStream`. Everything of
-[chapter 04](04-java-io.qmd) applies to them:
-
-- For text, wrap them in `InputStreamReader` and `OutputStreamWriter`,
-  **always with the encoding** the protocol specifies, then in
-  `BufferedReader` and `BufferedWriter`.
-- For binary data, wrap them in `BufferedInputStream` and
-  `BufferedOutputStream`.
-- Open the socket and its streams in one **try-with-resources**: they
-  are closed in every case, errors included. Closing a stream of a
-  socket closes the socket.
-
-Three points are specific to the network:
-
-- **`flush()` after each message.** A buffered writer sends its bytes
-  when its buffer is full, or when the stream is flushed or closed. A
-  short message stays in the buffer: the other side waits for it, your
-  side waits for the answer, and both wait forever.
-- **`readLine()` removes the end of line.** To send the line back, or
-  to forward it, add the `\n` again. `BufferedWriter.newLine()`
-  writes the separator of the system, which depends on the machine;
-  the protocol fixes one, so write it yourself: `"\n"` (or `"\r\n"`).
-- **The end of the stream means the other side will send nothing
-  more**: it closed the connection, or only its sending side.
-  `read()` returns `-1`, `readLine()` returns `null`. A short read
-  (fewer bytes than asked) means nothing: TCP delivers the stream in
-  pieces of any size. A connection that breaks (the other program is
-  killed, the network fails) arrives as an `IOException`, often
-  `Connection reset`.
-
-## Where a message ends
-
-TCP carries a stream of bytes, and knows nothing about messages
-([chapter 06](06-application-protocols.qmd#framing-where-a-message-ends)).
-Each of the three framings has its code:
-
-**Delimiter.** One message per line: `readLine()` reads up to the
-end of the line, a `\n`, a `\r` or `\r\n`. This is what the echo server and the *"Guess the number"* game
-do.
-
-**Connection close.** The message is everything until the end of the
-stream. `02-tcp-file-transfer` sends a file this way: the sender writes
-the bytes and closes the connection, the receiver copies everything it
-reads into a file.
+You can then decorate these streams with other streams to process the data, just
+as in [chapter 04](04-java-io.qmd):
 
 ```java
-// FileReceiver: copies until the end of the stream, that is until the client closes the connection
-long bytes = in.transferTo(file);
+// Get input stream as text
+input = new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8);
+
+// Get output stream as text
+output = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 ```
 
+Use buffered streams to improve performance:
+
 ```java
-// FileSender
-long bytes = file.transferTo(out);
+// Get input stream as binary with buffer
+input = new BufferedInputStream(socket.getInputStream());
+
+// Get output stream as binary with buffer
+output = new BufferedOutputStream(socket.getOutputStream());
+```
+
+For text, the same applies with `BufferedReader` and `BufferedWriter`.
+
+::: {.callout-important}
+Do not forget to flush the output stream after writing data to it. Otherwise, the
+remaining data in the buffer is not sent to the other application until the
+buffer is full or the stream is closed!
+
+```java
 out.flush();
-// Leaving the try-with-resources closes the socket: the receiver sees the end of the stream
 ```
 
-One message per connection, and no way to tell a complete file from an
-interrupted one: if the sender crashes halfway, the receiver sees an end
-of stream too.
+Also, do not forget all the good practices of [chapter 04](04-java-io.qmd)
+(encoding, buffering, etc.). They must be applied here too!
+:::
 
-**Length prefix.** The message starts with its length. The receiver
-reads the length, then exactly that number of bytes. It is the common
-choice for binary protocols; see *Go further*.
+## UDP
 
-## Debugging with ncat
+UDP is a transport layer protocol, just like TCP. There are numerous differences
+between them.
 
-`ncat` ([chapter 07](07-smtp-and-ncat.qmd#ncat)) replaces either side,
-and shows exactly what the other one sends:
+UDP is **connectionless**: it does not require a connection to be established
+before sending data.
+
+UDP does not provide any reliability mechanism: it does not guarantee that the
+data is received at all, nor that it is received in the order it was sent.
+
+A good analogy is the postal service with postcards: you write several postcards
+and send them to someone. You do not know if they will be received, nor if they
+will arrive in the same order as they were sent.
+
+Just as with postcards, UDP alone is used when reliability is not required.
+
+### UDP datagrams
+
+UDP is a datagram protocol: it sends data in discrete chunks called
+*"datagrams"*.
+
+Datagrams are like the postcards of the analogy: they are sent independently from
+each other. They contain a destination address, a payload and the sender address.
+If you need to, you can use the sender address to reply to the sender.
+
+A datagram is composed of a header and a payload. The header contains information
+about the datagram, such as the source and destination ports. The payload contains
+the data to send. It can be a notification, a request, a query, a response, etc.
+It is up to the application to define its format.
+
+An IPv4 packet holds at most 65,535 bytes, as its length is encoded on 16 bits.
+Without the headers of IPv4 (20 bytes) and UDP (8 bytes), the payload of a datagram
+is limited to 65,507 bytes.
+
+If a datagram is too large for the network to carry in one packet, IP splits it
+into fragments and reassembles them on arrival. IP delivers the whole datagram or
+nothing: if one fragment is lost, the whole datagram is lost. A receive buffer that
+is too small silently cuts the datagram.
+
+### Reliability
+
+As UDP does not provide any reliability mechanism, it is up to the application to
+implement it. For example, the application can acknowledge the reception of a
+datagram, and ask for retransmission if some data was not received. What TCP offers
+by default has to be implemented by the application with UDP.
+
+In certain cases, reliability is not required: some applications tolerate data
+loss. Streaming is a perfect use case. If a datagram is lost, the receiver receives
+the next one and the stream continues. Take the streaming of a live event on your
+television:
+
+- If a few datagrams are lost, you might notice a few glitches (video artifacts),
+  but they do not affect the entire stream.
+- If too many datagrams are lost, the receiver cannot rebuild the images and the
+  stream stops.
+
+Some video services such as [Jitsi](https://jitsi.org/) (an open source
+Zoom/Google Meet/Teams alternative) can use UDP with the help of
+[WebRTC](https://webrtc.org/). Even these applications might prefer TCP to
+guarantee the reliability of their services.
+
+The game [Factorio](https://www.factorio.com/) (a video game where you build and
+manage factories) is another good example of an application that uses UDP when
+playing on a multiplayer server:
+
+> Factorio uses UDP only. The game builds its own "reliable delivery" layer built
+> on UDP to deal with packet loss and reordering issues.
+>
+> <https://wiki.factorio.com/Multiplayer>
+
+We can illustrate reliability with the following example. You have developed a very
+simple application protocol where clients send `INCREMENT` and `DECREMENT` commands
+to increment or decrement a counter on the server. The counter is shared between
+all clients.
+
+If the clients send 10 `INCREMENT` commands, the counter should be incremented by
+10. But one of the datagrams could be lost: if the server receives 9 `INCREMENT`
+commands, the counter is incremented by 9.
+
+Both parties could implement a reliability mechanism to solve this issue: the
+server acknowledges the reception of a datagram, and a client that does not receive
+an acknowledgement *within a specific period* retransmits the datagram.
+
+However, even the acknowledgement could be lost. The client could retransmit the
+datagram several times, and the server could receive it several times. The server
+could then detect duplicate datagrams and ignore them, and also detect out-of-order
+datagrams and reorder them, with a message ID for example, just as TCP does.
+
+Handling reliability is quite challenging. **In this course, reliability is not
+required. We can assume the network never fails.** We focus on the UDP protocol
+itself, and not on reliability mechanisms.
+
+If you are interested, have a look at the
+[Automatic Repeat reQuest (ARQ)](https://en.wikipedia.org/wiki/Automatic_repeat_request)
+protocol, a mechanism used to detect and retransmit lost datagrams, and at
+[*Timeouts* in *Go further*](#go-further).
+
+### UDP in the Socket API
+
+In the UDP world, the
+[`DatagramSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramSocket.html)
+class replaces the `Socket` class. It is used to create UDP clients and servers,
+and to send and receive UDP datagrams.
+
+A datagram is created with the
+[`DatagramPacket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramPacket.html)
+class, with a payload and a destination address.
+
+A multicast socket is created with the
+[`MulticastSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/MulticastSocket.html)
+class. It joins a multicast group to receive the datagrams sent to that group,
+just like a message sent to a group of people.
+
+UDP can be used to create a client/server architecture, or a peer-to-peer one.
+
+The following schema shows the workflow of a UDP unicast (client/server)
+application:
+
+![UDP unicast (client/server) workflow](images/08-tcp-and-udp/udp-unicast-client-server-workflow.svg){fig-alt="Sequence diagram of a UDP client and server: create the sockets, create a datagram, send and receive it, close." width="80%"}
+
+### Processing data from datagrams
+
+A datagram contains a payload, as a byte array. You can convert it to a string or
+any other data type.
+
+You can create a datagram with a byte array as payload:
+
+```java
+// Create a datagram with a payload and a destination address
+byte[] buffer = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName("localhost"), 1234);
+```
+
+You can get the payload of a received datagram as a byte array:
+
+```java
+// Create a datagram to receive data
+byte[] buffer = new byte[1024];
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+// Receive a datagram
+socket.receive(packet);
+
+// Get the payload of the datagram
+byte[] data = packet.getData();
+int length = packet.getLength();
+String message = new String(data, 0, length, StandardCharsets.UTF_8);
+```
+
+## Exercises (part 1)
+
+### Exercise 1: Learn to use the debugger {#sec-ex1}
+
+Every decent IDE has a debugger, a tool to inspect the state of your program at
+runtime. It allows you to:
+
+- Set breakpoints: a breakpoint is a point in your code where the program stops
+  when it is reached.
+- Step through your code, line by line, to see what is happening.
+- Inspect the value of variables and expressions at runtime.
+
+In IntelliJ IDEA, set a breakpoint by clicking on the left side of the line number:
+
+![IntelliJ IDEA: set a breakpoint](images/08-tcp-and-udp/intellij-idea-set-a-breakpoint.png){fig-alt="A breakpoint set in the left margin of the IntelliJ IDEA editor."}
+
+Then, run the program in debug mode by clicking on the bug icon:
+
+![IntelliJ IDEA: run the program in debug mode](images/08-tcp-and-udp/intellij-idea-run-debug-mode.png){fig-alt="The bug icon in the IntelliJ IDEA toolbar."}
+
+The program stops at the breakpoint. You can then step through the code and inspect
+variables and expressions:
+
+![IntelliJ IDEA: the debugger](images/08-tcp-and-udp/intellij-idea-debugger.png){fig-alt="The debugger of IntelliJ IDEA, stopped on a line, with the value of the variables."}
+
+Take some time to learn how to use the debugger in your favorite IDE. It is a very
+useful tool.
+
+### Exercise 2: Execute the code examples {#sec-ex2}
+
+Return to the code examples (part 1/2). Each program is a single Java file: run it
+from its directory with `java <ExampleName>.java`, the server first, in its own
+terminal. Take some time to execute them, understand them and see the results. Use
+the debugger to step through the code and see what is happening.
+
+### Exercise 3: Explore the TCP template {#sec-ex3}
+
+The directory `templates/java-tcp-programming` of the code examples is a simple
+template to create your own TCP clients and servers in Java, as a Maven project
+with picocli. Take some time to explore it, then try to answer these questions:
+
+- How would you use it to create your own TCP clients and servers?
+- What are the main takeaways of the template?
+- How would you implement a TCP network application using the template and the code
+  examples?
+
+### Exercise 4: Explore the UDP template {#sec-ex4}
+
+The directory `templates/java-udp-programming` is the same for UDP emitters/clients
+and receivers/servers. Take some time to explore it, then try to answer these
+questions:
+
+- How would you use it to create your own UDP emitters/clients and
+  receivers/servers?
+- What are the main takeaways of the template?
+- How would you implement a UDP network application using the template and the code
+  examples?
+
+### Exercise 5: Repair a broken client and server with ncat {#sec-ex5}
+
+`ncat` ([chapter 07](07-smtp-and-ncat.qmd#ncat)) can replace either side of a
+textual protocol, and shows exactly what the other side sends:
 
 ```sh
 # Replace the client: type the lines yourself
@@ -278,813 +405,441 @@ ncat localhost 6430
 ncat -l 6430
 ```
 
-When a client and a server hang, run each one against ncat. The side
-that does not show what you expect is the broken one. [Exercise
-2](#sec-ex2) gives you a broken pair to repair this way.
+`exercises/BrokenEchoClient.java` and `exercises/BrokenEchoServer.java` should send
+lines and echo them back. They compile, start, and hang.
 
-To see the bytes on the network itself, *Go further* introduces
-Wireshark.
+1. Run the broken client against `ncat -l 6430`. What does ncat show? Type an answer
+   in ncat, three times. What does ncat show when the client ends?
+2. Run `ncat localhost 6430` against the broken server. Type lines, then press
+   `Ctrl` + `D`. What does the server print, and what comes back?
+3. Find the two errors on each side, and fix them.
 
-## One client at a time
+::: {.callout-tip collapse="true" title="Solution"}
+1. Nothing while the client runs: its line stays in the buffer of the
+   `BufferedWriter`. When the client closes its streams, the buffer is flushed, and
+   ncat shows `Hello 1Hello 2Hello 3`, on one line.
+2. The server prints `Received: ...` for each line. Nothing comes back until
+   `Ctrl` + `D`: the server then closes its streams, which flushes the buffer, and
+   ncat shows your lines, glued together.
+3. On both sides, `out.write(line)` must become `out.write(line + "\n")` followed by
+   `out.flush()`. `readLine()` removes the end of line, and waits for one on the
+   other side; the `flush()` makes the bytes leave.
+:::
 
-The servers of this chapter serve one client, then the next. Start a
-second client while the first one is connected: the second one
-connects, sends its first message, and gets no answer until the first
-client leaves.
+# Part 2/2
 
-The second client connects because the operating system accepts
-connections on its own, as soon as the `ServerSocket` exists, and
-queues them until the program calls `accept()`. The data the client
-sends waits in a buffer of the system. The length of that queue is the
-**backlog**, an optional argument of `new ServerSocket(port, backlog)`;
-the system may adjust it.
+In this second part, you learn more about UDP and some of its unique features
+compared to TCP.
 
-Serving several clients at the same time is the topic of
-[chapter 09](../index.qmd), Network concurrency.
+## Explore the code examples
 
-## A complete example: *"Guess the number"*
+Individually, or in pair/group, **take 15 minutes to explore and discuss the code
+examples (part 2/2)**, in the same directory, and try to answer the same questions
+as in part 1.
 
-`03-guess-the-number` implements the
-[specification]({{< var examples-url >}}/tree/main/06-application-protocols/guess-the-number)
-of chapter 06: TCP, port 6433, UTF-8, one message per line.
+## Unicast, broadcast and multicast
 
-**The server** separates the network from the rules. The network code
-only reads lines, passes them to a `Game`, and writes the answers:
+UDP supports three types of communication: unicast, broadcast and multicast. TCP
+only supports unicast.
 
-```java
-Game game = new Game(new Random());
+### Unicast
 
-String line;
-while ((line = in.readLine()) != null) {
-  String answer = game.handle(line);
-  if (answer == null) {
-    // QUIT: no answer, the server closes the connection
-    break;
-  }
-  out.write(answer + "\n");
-  out.flush();
-}
-```
+Unicast is the most common type of communication. It is a one-to-one communication:
+a datagram is sent from one host to another host, just like TCP.
 
-`Game.handle()` takes one message and returns the answer, as the
-specification defines it. It knows nothing about sockets, so a JUnit
-test can call it directly, as [PW2](../practical-work/pw2.qmd#how-to-test-your-protocol)
-asks:
+![Unicast connection](https://upload.wikimedia.org/wikipedia/commons/7/75/Unicast.svg){fig-alt="One sender reaching one receiver among several nodes." width="35%"}
 
-```java
-String handle(String line) {
-  String[] parts = line.split(" ", -1);
+Think of it as a private conversation between two people.
 
-  switch (parts[0]) {
-    case "GUESS" -> {
-      if (parts.length != 2) {
-        return "ERROR -1";
-      }
-      return guess(parts[1]);
-    }
-    case "RESTART" -> { ... }
-    case "QUIT" -> { ... }
-    default -> {
-      return "ERROR -1";
-    }
-  }
-}
-```
-
-`split(" ", -1)` keeps the empty parts: `GUESS  50`, with two spaces,
-gives three parts, and gets `ERROR -1` as the specification wants.
-The server prints the number to find, which makes testing easy.
-
-**The client** is a **REPL** (Read-Eval-Print Loop), the form PW2
-requires: it reads a command of the user, turns it into a message,
-sends it, prints the answer, and starts again until the user quits.
-
-```java
-while (true) {
-  // Read
-  System.out.print("> ");
-  String input = keyboard.readLine();
-  ...
-  // Eval: turn the command into a message of the protocol
-  String message;
-  if (input.equals("quit")) {
-    message = "QUIT";
-  } else if (input.equals("restart")) {
-    message = "RESTART";
-  } else if (input.matches("-?[0-9]+")) {
-    message = "GUESS " + input;
-  } else {
-    help();
-    continue;
-  }
-  out.write(message + "\n");
-  out.flush();
-  ...
-  // Print
-  System.out.println(describe(message, answer));
-}
-```
-
-```text
-Connected to localhost:6433. Guess a number between 1 and 100.
-Commands: <number>, restart, quit
-> 50
-Higher.
-> 200
-Error: the number must be between 1 and 100.
-> restart
-Error: the game is still running.
-> quit
-Bye.
-```
-
-`describe()` needs the message as well as the answer: in this
-specification, the error codes are numbered per message, and `ERROR 1`
-means one thing after `GUESS` and another after `RESTART`
-([chapter 06](06-application-protocols.qmd#errors) discusses that
-choice).
-
-# Part 2: UDP
-
-## UDP
-
-UDP sends **datagrams**: independent packets, each one with its own
-destination. There is no connection. Compared with TCP:
-
-- A datagram arrives **whole or not at all**: the boundaries of the
-  messages are kept, and no framing is needed beyond one message per
-  datagram, as long as the receiver's buffer holds the largest
-  message.
-- A datagram can be **lost**, **duplicated**, or arrive **out of
-  order**. UDP does not notice, and does not resend. Even on one
-  machine, a datagram is dropped when the receiver's buffer is full.
-- With **no receiver**, the sender gets no error: the datagram is
-  simply lost.
-
-TCP is a phone call: you connect, then talk, and the other side hears
-everything, in order. UDP is a stack of postcards: each one travels on
-its own, and some may never arrive.
-
-What UDP gives in exchange: no connection to open for a two-message
-exchange, no waiting for a lost packet to be resent, and one datagram
-can reach **several** receivers (broadcast and multicast, below).
-
-**Size.** The payload of a datagram over IPv4 holds at most 65,507
-bytes (65,535 minus the IP and UDP headers); Java refuses a larger one
-with `Message too long`. Keep messages much smaller, a few hundred
-bytes: a datagram larger than the network can carry in one packet
-(about 1,500 bytes on Ethernet) is cut by IP into fragments, and losing
-one fragment loses the whole datagram.
-
-## UDP in Java
-
-- `DatagramSocket`: sends and receives datagrams. Without a port, the
-  system chooses one; with a port, the socket receives what is sent to
-  that port.
-- `DatagramPacket`: one datagram. To send, it holds the payload and the
-  destination; to receive, an empty buffer, which `receive()` fills,
-  with the address and port of the sender.
-
-`04-udp-unicast` sends one datagram:
-
-```java
-try (DatagramSocket socket = new DatagramSocket()) {
-  byte[] payload = message.getBytes(StandardCharsets.UTF_8);
-
-  // Each datagram carries its own destination: there is no connection
-  DatagramPacket packet =
-      new DatagramPacket(payload, payload.length, InetAddress.getByName(host), port);
-
-  socket.send(packet);
-}
-```
-
-and receives them:
-
-```java
-try (DatagramSocket socket = new DatagramSocket(port)) {
-  while (true) {
-    byte[] buffer = new byte[MAX_SIZE];
-    DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-
-    // receive() blocks until a datagram arrives, then fills the packet
-    socket.receive(packet);
-
-    // Only the first getLength() bytes of the buffer belong to this datagram
-    String message =
-        new String(packet.getData(), packet.getOffset(), packet.getLength(), StandardCharsets.UTF_8);
-    System.out.println("[Receiver] From " + packet.getAddress().getHostAddress()
-        + ":" + packet.getPort() + ": " + message);
-  }
-}
-```
-
-```sh
-cd ../04-udp-unicast
-java UdpReceiver.java
-```
-
-```sh
-java UdpSender.java "Hello from Java"
-```
-
-```text
-[Receiver] Listening on port 6438
-[Receiver] From 127.0.0.1:60527: Hello from Java
-```
-
-Two traps:
-
-- Convert **`getLength()`** bytes, not the whole buffer: the rest of
-  the buffer is zeros, or what an older datagram left in it.
-- A datagram longer than the buffer is **cut** to the size of the
-  buffer, without any error. Make the buffer as large as the maximum
-  size your specification gives.
-
-`ncat -u` speaks UDP: `ncat -u localhost 6438` sends each line you type
-as one datagram, with its `\n`. Input piped into ncat is sent in larger
-pieces, several lines per datagram.
-
-## Request-response, timeouts and retries
-
-The receiver of a datagram knows where it came from:
-`packet.getSocketAddress()` is the address and port of the sender. To
-answer, it sends a datagram there. `05-udp-request-response` answers
-each request with the text in capitals:
-
-```java
-socket.receive(request);
-...
-// The request carries the address and port of its sender: answer there
-byte[] payload = text.toUpperCase().getBytes(StandardCharsets.UTF_8);
-socket.send(new DatagramPacket(payload, payload.length, request.getSocketAddress()));
-```
-
-The client waits for the answer. If the request or the answer is lost,
-`receive()` would wait forever: `setSoTimeout()` limits the wait, and
-the client sends the request again.
-
-```java
-// receive() now waits at most TIMEOUT_MS, then throws SocketTimeoutException
-socket.setSoTimeout(TIMEOUT_MS);
-
-for (int attempt = 1; attempt <= MAX_TRIES; attempt++) {
-  socket.send(request);
-  try {
-    socket.receive(response);
-    System.out.println("[Client] Response: " + ...);
-    return;
-  } catch (SocketTimeoutException e) {
-    System.out.println("[Client] No response within " + TIMEOUT_MS + " ms");
-  }
-}
-```
-
-Without the server:
-
-```text
-[Client] Request sent (attempt 1): hello
-[Client] No response within 2000 ms
-[Client] Request sent (attempt 2): hello
-[Client] No response within 2000 ms
-[Client] Request sent (attempt 3): hello
-[Client] No response within 2000 ms
-[Client] No response after 3 attempts, giving up
-```
-
-A retry has a cost. When the **answer** was lost, the server received
-the request twice. For a request that only reads (`REQ_TEMP Kitchen`),
-it does not matter. For one that changes something, it does: a client
-sends `INCREMENT` to a shared counter, the answer is lost, the client
-sends `INCREMENT` again, and the counter grows by 2. A protocol on UDP
-must say what a repeated request does: give each request a number, so
-that the server answers a repeat without doing the work twice, or keep
-to requests that can be repeated safely.
-
-This is what TCP does for you: numbers, acknowledgements,
-retransmissions, order. An application on UDP that needs them builds
-them itself, as QUIC does: the protocol under HTTP/3 runs on UDP.
-
-## Messaging patterns
-
-| Pattern | How | Example |
-|---|---|---|
-| **Fire and forget** | The sender sends, expects no answer, and does not know who received | A sensor that sends its measure every 10 minutes |
-| **Request-response** | The client sends a request, the server answers to the sender's address; the client handles the timeout | DNS: one question, one answer |
-
-With UDP, the answers can come in any order, and from any number of
-senders: a client can send several requests before the first answer,
-and match each answer to its request by a number in the message.
-
-## Unicast, broadcast, multicast
-
-| | Who receives | TCP | UDP | Where |
-|---|---|:-:|:-:|---|
-| **Unicast** | One machine | ✔ | ✔ | Everywhere |
-| **Broadcast** | Every machine of the local network | | ✔ | Local network only |
-| **Multicast** | The machines that joined a group | | ✔ | Local network; across networks only where the routers allow it |
-
-TCP is a connection between two programs: it is always unicast.
+To send a unicast datagram, the sender must know the IP address and port of the
+receiver. It is mostly the same as TCP, without all the reliability features
+provided by TCP but with all the performance of UDP.
 
 ### Broadcast
 
-A datagram sent to a **broadcast address** reaches every machine of
-the local network. Each machine's system hands it to the program bound
-to that port, and drops it when there is none.
+Broadcast is a one-to-all communication: a datagram is sent from one host to all
+hosts on the network.
 
-- `255.255.255.255`: every machine of the local network.
-- The **directed broadcast** address of a subnet: the address of the
-  network with all the host bits set to 1. For `192.168.1.0/24` (mask
-  `255.255.255.0`), it is `192.168.1.255`. `ifconfig` (macOS) and
-  `ip addr` (Linux) show it next to the address of each interface.
+![Broadcast connection](https://upload.wikimedia.org/wikipedia/commons/d/dc/Broadcast.svg){fig-alt="One sender reaching all the nodes." width="35%"}
 
-Routers do not forward broadcasts: they stay inside the local network.
+Think of it as a public announcement.
 
-`06-udp-broadcast` sends one datagram to `255.255.255.255`; the
-receiver is an ordinary UDP receiver. In C and in Python, a socket
-needs the option `SO_BROADCAST` to send a broadcast, or the system
-refuses with "Permission denied". Java's `DatagramSocket` has it on by
-default; the example still calls `socket.setBroadcast(true)`, to say
-what it intends.
+To send a broadcast datagram, the sender must know the broadcast address, a special
+address that represents all hosts of a specific subnet.
+
+The broadcast address is defined by the network address and the subnet mask, a
+32-bit number. It is written
+as four numbers separated by dots (`255.255.255.0`), or as a single number (`/24`
+for `255.255.255.0`, as 24 bits are set to `1`).
+
+A good example is the following table (source:
+[Wikipedia](https://en.wikipedia.org/wiki/Broadcast_address)):
+
+::: {style="font-size: 0.85em"}
+| Network IP address breakdown for `172.16.0.0/12` | Binary form | Dot-decimal notation |
+|---|---|---|
+| 1. Network IP address | 10101100.0001**0000.00000000.00000000** | `172.16.0.0` |
+| 2. Subnet mask: `/12` means the 12 left-most bits are `1`s. They are the network address (prefix); the `32 - 12 = 20` others are the host address (suffix) | 11111111.1111**0000.00000000.00000000** | `255.240.0.0` |
+| 3. Bit complement (bitwise NOT) of the subnet mask | 00000000.0000**1111.11111111.11111111** | `0.15.255.255` |
+| 4. Broadcast address: bitwise OR of the network IP address and the bit complement of the subnet mask, the largest address of the network | 10101100.0001**1111.11111111.11111111** | `172.31.255.255` |
+:::
+
+To send a broadcast to all the devices of the local network, whatever their subnet,
+you can use the `255.255.255.255` broadcast address.
+
+::: {.callout-important}
+There can be restrictions on the use of broadcast. Broadcast is limited to the local
+network, and can still be blocked by a firewall and/or a router.
+:::
+
+In C and in Python, a socket needs the `SO_BROADCAST` option to send a broadcast.
+Java's `DatagramSocket` has it on by default, and the code examples still call
+`socket.setBroadcast(true)` to state the intent.
+
+![UDP broadcast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-broadcast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a broadcast: every node receives the datagram, and a node without a socket on that port ignores it." width="80%"}
 
 ### Multicast
 
-A **multicast group** is an IPv4 address between `224.0.0.0` and
-`239.255.255.255`. Receivers **join** the group; a datagram sent to the
-group reaches all of them: the network card or the system of a
-machine that did not join drops it, while a broadcast is handled by the
-system of every machine. Some groups are reserved
-([IANA registry](https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml));
-for your own applications, take one in `239.0.0.0/8`, the range kept
-for private use inside an organization
-([RFC 2365](https://www.rfc-editor.org/rfc/rfc2365)).
+Multicast is a one-to-many communication: a datagram is sent from one host to
+multiple hosts.
 
-Sending to a group needs nothing special: an ordinary `DatagramSocket`,
-with the group as destination. Receiving needs a `MulticastSocket`,
-bound to the port, which joins the group. `07-udp-multicast` implements
-the sensors of the
-[*"Temperature monitoring"* specification]({{< var examples-url >}}/tree/main/06-application-protocols/temperature-monitoring):
+![Multicast connection](https://upload.wikimedia.org/wikipedia/commons/3/30/Multicast.svg){fig-alt="One sender reaching a group of nodes." width="35%"}
 
-```java
-// TemperatureEmitter: fire and forget, every few seconds
-String message = String.format(Locale.ROOT, "TEMP %s %.1f\n", room, temperature);
-byte[] payload = message.getBytes(StandardCharsets.UTF_8);
-socket.send(new DatagramPacket(payload, payload.length, group, PORT));
-```
+Think of it as a group conversation.
 
-```java
-// TemperatureReceiver
-try (MulticastSocket socket = new MulticastSocket(PORT)) {
-  NetworkInterface networkInterface =
-      args.length > 0 ? NetworkInterface.getByName(args[0]) : null;
+To send a multicast datagram, the sender uses a multicast address, a special address
+that represents a group of hosts on the network. Think of it as a radio channel or a
+Discord channel: everyone on the channel receives the messages sent on it.
 
-  // From now on, the datagrams sent to the group reach this socket
-  socket.joinGroup(new InetSocketAddress(GROUP, PORT), networkInterface);
+Multicast addresses are specific IP addresses in the range from `224.0.0.0` to
+`239.255.255.255` for IPv4, and `ff00::/8` for IPv6.
 
-  while (true) {
-    socket.receive(packet);
-    ...
-  }
-}
-```
+Just as for ports, some multicast addresses are reserved for specific purposes. A
+complete list is available on the
+[IANA website](https://www.iana.org/assignments/multicast-addresses/multicast-addresses.xhtml),
+further described in
+[RFC 5771](https://datatracker.ietf.org/doc/html/rfc5771).
 
-The group is joined on a **network interface**. With `null`, the system
-chooses one, which works on most machines. If nothing arrives, give the
-interface connected to the network of the emitters: `en0` on a Mac,
-`eth0` on Linux and WSL.
+For local networks, the range comes from the **Administratively Scoped Block** of
+that RFC, with more details in
+[RFC 2365](https://datatracker.ietf.org/doc/html/rfc2365). Addresses in
+the range `239.0.0.0` to `239.255.255.255` can be used for your own applications.
 
-```sh
-cd ../07-udp-multicast
-java TemperatureReceiver.java
-```
+Just as for broadcast, the sender must know the multicast address, and there can be
+restrictions on the use of multicast.
 
-```sh
-java TemperatureEmitter.java Kitchen 1
-```
+![UDP multicast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-multicast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a multicast: only the applications of the node that joined the group receive the datagram." width="80%"}
 
-```sh
-java TemperatureEmitter.java Bedroom 1
-```
+Multicast is almost guaranteed **not** to work on the public Internet, which greatly
+limits its usage. To use multicast across the Internet, you need a tunnel such as a
+virtual private network (VPN).
 
-```text
-[Receiver] Joined 239.255.1.2 on port 6436
-[Receiver] From /10.191.11.76:49163: {Kitchen=20.0}
-[Receiver] From /10.191.11.76:49163: {Kitchen=20.5}
-[Receiver] From /10.191.11.76:63829: {Bedroom=20.0, Kitchen=20.5}
-```
+Multicast is presented in this course because it is an important concept in service
+discovery protocols. In this course, if you decide to use multicast, we assume you
+use it on a (reliable) local network.
 
-Start a second receiver: both receive every measure. The full server of
-the specification also answers the operator, on another port: it reads
-two sockets at the same time, which [chapter 09](../index.qmd) makes
-possible.
+Multicast is a complex topic, not covered in depth here. For a deeper understanding,
+you can read the following resources:
 
-## Service discovery
+- [IP multicast](https://en.wikipedia.org/wiki/IP_multicast)
+- [Internet Group Management Protocol](https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol)
+- [Internet Protocol television](https://en.wikipedia.org/wiki/Internet_Protocol_television)
 
-With unicast, a client must know the address of the server. Broadcast
-and multicast remove that need: a message reaches every interested
-machine of the network, whoever they are. **Service discovery** uses
-this to find services whose address is not known in advance, or
-changes: printers, game servers on a LAN, the backends of a load
-balancer.
+## Messaging patterns
 
-**Advertisement** (passive): each provider announces itself at regular
-intervals, to a group or in broadcast; consumers listen. The
-temperature sensors above work this way.
+As UDP does not provide a connection mechanism, it is up to the application to define
+the messaging pattern (how to send and receive data). There are two common messaging
+patterns.
 
-```{mermaid}
-sequenceDiagram
-    participant P1 as Provider 1
-    participant P2 as Provider 2
-    participant C as Consumer
-    P1-)C: SERVICE guess 6433 (multicast, every 5 s)
-    P2-)C: SERVICE guess 7000 (multicast, every 5 s)
-    Note over C: knows both providers
-```
+The **fire-and-forget** pattern is the simplest one. It is a one-way communication: a
+datagram is sent from one host to one or several hosts without expecting a response. It is
+used when the sender does not need to know if the datagram was received or not.
 
-**Query** (active): the consumer asks the group who offers a service;
-each provider answers in unicast, to the address of the question.
+The **request-response** (sometimes called request-reply) pattern is a two-way
+communication: a datagram is sent from one host to another host, and a response is
+expected.
 
-```{mermaid}
-sequenceDiagram
-    participant C as Consumer
-    participant P1 as Provider 1
-    participant P2 as Provider 2
-    C-)P1: DISCOVER guess (multicast)
-    C-)P2: DISCOVER guess (multicast)
-    P1-->>C: SERVICE guess 6433 (unicast)
-    P2-->>C: SERVICE guess 7000 (unicast)
-```
+Every datagram carries the port of the socket that sent it: the port you bound the
+socket to, or a port the operating system chose. The receiver extracts the sender's
+IP address and port, and uses them to reply in unicast.
 
-`08-udp-service-discovery` implements the query. The consumer cannot
-know how many providers exist: it collects answers until a delay
-expires.
+The request-response pattern can be used when the sender needs to know that the
+datagram was received. Both sides of the communication can send a request and receive a
+response.
 
-```sh
-cd ../08-udp-service-discovery
-java DiscoveryServer.java guess 6433
-```
+## Service discovery protocols
 
-```sh
-java DiscoveryServer.java guess 7000
-```
+With unicast, the sender must know the IP address of the receiver.
 
-```sh
-java DiscoveryClient.java guess
-```
+With broadcast and multicast, the sender does not need to know who the receivers are:
+it knows that nodes nearby (or those who expressed interest) can receive the datagram.
 
-```text
-[Consumer] Looking for guess...
-[Consumer] Found guess at 10.191.11.76:7000
-[Consumer] Found guess at 10.191.11.76:6433
-[Consumer] 2 provider(s) found
-```
+Using this property, it is possible to create service discovery protocols. They are
+used to find services on the network without knowing their IP address.
 
-Real protocols work this way: **DHCP**, which gives a machine its
-address when it joins a network, starts with a broadcast; **mDNS**
-(Bonjour, how a Mac finds a printer) uses the multicast group
-`224.0.0.251`, port 5353.
+There are two types of service discovery protocols: passive and active. Passive
+protocols are based on broadcast or multicast, and announce the presence of a service
+on the network. Active protocols also start with broadcast or multicast, then switch
+to unicast: they query the network to find a service.
 
-## TCP or UDP?
+The most common patterns are the following:
 
-| | TCP | UDP |
-|---|---|---|
-| Connection | Opened before any data | None |
-| Data | A stream of bytes; the protocol defines the messages | Datagrams, each one whole |
-| Reliability | The bytes arrive once and in order; a broken connection is an error | Losses, duplicates, any order |
-| Receivers | One (unicast) | One, all (broadcast) or a group (multicast) |
-| Java | `ServerSocket`, `Socket` | `DatagramSocket`, `MulticastSocket`, `DatagramPacket` |
-| Used by | HTTP/1.1 and HTTP/2, SMTP, SSH, databases | DNS, DHCP, mDNS, video calls, games, QUIC (HTTP/3) |
+- **Advertisement**, a passive pattern: a server (called a service provider) announces
+  its presence on the network, with a broadcast or multicast datagram. The datagram
+  contains information about the service (name, IP address, port, etc.), and is sent
+  periodically to announce that the service is still available.
 
-Choose **TCP** when every message matters and their order too: a chat,
-a turn-based game, a file. Choose **UDP** when a lost message is
-replaced by the next one (a measure, a position in a game, a frame of
-video), when one exchange is too short to open a connection, or when
-the message must reach several receivers.
+  The clients (called service consumers) listen to these datagrams to discover the
+  services on the network. A service consumer interested by a service provider can
+  then manifest its interest.
 
-## Exercises
+  ![Service discovery protocols: advertisement pattern](images/08-tcp-and-udp/udp-service-discovery-protocols-advertisement-pattern.svg){fig-alt="A server announces its service to two clients every 30 seconds; one client then requests the service." width="80%"}
 
-Part 1 exercises use the TCP examples, part 2 the UDP ones. Most need
-several terminals, one per program.
+- **Query**, an active pattern: a client (called a service consumer) sends a multicast
+  or broadcast datagram on the network to request information about a service.
 
-### Exercise 1: Talk to the echo server {#sec-ex1}
+  If a server that provides the service (called a service provider) is available, it
+  replies with a unicast datagram containing the information to connect to the
+  service, as in the request-response pattern.
 
-1. Start `EchoServer`, and connect with `ncat localhost 6430`. Type a
-   few lines, with accents. Then run `EchoClient` while ncat is still
-   connected. What happens, and when does the client get its answers?
-2. Stop the server while ncat is connected. What does ncat do?
-3. Run `EchoClient` with no server, and start two servers on the same
-   port. Read the two errors.
-4. Run `echo_client.py`, the same client in Python. What did the
-   server need to know about the language of its client?
+  ![Service discovery protocols: query pattern](images/08-tcp-and-udp/udp-service-discovery-protocols-query-pattern.svg){fig-alt="A client queries two servers; one answers with its address, and the client requests the service." width="80%"}
+
+Once the service is found, the rest of the exchange can use another protocol, such as
+TCP.
+
+## Read-eval-print loop (REPL)
+
+To run several commands on a server without closing the connection, you can use a
+[read-eval-print loop (REPL)](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop).
+
+To make it simple, a REPL is a loop that asks the user to input commands, executes
+each command and displays the result, until the user decides to exit the loop.
+
+In the context of a server, the server waits for the client to send a command,
+executes it, sends the result back, and waits for a new command without closing the
+connection. The client sends commands until the user decides to close the connection.
+
+Both the client and the server can close the connection at any time. It is up to the
+developer to decide when and who closes it.
+
+## Summary of differences between TCP and UDP
+
+| TCP | UDP |
+|---|---|
+| Connection-oriented | Connectionless |
+| Reliable | Unreliable |
+| Stream protocol | Datagram protocol |
+| Unicast | Unicast, broadcast and multicast |
+| Defined by the application (often request-response) | Fire-and-forget, request-response (manual) |
+| - | Service discovery protocols |
+| Used mainly for FTP, HTTP, SMTP, SSH, etc. | Used mainly for DNS, streaming, gaming, etc. |
+
+## Exercises (part 2)
+
+### Exercise 6: Execute the code examples {#sec-ex6}
+
+Return to the code examples (part 2/2). Take some time to execute them, understand
+them and see the results. Use the debugger to step through the code and see what is
+happening. Most examples' READMEs ask what you notice.
+
+### Exercise 7: Update your application protocols {#sec-ex7}
+
+Now that you have gained new knowledge regarding TCP and UDP, update the application
+protocols you created for the *"Guess the number"* game and the *"Temperature
+monitoring"* application in [chapter 06](06-application-protocols.qmd).
+
+You can compare them with the
+[*"Guess the number"*]({{< var examples-url >}}/tree/main/06-application-protocols/guess-the-number)
+and
+[*"Temperature monitoring"*]({{< var examples-url >}}/tree/main/06-application-protocols/temperature-monitoring)
+specifications.
+
+### Exercise 8: Access the TCP server from several TCP clients at the same time {#sec-ex8}
+
+Start the server of the example `08-tcp-repl-client-server`, then its client several
+times, at the same time. You will see that the server can only handle one client at a
+time.
+
+Do you have any idea why? Discuss with your peers if needed to share your findings.
 
 ::: {.callout-tip collapse="true" title="Solution"}
-1. The lines come back. `EchoClient` connects at once, sends
-   `Hello 1`, and waits: the server is busy with ncat. When you leave
-   ncat (`Ctrl` + `C`), the server accepts the client and answers its
-   three lines.
-2. The server's sockets close with the program, and ncat stops: its
-   end of the stream.
-3. `java.net.ConnectException: Connection refused`, then
-   `Cannot listen on port 6430: Address already in use`.
-4. Nothing: both send UTF-8 lines ending with `\n`. The protocol is
-   the contract, not the language.
+The server stays in its loop on one client until that client leaves, and only then
+calls `accept()` again. The second client connects (the operating system queues the
+connection), then waits for its answer. Chapter 09 shows how to serve several clients
+at the same time.
 :::
 
-### Exercise 2: Repair a broken client and server {#sec-ex2}
+### Exercise 9: Emit from several UDP emitters at the same time {#sec-ex9}
 
-`exercises/BrokenEchoClient.java` and `exercises/BrokenEchoServer.java`
-should do what the echo example does. They compile, start, and hang.
+Start the receiver of the example `07-udp-fire-and-forget-messaging-pattern`, then its
+emitter several times, at the same time. You will see that the receiver gets all the
+messages of the emitters.
 
-1. Run the broken client against `ncat -l 6430`. What does ncat show?
-   Type an answer in ncat, three times. What does ncat show when the
-   client ends?
-2. Run `ncat localhost 6430` against the broken server. Type lines.
-   What does the server print, and what comes back?
-3. Find the two errors on each side, and fix them. Check your fix
-   against ncat, then client against server.
+Do you have any idea why? How does it compare to the TCP example you have just seen?
 
 ::: {.callout-tip collapse="true" title="Solution"}
-1. Nothing while the client runs: its line is in the buffer of the
-   `BufferedWriter`, never sent. Each line you type in ncat is read by
-   the client, which then "sends" its next line, into the buffer again.
-   When the client closes its streams, the buffer is flushed, and ncat
-   shows `Hello 1Hello 2Hello 3`, on one line.
-2. The server prints `Received: ...` for each line: it reads fine.
-   Nothing comes back. Press `Ctrl` + `D`: ncat closes its side of the
-   connection, the server's `readLine()` returns `null`, the server
-   closes its streams, which flushes the buffer, and ncat shows your
-   lines, glued together without their `\n`.
-3. On both sides, `out.write(line)` must become `out.write(line +
-   "\n")` followed by `out.flush()`. The `\n` is the framing: without
-   it, `readLine()` on the other side waits for the end of the line.
-   The `flush()` makes the bytes leave.
+UDP has no connection. The receiver has a single socket, and each datagram that
+arrives on it is independent, whoever sent it. The TCP server has one socket per client,
+and reads only the one it is serving.
 :::
-
-### Exercise 3: One client at a time {#sec-ex3}
-
-Start `GuessServer`, then two `GuessClient` in two terminals.
-
-1. Guess with the first client, then with the second. What happens?
-   When does the second one get its answer?
-2. Why did the second client's `new Socket(...)` succeed, while the
-   server was busy?
-3. Which line of `GuessServer` would you need to change, and why is it
-   not enough to move it?
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. The first client plays normally. The second sends its guess and
-   waits: the server is reading the first client's socket. When the
-   first client quits, the server calls `accept()` again, starts a game
-   for the second client, reads its waiting guess and answers.
-2. The system accepts the connection by itself and queues it (the
-   backlog); the message waits in its buffer until the program calls
-   `accept()` and reads.
-3. The loop `while ((line = in.readLine()) != null)` keeps the server
-   on one client. The server would need to wait for new clients and
-   read several sockets at the same time: one thread per client, the
-   topic of chapter 09.
-:::
-
-### Exercise 4: Play by hand {#sec-ex4}
-
-Start `GuessServer` (it prints the number to find), and play with
-`ncat localhost 6433`. Get each answer of the
-[specification]({{< var examples-url >}}/tree/main/06-application-protocols/guess-the-number)
-at least once: `LOWER`, `HIGHER`, `CORRECT`, `OK`, `ERROR 1` (twice,
-for two different reasons), `ERROR 2`, `ERROR 3`, `ERROR -1`. Then
-send `QUIT`.
-
-::: {.callout-tip collapse="true" title="Solution"}
-With 28 to find:
-
-```text
-C: GUESS 50        S: LOWER
-C: GUESS 10        S: HIGHER
-C: GUESS 150       S: ERROR 1     (out of range)
-C: RESTART         S: ERROR 1     (game still running)
-C: GUESS a         S: ERROR 2
-C: guess 5         S: ERROR -1    (keywords are case-sensitive)
-C: GUESS 28        S: CORRECT
-C: GUESS 30        S: ERROR 3
-C: RESTART         S: OK
-C: QUIT                           (the server closes, ncat stops)
-```
-:::
-
-### Exercise 5: Send a file with ncat {#sec-ex5}
-
-1. Start `FileReceiver`, and send a file with
-   `ncat --send-only localhost 6431 < <file>`. Compare the received file
-   with the original (`cmp` on macOS and Linux).
-2. The other way: `ncat -l 6431 > copy.bin` as the receiver, and
-   `java FileSender.java <file>`.
-3. Play an interrupted sender: connect with `ncat localhost 6431`,
-   type a few lines, and press `Ctrl` + `C`. What does the receiver
-   save? How could the protocol let it notice that the file is
-   incomplete?
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. `cmp` prints nothing: the files are identical. `--send-only` makes
-   ncat close the connection once the file is sent.
-2. Same result, the other way round: both sides speak the same
-   protocol, bytes until the end of the stream.
-3. It saves the lines typed so far, and reports success: an
-   interrupted transfer also ends with an end of stream. Send the
-   length first (*Go further*): the receiver then knows how many bytes
-   to expect, and that the file is incomplete.
-:::
-
-### Exercise 6: Extend the game {#sec-ex6}
-
-You extended the protocol in
-[chapter 06, exercise 6](06-application-protocols.qmd#sec-ex6): the
-client chooses the range of the number before the game starts.
-Implement your version in `GuessServer` and `GuessClient`. Write the
-change in `Game` first, and test it with ncat before touching the
-client.
-
-### Exercise 7: Datagrams {#sec-ex7}
-
-1. Start `UdpReceiver`, and run `UdpSender` three times. Why does the
-   sender's port change each time?
-2. Send with `ncat -u localhost 6438`, and type lines. What does the
-   receiver show at the end of each message?
-3. Send a message of 1,500 characters
-   (`java UdpSender.java "$(python3 -c "print('x'*1500)")"`). How many
-   characters arrive? Where is the limit set?
-4. Run `UdpSender` with no receiver. What does it say? Why?
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. `new DatagramSocket()` without a port: the system chooses a free
-   one each time.
-2. The `\n` that ncat sends is part of the datagram: an empty line
-   follows each message.
-3. 1,024: the size of the receiver's buffer, `MAX_SIZE`. The rest is
-   cut, without an error.
-4. `Sent 5 bytes`: sending succeeds without a receiver. Nothing in UDP
-   tells the sender that no one listens.
-:::
-
-### Exercise 8: Lost answers {#sec-ex8}
-
-1. Run `UdpEchoClient` with and without `UdpEchoServer`.
-2. Modify the server so that it processes every request but sends
-   the answer only one time in two (a counter is enough): a lost answer.
-   Run the client. What does the server receive?
-3. The server keeps a counter, and the request is `INCREMENT`. Where
-   is the problem now? Propose a change to the protocol.
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. With the server, one attempt and the answer in capitals. Without,
-   three attempts two seconds apart, then the client gives up.
-2. The first answer is not sent, the client times out and resends;
-   the second gets an answer. The server received and processed the
-   request twice, while the client sees one answer.
-3. If the **answer** is lost, the client resends, and the counter grows
-   twice. Number the requests (`INCREMENT 17`): the server remembers
-   the last number of each client (with UDP, a client is its
-   `address:port`), and answers a repeat without incrementing again.
-:::
-
-### Exercise 9: A group of sensors {#sec-ex9}
-
-1. Start two `TemperatureReceiver` and two `TemperatureEmitter` (rooms
-   of your choice, every 2 seconds). Who receives what?
-2. Send to the group by hand:
-   `ncat -u --send-only 239.255.1.2 6436`, then type
-   `TEMP Garage 12.5`, `TEMP Garage a` and `HELLO`. What happens to
-   each? Which rule of the specification does it apply?
-3. In class: with a neighbour on the same network, run the emitter on
-   one machine and the receiver on the other. Then try the same with
-   `BroadcastEmitter` and `BroadcastReceiver`.
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. Each receiver gets every measure of both emitters.
-2. `TEMP Garage 12.5` is stored. The two others are ignored, as the
-   specification says: an invalid room or temperature, or any other
-   message, is ignored, since emitters expect no answer.
-3. It works if the network forwards multicast and broadcast between the
-   machines. Some Wi-Fi networks block them; then they stay limited
-   to each machine.
-:::
-
-### Exercise 10: Advertise a service {#sec-ex10}
-
-`DiscoveryServer` answers queries. Write the other pattern,
-advertisement:
-
-1. A provider that sends `SERVICE <name> <port>` to the group
-   `239.255.1.3`, port 6441, every 5 seconds.
-2. A consumer that joins the group and prints the providers it knows,
-   each one once.
-3. Compare the two patterns: which one finds a new provider faster?
-   Which one sends fewer messages when nobody is looking?
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. `TemperatureEmitter` with another message and another group.
-2. `TemperatureReceiver` with a `Set` of `"address:port"` instead of a
-   map: print a provider when `add()` returns `true`.
-3. A consumer that starts learns everything at once with a query,
-   and waits up to one interval with advertisement. A consumer already
-   running learns of a new provider at once with advertisement (its
-   first announcement), and only at its next query otherwise. When
-   nobody is looking, advertisement keeps sending; queries send
-   nothing.
-:::
-
-## Test your knowledge
-
-- What is a socket? Which calls does a TCP server make, and which ones
-  a client?
-- Why does a TCP server hold several sockets on the same port? How
-  does the system tell the connections apart?
-- What does `flush()` do on a socket, and what happens without it?
-- How does a program notice that the other side closed a TCP
-  connection?
-- Name three ways to mark the end of a message on TCP, and the code
-  that reads each one.
-- Why does a second client connect to a busy server, and get no answer?
-- What is a REPL? Why separate the rules of a protocol from the network
-  code?
-- Name three ways UDP can fail to deliver a datagram as it was sent.
-  What does the sender learn about it?
-- How does a UDP server know where to send its answer?
-- Why must a protocol on UDP say what a repeated request does?
-- What is the difference between broadcast and multicast? Why do both
-  stay in the local network?
-- What are the two patterns of service discovery?
-- Give an application for TCP, and one for UDP, and justify each
-  choice.
 
 ## Go further
 
-Optional content: useful general knowledge, not required for the
-evaluations.
+Optional content: useful general knowledge, not required for the evaluations.
 
-::: {.callout-note collapse="true" title="Length-prefix framing"}
-`DataOutputStream` and `DataInputStream` write and read numbers in a
-fixed binary format: `writeInt()` writes 4 bytes, most significant
-first. The length goes first, then the bytes of the message:
+### Implement the *"Guess the number"* game
+
+Implement the *"Guess the number"* game with the application protocol you made in
+[chapter 06](06-application-protocols.qmd), or the
+[specification]({{< var examples-url >}}/tree/main/06-application-protocols/guess-the-number)
+of the code examples. Use the template and the code examples to help you: copy
+`templates/java-tcp-programming` to your own repository.
+
+**Dockerize the application.** Using [chapter 05](05-docker.qmd), create a `Dockerfile`
+for the application, and publish it to GitHub Container Registry. You should then be
+able to run the server and the client in Docker containers, on a network of your own:
+
+```sh
+# Create the network, once
+docker network create dai
+
+# Start the server
+docker run --rm -it --network dai --name the-server <docker-image-tag> server
+
+# Start the client and access the server container
+docker run --rm -it --network dai <docker-image-tag> client --host the-server
+```
+
+On such a network, Docker resolves the `--name` of a container, so the client reaches
+the server by that name. No ports are published to the host, as both containers
+communicate over the network without passing by the host.
+
+**Compare your solution** with `solutions/guess-the-number` in the code examples, which
+follows the specification of the code examples.
+
+**Go one step further:**
+
+- Can you update the application to allow the client to specify the range of the number
+  to guess before starting the game?
+- Can you implement the *"Temperature monitoring"* application with TCP?
+
+### Implement the *"Temperature monitoring"* application
+
+Implement the *"Temperature monitoring"* application with the application protocol you
+made in [chapter 06](06-application-protocols.qmd), or the
+[specification]({{< var examples-url >}}/tree/main/06-application-protocols/temperature-monitoring)
+of the code examples. Use the template and the code examples to help you: copy
+`templates/java-udp-programming` to your own repository.
+
+**Dockerize the application** in the same way. You should then be able to run the
+emitter, the receiver and the operator in Docker containers:
+
+```sh
+# Start the emitter
+docker run --rm -it --network dai <docker-image-tag> emitter --name Kitchen
+
+# Start the receiver
+docker run --rm -it --network dai --name the-receiver <docker-image-tag> receiver --network-interface eth0
+
+# Start the operator and access the receiver container
+docker run --rm -it --network dai <docker-image-tag> operator --host the-receiver
+```
+
+**Compare your solution** with `solutions/temperature-monitoring`, which has the
+emitter and the receiver of the specification. The operator needs the receiver to read
+two sockets at the same time: `Receiver` in the template already starts two threads,
+and chapter 09 explains them.
+
+**Go one step further:**
+
+- Can you update the application protocol to allow the operator to get the latest
+  temperature of a given room, or its average temperature? This requires storing all
+  the temperatures received for a room.
+- Can you implement the *"Guess the number"* game with UDP?
+
+### More
+
+::: {.callout-note collapse="true" title="Variable length data"}
+Depending on the application protocol, the data sent can have a variable length. There
+are two common ways to handle it: use a delimiter, or send the length first.
+
+With a delimiter, use a buffered reader to read the data until the delimiter is found:
 
 ```java
-static void sendMessage(DataOutputStream out, String text) throws IOException {
-  byte[] payload = text.getBytes(StandardCharsets.UTF_8);
-  out.writeInt(payload.length); // 4 bytes, big-endian
-  out.write(payload);
-  out.flush();
-}
+// End of transmission character
+String EOT = "\u0004";
 
-static String readMessage(DataInputStream in) throws IOException {
-  int length = in.readInt();    // EOFException if the stream ends first
-  byte[] payload = in.readNBytes(length);
-  if (payload.length < length) {
-    throw new EOFException("Message cut after " + payload.length + " bytes");
-  }
-  return new String(payload, StandardCharsets.UTF_8);
+// Read data until the delimiter is found
+String line;
+while ((line = in.readLine()) != null && !line.equals(EOT)) {
+  System.out.println("[Server] received data from client: " + line);
 }
 ```
 
-The message may contain anything, newlines included, and the receiver
-knows when a message is incomplete. The length is a count of **bytes**:
-`text.length()` counts UTF-16 units ([chapter 04](04-java-io.qmd)).
-:::
+Otherwise, send the length of the data before the data itself:
 
-::: {.callout-note collapse="true" title="Wireshark: see the packets"}
-[Wireshark](https://www.wireshark.org/) captures the packets of a
-network interface and decodes them. To watch the programs of this
-chapter, capture the **loopback** interface (`lo0` on macOS,
-`Loopback` or `Adapter for loopback traffic capture` on Windows, `lo`
-on Linux), with the display filter `tcp.port == 6430` or
-`udp.port == 6438`.
+```java
+// Send the length of the data
+out.write("DATA_LENGTH " + data.length() + "\n");
 
-For a TCP connection, you see the three packets that open it (`SYN`,
-`SYN, ACK`, `ACK`), the data, and the packets that close it (`FIN`).
-Right-click a packet, **Follow** > **TCP Stream**: Wireshark shows the
-whole conversation, as ncat would. In
-[exercise 2](#sec-ex2), it shows that the broken client sends nothing
-until it closes.
-:::
-
-::: {.callout-note collapse="true" title="Other languages"}
-`echo_client.py` is the echo client in Python. The calls are the same,
-in another syntax:
-
-```python
-import socket
-
-# Same steps as EchoClient.java: connect, send lines, read the answers
-with socket.create_connection(("localhost", 6430)) as sock:
-    with sock.makefile("rw", encoding="utf-8", newline="\n") as stream:
-        for i in range(1, 4):
-            stream.write(f"Hello {i} from Python\n")
-            stream.flush()
-            print("Received:", stream.readline().rstrip("\n"))
+// Send the data
+out.write(data);
+out.flush();
 ```
 
-`makefile()` turns the socket into a text stream with an encoding, as
-`InputStreamReader` does in Java. The server cannot tell which language
-its client is written in.
+```java
+// Read the length of the data
+String[] parts = in.readLine().split(" ");
+int dataLength = Integer.parseInt(parts[1]);
+
+// Read the data
+for (int i = 0; i < dataLength; i++) {
+  System.out.print((char) in.read());
+}
+```
 :::
+
+::: {.callout-note collapse="true" title="Timeouts"}
+In the example `06-udp-request-response-messaging-pattern`, start the client without
+the server: `socket.receive()` blocks forever. `setSoTimeout()` limits the wait, and
+lets the client give up or send its request again, as the *"Temperature monitoring"*
+specification allows the operator to do:
+
+```java
+// receive() now waits at most 2 seconds, then throws a SocketTimeoutException
+socket.setSoTimeout(2000);
+
+try {
+  socket.receive(responsePacket);
+} catch (SocketTimeoutException e) {
+  System.out.println("[Client] No response within 2 seconds");
+}
+```
+:::
+
+## Conclusion
+
+You have learned how to use the Socket API to create your own TCP clients and servers
+in Java, how to use UDP to build different kinds of network applications, and the
+differences between TCP and UDP. You can now create your own network applications, such
+as a file server or a web server, and containerize them to use them
+anywhere.
+
+For now, our TCP servers serve only one client at a time. Chapter 09
+shows how to manage several clients at the same time.
+
+## Test your knowledge
+
+- What is a socket?
+- What is the difference between a server socket and a client socket?
+- How do sockets compare to files?
+- Why is TCP considered a reliable protocol?
+- What are the differences between UDP and TCP?
+- Why is UDP unreliable? How to mitigate this?
+- What is a datagram? How can a datagram be sent without a server listening?
+- What are the differences between unicast, broadcast and multicast?
+- What are the messaging patterns and their differences?
+- What are the service discovery protocols? How do they compare to each other?
 
 ## Sources
 
@@ -1096,6 +851,7 @@ its client is written in.
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
   itself based on the original course by O. Liechti and
   J. Ehrensberger.
-- The Socket API calls, the two sockets of a server, the broken textual
-  client and server, broadcast against multicast and the service
-  discovery patterns also draw on the DAI course of J. Ehrensberger.
+- The broken client and server of exercise 5 come from the DAI course of
+  J. Ehrensberger.
+- Unicast, broadcast and multicast illustrations from
+  [Wikimedia Commons](https://commons.wikimedia.org/).

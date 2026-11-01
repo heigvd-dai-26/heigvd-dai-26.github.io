@@ -1,0 +1,265 @@
+---
+title: "Java TCP and UDP programming (1/2)"
+subtitle: "DAI · Chapter 08"
+---
+
+## Objectives (1/2)
+
+- Program your own TCP client/server applications in Java with the Socket API.
+- Process data from TCP streams.
+- Program your own UDP emitter/receiver applications in Java with the Socket
+  API.
+- Process data from UDP datagrams.
+
+## Objectives (2/2)
+
+- Use the different ways to send a UDP datagram to one or multiple receivers.
+- Explain how UDP can be used for service discovery.
+- Make use of a REPL.
+
+**Your applications will be able to communicate over the network!**
+
+## Part 1/2
+
+In this first part, you learn the basics of TCP and UDP programming in Java.
+
+## Explore the code examples
+
+Individually, or in pair/group, **take 15 minutes to explore and discuss the
+[code examples (part 1/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
+
+Answer the questions of the chapter:
+
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+If needed, use the theoretical content to help you.
+
+## The Socket API
+
+- API to create TCP and UDP network applications.
+- In Java: the
+  [`java.net` package](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/package-summary.html)
+  of the
+  [`java.base` module](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/module-summary.html).
+- Originally developed by Berkeley University for the Unix operating system.
+- Ported to Java and many other languages.
+- Provides classes and methods to create sockets, connect to remote hosts, send
+  and receive data, etc.
+
+## TCP
+
+TCP is a transport protocol that is similar to a phone call:
+
+1. A connection is established between two parties (unicast).
+2. Data sent arrives in the same order.
+3. Lost data is sent again (retransmission).
+
+It is a **stream** protocol: TCP splits the bytes into numbered segments,
+reorders them on arrival and retransmits the lost ones.
+
+## TCP in the Socket API
+
+::: {style="font-size: 0.85em"}
+- Two classes to create TCP applications:
+  - [`ServerSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/ServerSocket.html)
+    (server side).
+  - [`Socket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/Socket.html)
+    (client side, and on the server for each accepted connection).
+- A TCP socket is a connection endpoint between two parties, using a host and a
+  port.
+- A server socket listens for incoming connections on a specific port.
+- A client socket connects to a server socket using the server's host and port.
+- Once connected, data is exchanged between the client socket and the socket
+  returned by `accept()`.
+:::
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/tcp-client-server-workflow-part-1.svg){fig-alt="TCP workflow, step 1: create the server socket." .nostretch fig-align="center" width="85%"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/tcp-client-server-workflow-part-2.svg){fig-alt="TCP workflow, step 2: accept new connections." .nostretch fig-align="center" height="620"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/tcp-client-server-workflow-part-3.svg){fig-alt="TCP workflow: create the client socket, connection established or not." .nostretch fig-align="center" height="630"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/tcp-client-server-workflow-part-4.svg){fig-alt="TCP workflow: the client closes the connection, the server loops back." .nostretch fig-align="center" height="620"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/tcp-client-server-workflow-part-5.svg){fig-alt="TCP workflow: the server closes its server socket." .nostretch fig-align="center" height="620"}
+
+## Connecting to a busy server
+
+- As soon as the `ServerSocket` is created with a port, it listens.
+- The system accepts connections by itself, and **queues** them until the
+  program calls `accept()`. Data sent meanwhile is kept, up to the size of the
+  buffers.
+- So a client can connect to a server busy with another client, and wait.
+- The queue is limited: the `backlog` parameter of `ServerSocket`.
+- Handling several clients: chapter 09.
+
+## Processing data from streams
+
+Sockets use data streams to send and receive data, just like files:
+
+- Get an input stream to read data from a socket.
+- Get an output stream to write data to a socket.
+
+```java
+// Get input stream
+input = socket.getInputStream();
+
+// Get output stream
+output = socket.getOutputStream();
+```
+
+## As text
+
+Read and write data from/to the streams as text:
+
+```java
+// Get input stream as text
+input = new InputStreamReader(
+    socket.getInputStream(), StandardCharsets.UTF_8);
+
+// Get output stream as text
+output = new OutputStreamWriter(
+    socket.getOutputStream(), StandardCharsets.UTF_8);
+```
+
+## With a buffer
+
+Improve performance with a buffer (here, with a binary stream):
+
+```java
+// Get input stream as binary with buffer
+input = new BufferedInputStream(socket.getInputStream());
+
+// Get output stream as binary with buffer
+output = new BufferedOutputStream(socket.getOutputStream());
+```
+
+**Everything you have learned about Java IOs applies here!** Do not forget to
+`flush()`.
+
+## UDP
+
+- A transport layer protocol just like TCP.
+- Connectionless protocol: does not require a connection before sending data.
+- Unreliable protocol: does not guarantee delivery but is fast.
+- Analogy: sending postcards through the postal service.
+
+## UDP datagrams
+
+- Datagrams are discrete chunks of data (packets) sent over the network.
+- Sent individually and independently, just as postcards.
+- Each datagram is self-contained and has all the information needed for routing
+  and delivery, thanks to its headers.
+- The UDP header contains the source and destination ports, the length and the
+  checksum, followed by a payload (data).
+- Maximum size of a UDP datagram: 65,535 bytes, headers included. Over IPv4, the
+  payload holds at most 65,507 bytes.
+
+## Reliability
+
+- UDP is unreliable (no guarantee of delivery, no guarantee of order).
+- The application must implement its own reliability mechanism.
+- In some cases, reliability is not needed (e.g. streaming).
+- Example: `INCREMENT` lost, the counter is wrong. Acknowledge, retransmit, detect
+  duplicates: it gets complex.
+- Handling reliability is complex: **not required in this course.**
+
+## UDP in the Socket API
+
+- `DatagramSocket` is used to send and receive datagrams.
+- A datagram is created with the `DatagramPacket` class.
+- A datagram socket can send and receive datagrams to/from any host and port.
+- A datagram socket can be bound to a specific port to listen for incoming
+  datagrams.
+- A datagram socket can be used to send and receive datagrams without
+  establishing a connection.
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-1.svg){fig-alt="UDP workflow: create the server socket." .nostretch fig-align="center" width="85%"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-2.svg){fig-alt="UDP workflow: create the client socket and the datagram." .nostretch fig-align="center" height="620"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-3.svg){fig-alt="UDP workflow: send and receive datagrams." .nostretch fig-align="center" height="630"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-4.svg){fig-alt="UDP workflow: the server closes its socket." .nostretch fig-align="center" height="620"}
+
+## Processing data from datagrams (1/2)
+
+A datagram contains a payload as a byte array.
+
+You can create a datagram with a byte array as payload:
+
+```java
+// Create a datagram with a payload and a destination address
+byte[] buffer = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+DatagramPacket packet = new DatagramPacket(
+  buffer,
+  buffer.length,
+  InetAddress.getByName("localhost"),
+  1234
+);
+```
+
+## Processing data from datagrams (2/2)
+
+You can get the payload of a received datagram as a byte array:
+
+```java
+// Create a datagram to receive data
+byte[] buffer = new byte[1024];
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+// Receive a datagram
+socket.receive(packet);
+
+// Get the payload of the datagram
+byte[] data = packet.getData();
+int length = packet.getLength();
+String message = new String(data, 0, length, StandardCharsets.UTF_8);
+```
+
+## End of part 1/2
+
+Do you have any questions?
+
+## What will you do?
+
+- Learn to use the debugger.
+- TCP & UDP: execute the code examples.
+- Explore the Java TCP programming template.
+- Explore the Java UDP programming template.
+- Repair a broken client and server with ncat.
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck, itself based on the original course by O. Liechti and
+  J. Ehrensberger.
+:::

@@ -7,6 +7,17 @@ Important changes and corrected errors, newest first.
 If you read a chapter before the date of an entry, make sure you check
 the corrections.
 
+## 2 November 2026
+
+[Chapter 08](chapters/08-tcp-and-udp.qmd), TCP & UDP programming, and its
+[code examples]({{< var examples-url >}}/tree/main/08-tcp-and-udp):
+
+- Clarification: the chapter, its slides and its code examples have a new
+  version. Run `git pull` in your code examples, and read the chapter again if
+  you read it before this date.
+- Clarification: reliability on UDP (retries, numbered requests) is not
+  required in this course. Timeouts are optional, in *Go further*.
+
 ## 26 October 2026
 
 [Chapter 06](chapters/06-application-protocols.qmd), encoding:

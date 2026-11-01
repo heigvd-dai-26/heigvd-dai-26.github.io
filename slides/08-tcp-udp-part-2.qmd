@@ -1,0 +1,181 @@
+---
+title: "Java TCP and UDP programming (2/2)"
+subtitle: "DAI · Chapter 08"
+---
+
+## Part 2/2
+
+In this second part, you learn more about UDP and some of its unique features
+compared to TCP.
+
+## Explore the code examples
+
+Individually, or in pair/group, **take 15 minutes to explore and discuss the
+[code examples (part 2/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
+
+Answer the questions of the chapter:
+
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+If needed, use the theoretical content to help you.
+
+## Unicast, broadcast and multicast
+
+- Unicast, broadcast and multicast are ways to send data over the network.
+- TCP is unicast only: one sender and one receiver.
+- UDP can be unicast, broadcast or multicast.
+
+## Unicast
+
+:::: {.columns}
+::: {.column width="60%"}
+- One-to-one communication.
+- One sender and one receiver.
+- To send a datagram, the sender must know:
+  - The IP address of the receiver.
+  - The port of the receiver.
+
+Think of it as a private conversation between two people.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/7/75/Unicast.svg){fig-alt="One sender reaching one receiver among several nodes." .nostretch width="100%"}
+:::
+::::
+
+## Broadcast
+
+:::: {.columns}
+::: {.column width="60%"}
+- One-to-all communication.
+- One sender and multiple receivers.
+- To send a datagram, the sender must know:
+  - The broadcast address of the subnet (e.g. `192.168.1.255`).
+  - The port.
+
+Think of it as a public announcement.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/d/dc/Broadcast.svg){fig-alt="One sender reaching all the nodes." .nostretch width="100%"}
+:::
+::::
+
+## Multicast (1/2)
+
+:::: {.columns}
+::: {.column width="60%"}
+- One-to-many communication.
+- One sender and some receivers.
+- To send a datagram, the sender must know:
+  - The multicast address (for your applications, between `239.0.0.0` and
+    `239.255.255.255`).
+  - The port.
+
+Think of it as a group conversation.
+:::
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/3/30/Multicast.svg){fig-alt="One sender reaching a group of nodes." .nostretch width="100%"}
+:::
+::::
+
+## Multicast (2/2)
+
+:::: {.columns}
+::: {.column width="60%"}
+- Just as with broadcast, it can be blocked by routers.
+- Broadcast/multicast are almost guaranteed **not** to work on the public
+  Internet.
+- Made for the local network.
+- Multicast is a complex topic, not covered in depth in this course.
+:::
+::: {.column width="40%"}
+![](../chapters/images/08-tcp-and-udp/multicast-meme.jpg){fig-alt="A meme about multicast." .nostretch width="100%"}
+:::
+::::
+
+## Messaging patterns
+
+- Fire-and-forget:
+  - One-way communication.
+  - No response.
+  - No guarantee of delivery.
+- Request-response:
+  - Two-way communication.
+  - Response, which confirms the delivery.
+  - The application handles a missing response (manual).
+
+## Service discovery protocols
+
+- Discover services on the network.
+- Service discovery protocol patterns:
+  - Advertisement (passive).
+  - Query (active).
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-service-discovery-protocols-advertisement-pattern.svg){fig-alt="A server announces its service to two clients every 30 seconds; one client then requests the service." .nostretch fig-align="center" height="640"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-service-discovery-protocols-query-pattern.svg){fig-alt="A client queries two servers; one answers with its address, and the client requests the service." .nostretch fig-align="center" height="600"}
+
+## Read-Eval-Print Loop (REPL)
+
+A REPL allows you to interact with a program by sending commands to it without
+restarting it.
+
+In networking, it is used to send commands to a server that reads the commands,
+evaluates them, and sends back the result.
+
+All of this is done in a loop until the client or the server decides to close the
+connection.
+
+Useful to keep a connection open and send multiple commands!
+
+## Summary of differences between TCP and UDP
+
+::: {style="font-size: 0.72em"}
+| TCP | UDP |
+|:---|:---|
+| Connection-oriented | Connectionless |
+| Reliable | Unreliable |
+| Stream protocol | Datagram protocol |
+| Unicast | Unicast, broadcast and multicast |
+| Defined by the application (often request-response) | Fire-and-forget, request-response |
+| - | Service discovery protocols |
+| Used mainly for FTP, HTTP, SMTP, SSH, etc. | Used mainly for DNS, streaming, gaming, etc. |
+:::
+
+## Questions
+
+Do you have any questions?
+
+## What will you do?
+
+::: {style="font-size: 0.85em"}
+- TCP & UDP: execute the remaining code examples.
+- Update the *"Guess the number"* and *"Temperature monitoring"* application
+  protocols.
+- TCP: try to access the TCP server from multiple TCP clients at the same time.
+- UDP: try to emit from multiple UDP emitters at the same time.
+- Implement and Dockerize the *"Guess the number"* game (optional).
+- Implement and Dockerize the *"Temperature monitoring"* application (optional).
+:::
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck, itself based on the original course by O. Liechti and
+  J. Ehrensberger.
+- Unicast, broadcast and multicast illustrations from
+  [Wikimedia Commons](https://commons.wikimedia.org/).
+:::
