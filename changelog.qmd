@@ -15,6 +15,8 @@ the corrections.
 - Clarification: the chapter, its slides and its code examples have a new
   version. Run `git pull` in your code examples, and read the chapter again if
   you read it before this date.
+- Clarification: part 1 covers TCP and part 2 covers UDP. The exercises are
+  numbered in this order.
 - Clarification: reliability on UDP (retries, numbered requests) is not
   required in this course. Timeouts are optional, in *Go further*.
 

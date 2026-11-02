@@ -28,7 +28,7 @@ By the end of this chapter, you should be able to:
 
 # Part 1/2
 
-In this first part, you learn the basics of TCP and UDP programming in Java.
+In this first part, you learn the basics of TCP programming in Java.
 
 ## Explore the code examples
 
@@ -184,6 +184,97 @@ Also, do not forget all the good practices of [chapter 04](04-java-io.qmd)
 (encoding, buffering, etc.). They must be applied here too!
 :::
 
+## Exercises (part 1)
+
+### Exercise 1: Learn to use the debugger {#sec-ex1}
+
+Every decent IDE has a debugger, a tool to inspect the state of your program at
+runtime. It allows you to:
+
+- Set breakpoints: a breakpoint is a point in your code where the program stops
+  when it is reached.
+- Step through your code, line by line, to see what is happening.
+- Inspect the value of variables and expressions at runtime.
+
+In IntelliJ IDEA, set a breakpoint by clicking on the left side of the line number:
+
+![IntelliJ IDEA: set a breakpoint](images/08-tcp-and-udp/intellij-idea-set-a-breakpoint.png){fig-alt="A breakpoint set in the left margin of the IntelliJ IDEA editor."}
+
+Then, run the program in debug mode by clicking on the bug icon:
+
+![IntelliJ IDEA: run the program in debug mode](images/08-tcp-and-udp/intellij-idea-run-debug-mode.png){fig-alt="The bug icon in the IntelliJ IDEA toolbar."}
+
+The program stops at the breakpoint. You can then step through the code and inspect
+variables and expressions:
+
+![IntelliJ IDEA: the debugger](images/08-tcp-and-udp/intellij-idea-debugger.png){fig-alt="The debugger of IntelliJ IDEA, stopped on a line, with the value of the variables."}
+
+Take some time to learn how to use the debugger in your favorite IDE. It is a very
+useful tool.
+
+### Exercise 2: Execute the code examples {#sec-ex2}
+
+Return to the code examples (part 1/2). Each program is a single Java file: run it
+from its directory with `java <ExampleName>.java`, the server first, in its own
+terminal. Take some time to execute them, understand them and see the results. Use
+the debugger to step through the code and see what is happening.
+
+### Exercise 3: Explore the TCP template {#sec-ex3}
+
+The directory `templates/java-tcp-programming` of the code examples is a simple
+template to create your own TCP clients and servers in Java, as a Maven project
+with picocli. Take some time to explore it, then try to answer these questions:
+
+- How would you use it to create your own TCP clients and servers?
+- What are the main takeaways of the template?
+- How would you implement a TCP network application using the template and the code
+  examples?
+
+### Exercise 4: Repair a broken client and server with ncat {#sec-ex4}
+
+`ncat` ([chapter 07](07-smtp-and-ncat.qmd#ncat)) can replace either side of a
+textual protocol, and shows exactly what the other side sends:
+
+```sh
+# Replace the client: type the lines yourself
+ncat localhost 6430
+
+# Replace the server: see what the client sends, and type the answers
+ncat -l 6430
+```
+
+`exercises/BrokenEchoClient.java` and `exercises/BrokenEchoServer.java` should send
+lines and echo them back. They compile, start, and hang.
+
+1. Run the broken client against `ncat -l 6430`. What does ncat show? Type an answer
+   in ncat, three times. What does ncat show when the client ends?
+2. Run `ncat localhost 6430` against the broken server. Type lines, then press
+   `Ctrl` + `D`. What does the server print, and what comes back?
+3. Find the two errors on each side, and fix them.
+
+::: {.callout-tip collapse="true" title="Solution"}
+1. Nothing while the client runs: its line stays in the buffer of the
+   `BufferedWriter`. When the client closes its streams, the buffer is flushed, and
+   ncat shows `Hello 1Hello 2Hello 3`, on one line.
+2. The server prints `Received: ...` for each line. Nothing comes back until
+   `Ctrl` + `D`: the server then closes its streams, which flushes the buffer, and
+   ncat shows your lines, glued together.
+3. On both sides, `out.write(line)` must become `out.write(line + "\n")` followed by
+   `out.flush()`. `readLine()` removes the end of line, and waits for one on the
+   other side; the `flush()` makes the bytes leave.
+:::
+
+# Part 2/2
+
+In this second part, you learn UDP programming in Java, and some of its unique
+features compared to TCP.
+
+## Explore the code examples
+
+Individually, or in pair/group, **take 15 minutes to explore and discuss the code
+examples (part 2/2)**, in the same directory, and try to answer the same questions
+as in part 1.
+
 ## UDP
 
 UDP is a transport layer protocol, just like TCP. There are numerous differences
@@ -333,109 +424,6 @@ byte[] data = packet.getData();
 int length = packet.getLength();
 String message = new String(data, 0, length, StandardCharsets.UTF_8);
 ```
-
-## Exercises (part 1)
-
-### Exercise 1: Learn to use the debugger {#sec-ex1}
-
-Every decent IDE has a debugger, a tool to inspect the state of your program at
-runtime. It allows you to:
-
-- Set breakpoints: a breakpoint is a point in your code where the program stops
-  when it is reached.
-- Step through your code, line by line, to see what is happening.
-- Inspect the value of variables and expressions at runtime.
-
-In IntelliJ IDEA, set a breakpoint by clicking on the left side of the line number:
-
-![IntelliJ IDEA: set a breakpoint](images/08-tcp-and-udp/intellij-idea-set-a-breakpoint.png){fig-alt="A breakpoint set in the left margin of the IntelliJ IDEA editor."}
-
-Then, run the program in debug mode by clicking on the bug icon:
-
-![IntelliJ IDEA: run the program in debug mode](images/08-tcp-and-udp/intellij-idea-run-debug-mode.png){fig-alt="The bug icon in the IntelliJ IDEA toolbar."}
-
-The program stops at the breakpoint. You can then step through the code and inspect
-variables and expressions:
-
-![IntelliJ IDEA: the debugger](images/08-tcp-and-udp/intellij-idea-debugger.png){fig-alt="The debugger of IntelliJ IDEA, stopped on a line, with the value of the variables."}
-
-Take some time to learn how to use the debugger in your favorite IDE. It is a very
-useful tool.
-
-### Exercise 2: Execute the code examples {#sec-ex2}
-
-Return to the code examples (part 1/2). Each program is a single Java file: run it
-from its directory with `java <ExampleName>.java`, the server first, in its own
-terminal. Take some time to execute them, understand them and see the results. Use
-the debugger to step through the code and see what is happening.
-
-### Exercise 3: Explore the TCP template {#sec-ex3}
-
-The directory `templates/java-tcp-programming` of the code examples is a simple
-template to create your own TCP clients and servers in Java, as a Maven project
-with picocli. Take some time to explore it, then try to answer these questions:
-
-- How would you use it to create your own TCP clients and servers?
-- What are the main takeaways of the template?
-- How would you implement a TCP network application using the template and the code
-  examples?
-
-### Exercise 4: Explore the UDP template {#sec-ex4}
-
-The directory `templates/java-udp-programming` is the same for UDP emitters/clients
-and receivers/servers. Take some time to explore it, then try to answer these
-questions:
-
-- How would you use it to create your own UDP emitters/clients and
-  receivers/servers?
-- What are the main takeaways of the template?
-- How would you implement a UDP network application using the template and the code
-  examples?
-
-### Exercise 5: Repair a broken client and server with ncat {#sec-ex5}
-
-`ncat` ([chapter 07](07-smtp-and-ncat.qmd#ncat)) can replace either side of a
-textual protocol, and shows exactly what the other side sends:
-
-```sh
-# Replace the client: type the lines yourself
-ncat localhost 6430
-
-# Replace the server: see what the client sends, and type the answers
-ncat -l 6430
-```
-
-`exercises/BrokenEchoClient.java` and `exercises/BrokenEchoServer.java` should send
-lines and echo them back. They compile, start, and hang.
-
-1. Run the broken client against `ncat -l 6430`. What does ncat show? Type an answer
-   in ncat, three times. What does ncat show when the client ends?
-2. Run `ncat localhost 6430` against the broken server. Type lines, then press
-   `Ctrl` + `D`. What does the server print, and what comes back?
-3. Find the two errors on each side, and fix them.
-
-::: {.callout-tip collapse="true" title="Solution"}
-1. Nothing while the client runs: its line stays in the buffer of the
-   `BufferedWriter`. When the client closes its streams, the buffer is flushed, and
-   ncat shows `Hello 1Hello 2Hello 3`, on one line.
-2. The server prints `Received: ...` for each line. Nothing comes back until
-   `Ctrl` + `D`: the server then closes its streams, which flushes the buffer, and
-   ncat shows your lines, glued together.
-3. On both sides, `out.write(line)` must become `out.write(line + "\n")` followed by
-   `out.flush()`. `readLine()` removes the end of line, and waits for one on the
-   other side; the `flush()` makes the bytes leave.
-:::
-
-# Part 2/2
-
-In this second part, you learn more about UDP and some of its unique features
-compared to TCP.
-
-## Explore the code examples
-
-Individually, or in pair/group, **take 15 minutes to explore and discuss the code
-examples (part 2/2)**, in the same directory, and try to answer the same questions
-as in part 1.
 
 ## Unicast, broadcast and multicast
 
@@ -636,11 +624,24 @@ developer to decide when and who closes it.
 
 ## Exercises (part 2)
 
-### Exercise 6: Execute the code examples {#sec-ex6}
+### Exercise 5: Execute the code examples {#sec-ex5}
 
 Return to the code examples (part 2/2). Take some time to execute them, understand
 them and see the results. Use the debugger to step through the code and see what is
 happening. Most examples' READMEs ask what you notice.
+
+### Exercise 6: Explore the UDP template {#sec-ex6}
+
+The directory `templates/java-udp-programming` of the code examples is a simple
+template to create your own UDP emitters/clients and receivers/servers in Java, as a
+Maven project with picocli. Take some time to explore it, then try to answer these
+questions:
+
+- How would you use it to create your own UDP emitters/clients and
+  receivers/servers?
+- What are the main takeaways of the template?
+- How would you implement a UDP network application using the template and the code
+  examples?
 
 ### Exercise 7: Update your application protocols {#sec-ex7}
 
@@ -851,7 +852,7 @@ shows how to manage several clients at the same time.
   [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
   itself based on the original course by O. Liechti and
   J. Ehrensberger.
-- The broken client and server of exercise 5 come from the DAI course of
+- The broken client and server of exercise 4 come from the DAI course of
   J. Ehrensberger.
 - Unicast, broadcast and multicast illustrations from
   [Wikimedia Commons](https://commons.wikimedia.org/).

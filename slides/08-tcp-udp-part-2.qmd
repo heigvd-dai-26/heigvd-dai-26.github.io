@@ -5,8 +5,8 @@ subtitle: "DAI · Chapter 08"
 
 ## Part 2/2
 
-In this second part, you learn more about UDP and some of its unique features
-compared to TCP.
+In this second part, you learn UDP programming in Java, and some of its unique
+features compared to TCP.
 
 ## Explore the code examples
 
@@ -20,6 +20,94 @@ Answer the questions of the chapter:
 - What are the main differences between the code examples?
 
 If needed, use the theoretical content to help you.
+
+## UDP
+
+- A transport layer protocol just like TCP.
+- Connectionless protocol: does not require a connection before sending data.
+- Unreliable protocol: does not guarantee delivery but is fast.
+- Analogy: sending postcards through the postal service.
+
+## UDP datagrams
+
+- Datagrams are discrete chunks of data (packets) sent over the network.
+- Sent individually and independently, just as postcards.
+- Each datagram is self-contained and has all the information needed for routing
+  and delivery, thanks to its headers.
+- The UDP header contains the source and destination ports, the length and the
+  checksum, followed by a payload (data).
+- Maximum size of a UDP datagram: 65,535 bytes, headers included. Over IPv4, the
+  payload holds at most 65,507 bytes.
+
+## Reliability
+
+- UDP is unreliable (no guarantee of delivery, no guarantee of order).
+- The application must implement its own reliability mechanism.
+- In some cases, reliability is not needed (e.g. streaming).
+- Example: `INCREMENT` lost, the counter is wrong. Acknowledge, retransmit, detect
+  duplicates: it gets complex.
+- Handling reliability is complex: **not required in this course.**
+
+## UDP in the Socket API
+
+- `DatagramSocket` is used to send and receive datagrams.
+- A datagram is created with the `DatagramPacket` class.
+- A datagram socket can send and receive datagrams to/from any host and port.
+- A datagram socket can be bound to a specific port to listen for incoming
+  datagrams.
+- A datagram socket can be used to send and receive datagrams without
+  establishing a connection.
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-1.svg){fig-alt="UDP workflow: create the server socket." .nostretch fig-align="center" width="85%"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-2.svg){fig-alt="UDP workflow: create the client socket and the datagram." .nostretch fig-align="center" height="620"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-3.svg){fig-alt="UDP workflow: send and receive datagrams." .nostretch fig-align="center" height="630"}
+
+## {.center}
+
+![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-4.svg){fig-alt="UDP workflow: the server closes its socket." .nostretch fig-align="center" height="620"}
+
+## Processing data from datagrams (1/2)
+
+A datagram contains a payload as a byte array.
+
+You can create a datagram with a byte array as payload:
+
+```java
+// Create a datagram with a payload and a destination address
+byte[] buffer = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+DatagramPacket packet = new DatagramPacket(
+  buffer,
+  buffer.length,
+  InetAddress.getByName("localhost"),
+  1234
+);
+```
+
+## Processing data from datagrams (2/2)
+
+You can get the payload of a received datagram as a byte array:
+
+```java
+// Create a datagram to receive data
+byte[] buffer = new byte[1024];
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+// Receive a datagram
+socket.receive(packet);
+
+// Get the payload of the datagram
+byte[] data = packet.getData();
+int length = packet.getLength();
+String message = new String(data, 0, length, StandardCharsets.UTF_8);
+```
 
 ## Unicast, broadcast and multicast
 
@@ -153,8 +241,9 @@ Do you have any questions?
 
 ## What will you do?
 
-::: {style="font-size: 0.85em"}
+::: {style="font-size: 0.75em"}
 - TCP & UDP: execute the remaining code examples.
+- Explore the Java UDP programming template.
 - Update the *"Guess the number"* and *"Temperature monitoring"* application
   protocols.
 - TCP: try to access the TCP server from multiple TCP clients at the same time.
