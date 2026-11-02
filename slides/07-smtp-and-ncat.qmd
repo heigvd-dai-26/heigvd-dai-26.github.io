@@ -374,7 +374,8 @@ private static void expect(BufferedReader in, int code) throws IOException {
 :::
 
 - `\r\n` written by hand: `newLine()` writes `\n` on Linux and macOS.
-- No `flush()`: both sides wait, until a timeout.
+- Without `flush()`, the command stays in the buffer: both sides wait, until a
+  timeout.
 - Read the **whole** reply, or every next answer is one step late.
 
 ## Summary

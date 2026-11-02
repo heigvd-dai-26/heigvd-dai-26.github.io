@@ -58,7 +58,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | ⏰ 5 | 12.10 | [PW1](practical-work/pw1.qmd) |  | 13.10 | [PW1](practical-work/pw1.qmd) presentations |  |
 |  | 19.10 | *Semaine de travail personnel* |  | 20.10 | *no class* |  |
 | 6 | 26.10 | [Application protocols](chapters/06-application-protocols.qmd) | [Slides](slides/06-application-protocols.qmd) | 27.10 | [PW2](practical-work/pw2.qmd) kickoff | [Slides](slides/pw2.qmd) |
-| 7 | 02.11 | [TCP & UDP programming (1/2)](chapters/08-tcp-and-udp.qmd) | [Part 1](slides/08-tcp-udp-part-1.qmd) | 03.11 | [PW2](practical-work/pw2.qmd) |  |
+| 7 | 02.11 | [SMTP & ncat](chapters/07-smtp-and-ncat.qmd) · [TCP & UDP programming (1/2)](chapters/08-tcp-and-udp.qmd) | [SMTP & ncat](slides/07-smtp-and-ncat.qmd) · [Part 1](slides/08-tcp-udp-part-1.qmd) | 03.11 | [PW2](practical-work/pw2.qmd) |  |
 | 8 | 09.11 | [TCP & UDP programming (2/2)](chapters/08-tcp-and-udp.qmd) | [Part 2](slides/08-tcp-udp-part-2.qmd) | 10.11 | [PW2](practical-work/pw2.qmd) |  |
 | 9 | 16.11 | Network concurrency |  | 17.11 | [PW2](practical-work/pw2.qmd) |  |
 | 10 | 23.11 | **Mid-term evaluation (TE1)** |  | 24.11 | [PW2](practical-work/pw2.qmd) |  |
