@@ -3,19 +3,10 @@ title: "Java TCP and UDP programming (1/2)"
 subtitle: "DAI · Chapter 08"
 ---
 
-## Objectives (1/2)
+## Objectives
 
 - Program your own TCP client/server applications in Java with the Socket API.
 - Process data from TCP streams.
-- Program your own UDP emitter/receiver applications in Java with the Socket
-  API.
-- Process data from UDP datagrams.
-
-## Objectives (2/2)
-
-- Use the different ways to send a UDP datagram to one or multiple receivers.
-- Explain how UDP can be used for service discovery.
-- Make use of a REPL.
 
 **Your applications will be able to communicate over the network!**
 
