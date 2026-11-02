@@ -75,9 +75,39 @@ If needed, use the theoretical content to help you.
 
 ![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-2.svg){fig-alt="UDP workflow: create the client socket and the datagram." .nostretch fig-align="center" height="620"}
 
+## In code: the sockets
+
+```java
+// The server: bound to a port, it receives what is sent to this port
+DatagramSocket socket = new DatagramSocket(4445);
+```
+
+```java
+// The client: the system chooses a free port
+DatagramSocket socket = new DatagramSocket();
+```
+
+- There is no connection to open and no `accept()`.
+- Each datagram carries its own destination.
+
 ## {.center}
 
 ![](../chapters/images/08-tcp-and-udp/udp-unicast-client-server-workflow-part-3.svg){fig-alt="UDP workflow: send and receive datagrams." .nostretch fig-align="center" height="630"}
+
+## In code: send and receive
+
+```java
+// The client: the packet holds the payload and the destination
+socket.send(packet);
+```
+
+```java
+// The server: blocks until a datagram arrives, then fills the packet
+socket.receive(packet);
+```
+
+- `send()` returns at once, even if no one is listening.
+- The next slides show how to create the packets.
 
 ## {.center}
 
