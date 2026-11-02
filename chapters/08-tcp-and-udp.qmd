@@ -104,6 +104,55 @@ The following schema shows the workflow of a TCP client/server application:
 
 ![TCP client/server workflow](images/08-tcp-and-udp/tcp-client-server-workflow.svg){fig-alt="Sequence diagram of a TCP client and server: create the server socket, accept, connect, read and write, close." width="80%"}
 
+The steps of the schema, in Java:
+
+**Create the server socket.** It binds the port and starts listening. If another
+program already listens on the port, it fails with `Address already in use`.
+
+```java
+ServerSocket serverSocket = new ServerSocket(6430);
+```
+
+**Accept a client.** `accept()` blocks until a client connects, then returns a new
+`Socket` for this client, on the same port. The server reads and writes through this
+socket. `serverSocket` only accepts connections: call `accept()` again for the next
+client.
+
+```java
+Socket socket = serverSocket.accept();
+```
+
+**Create the client socket.** It opens the connection, and the system chooses the
+client's port. If no server listens on the port, it fails with
+`ConnectException: Connection refused`.
+
+```java
+Socket socket = new Socket("localhost", 6430);
+```
+
+**Close the connection.** The server sees that the client has closed when `readLine()`
+returns `null`. It then closes its own socket and goes back to `accept()`.
+
+```java
+// The client
+socket.close();
+```
+
+```java
+// The server
+while ((line = in.readLine()) != null) {
+  // ...
+}
+socket.close();
+```
+
+**Close the server socket.** New clients are refused. The sockets already accepted stay
+open: your code must close each one.
+
+```java
+serverSocket.close();
+```
+
 ::: {.callout-note title="Note on socket connection behavior"}
 As soon as the `ServerSocket` is created with a port, it starts listening for incoming
 connection requests.
@@ -183,6 +232,61 @@ out.flush();
 Also, do not forget all the good practices of [chapter 04](04-java-io.qmd)
 (encoding, buffering, etc.). They must be applied here too!
 :::
+
+### Example: an echo server and client
+
+The server sends back every line it receives. The client sends three lines and prints
+the answers.
+
+```java
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+public class EchoServer {
+  public static void main(String[] args) throws IOException {
+    try (ServerSocket serverSocket = new ServerSocket(6430)) {
+      while (true) {
+        try (Socket socket = serverSocket.accept();
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                socket.getInputStream(), StandardCharsets.UTF_8));
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+                socket.getOutputStream(), StandardCharsets.UTF_8))) {
+          String line;
+          while ((line = in.readLine()) != null) {
+            out.write(line + "\n");
+            out.flush();
+          }
+        } catch (IOException e) {
+          System.out.println("Error with this client: " + e.getMessage());
+        }
+      }
+    }
+  }
+}
+```
+
+```java
+import java.io.*;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
+
+public class EchoClient {
+  public static void main(String[] args) throws IOException {
+    try (Socket socket = new Socket("localhost", 6430);
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+            socket.getInputStream(), StandardCharsets.UTF_8));
+        BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+            socket.getOutputStream(), StandardCharsets.UTF_8))) {
+      for (int i = 1; i <= 3; i++) {
+        out.write("Hello " + i + "\n");
+        out.flush();
+        System.out.println("Received: " + in.readLine());
+      }
+    }
+  }
+}
+```
 
 ## Exercises (part 1)
 
@@ -395,6 +499,33 @@ The following schema shows the workflow of a UDP unicast (client/server)
 application:
 
 ![UDP unicast (client/server) workflow](images/08-tcp-and-udp/udp-unicast-client-server-workflow.svg){fig-alt="Sequence diagram of a UDP client and server: create the sockets, create a datagram, send and receive it, close." width="80%"}
+
+The sockets, in Java:
+
+```java
+// The server: bound to a port, it receives what is sent to this port
+DatagramSocket socket = new DatagramSocket(4445);
+```
+
+```java
+// The client: the system chooses a free port
+DatagramSocket socket = new DatagramSocket();
+```
+
+There is no connection to open and no `accept()`. Each datagram carries its own
+destination.
+
+```java
+// The client: the packet holds the payload and the destination
+socket.send(packet);
+```
+
+```java
+// The server: blocks until a datagram arrives, then fills the packet
+socket.receive(packet);
+```
+
+`send()` returns at once, even if no one is listening.
 
 ### Processing data from datagrams
 

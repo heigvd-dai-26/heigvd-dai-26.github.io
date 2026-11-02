@@ -129,7 +129,7 @@ serverSocket.close();
 ```
 
 - New clients are refused: `ConnectException: Connection refused`.
-- The sockets already accepted stay open, and are closed one by one.
+- The sockets already accepted stay open: your code must close each one.
 
 ## Processing data from streams
 
