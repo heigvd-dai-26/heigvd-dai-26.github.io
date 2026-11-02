@@ -17,19 +17,6 @@ subtitle: "DAI · Chapter 08"
 In this second part, you learn UDP programming in Java, and some of its unique
 features compared to TCP.
 
-## Explore the code examples
-
-Individually, or in pair/group, **take 15 minutes to explore and discuss the
-[code examples (part 2/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
-
-Answer the questions of the chapter:
-
-- How do the code examples work?
-- What are the main takeaways of the code examples?
-- What are the main differences between the code examples?
-
-If needed, use the theoretical content to help you.
-
 ## UDP
 
 - A transport layer protocol just like TCP.
@@ -273,6 +260,19 @@ Useful to keep a connection open and send multiple commands!
 | - | Service discovery protocols |
 | Used mainly for FTP, HTTP, SMTP, SSH, etc. | Used mainly for DNS, streaming, gaming, etc. |
 :::
+
+## Explore the code examples
+
+Individually, or in pair/group, **take 15 minutes to explore and discuss the
+[code examples (part 2/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
+
+Answer the questions of the chapter:
+
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+If needed, use the theoretical content to help you.
 
 ## Questions
 

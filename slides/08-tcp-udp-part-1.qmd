@@ -14,19 +14,6 @@ subtitle: "DAI · Chapter 08"
 
 In this first part, you learn the basics of TCP programming in Java.
 
-## Explore the code examples
-
-Individually, or in pair/group, **take 15 minutes to explore and discuss the
-[code examples (part 1/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
-
-Answer the questions of the chapter:
-
-- How do the code examples work?
-- What are the main takeaways of the code examples?
-- What are the main differences between the code examples?
-
-If needed, use the theoretical content to help you.
-
 ## The Socket API
 
 - API to create TCP and UDP network applications.
@@ -144,16 +131,6 @@ serverSocket.close();
 - New clients are refused: `ConnectException: Connection refused`.
 - The sockets already accepted stay open, and are closed one by one.
 
-## Connecting to a busy server
-
-- As soon as the `ServerSocket` is created with a port, it listens.
-- The system accepts connections by itself, and **queues** them until the
-  program calls `accept()`. Data sent meanwhile is kept, up to the size of the
-  buffers.
-- So a client can connect to a server busy with another client, and wait.
-- The queue is limited: the `backlog` parameter of `ServerSocket`.
-- Handling several clients: chapter 09.
-
 ## Processing data from streams
 
 Sockets use data streams to send and receive data, just like files:
@@ -261,6 +238,30 @@ Received: Hello 1
 Received: Hello 2
 Received: Hello 3
 ```
+
+## Connecting to a busy server
+
+- As soon as the `ServerSocket` is created with a port, it listens.
+- The system accepts connections by itself, and **queues** them until the
+  program calls `accept()`. Data sent meanwhile is kept, up to the size of the
+  buffers.
+- So a second client can connect while the server is busy with the first one. It
+  waits until the server calls `accept()` again.
+- The queue is limited: the `backlog` parameter of `ServerSocket`.
+- Handling several clients: chapter 09.
+
+## Explore the code examples
+
+Individually, or in pair/group, **take 15 minutes to explore and discuss the
+[code examples (part 1/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
+
+Answer the questions of the chapter:
+
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+If needed, use the theoretical content to help you.
 
 ## End of part 1/2
 
