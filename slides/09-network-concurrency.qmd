@@ -1,0 +1,391 @@
+---
+title: "Java network concurrency"
+subtitle: "DAI · Chapter 09"
+format:
+  revealjs:
+    mermaid-format: svg
+---
+
+## Objectives
+
+::: {style="font-size: 0.85em"}
+- Define what concurrency is, and how it differs from parallelism.
+- Define the different ways to handle multiple clients at the same time:
+  - Multiprocessing.
+  - Multithreading.
+  - Asynchronous programming.
+- Implement and manage concurrency in Java network applications.
+- Choose between platform threads, thread pools and virtual threads.
+:::
+
+## Scope
+
+- The concurrency a **network application** needs: several clients at the same
+  time, data shared safely.
+- A few classes of `java.util.concurrent`, the bare minimum.
+- Other teaching units go deeper into concurrency.
+
+# Concurrency: an introduction
+
+## Concurrency and parallelism
+
+- **Concurrency**: the execution of several tasks overlaps in time. A task can
+  start without waiting for the others to finish.
+  - A server accepts a new client while it serves the others.
+- **Parallelism**: several tasks execute at the same instant, on different cores.
+- On one core, concurrent tasks take turns; on several cores, they can also run in
+  parallel.
+
+**Concurrent does not always mean parallel.**
+
+## What is a processor?
+
+- Piece of hardware that executes billions of instructions every second.
+- Also called CPU (Central Processing Unit).
+- Processors can have one or multiple cores (single-core or multi-core
+  processors).
+
+## What is a core?
+
+- A physical unit inside a processor that executes instructions.
+- Simplified: each core executes one instruction, of one thread, at a time.
+- With multiple processors and/or cores, the machine executes multiple
+  instructions at the same time, one per core.
+
+## What is a process?
+
+- A program in execution, identified by a process ID.
+- Each process has its own memory: by default, the other processes do not see
+  it.
+- Expensive to create and to destroy, compared to a thread.
+- Processes communicate through the operating system (IPC): a socket on
+  `localhost`, a pipe, a file, shared memory.
+
+## What is a thread? (1/2)
+
+- A sequence of instructions that runs inside a process, with its own stack.
+- The main thread starts when the application starts; it can create other
+  threads for other tasks.
+- The operating system decides which thread runs on which core (scheduling):
+  - On one core, it switches very quickly: they _appear_ to run together.
+  - On several cores, they can really run at the same time.
+
+## What is a thread? (2/2)
+
+- The threads of a process **share its memory**.
+- Much cheaper than processes, but the number of operating-system threads is
+  limited.
+- With threads, a server manages multiple clients at the same time: each client is
+  handled by its own thread.
+
+## What problems can concurrency cause?
+
+- What happens when a client connects to the server?
+- How to isolate the data sent by one client from the others?
+- What happens when multiple clients want to access the same resource
+  (variables) at the same time?
+
+## What happens when multiple threads access the same resource?
+
+- The operating system can switch between threads at any time, even in the middle
+  of a Java statement; on several cores, two threads run at the same instant.
+- The order in which the threads run is not guaranteed.
+- `count++` is three steps: read, add one, write. Two threads that read the same
+  value lose one increment.
+- These problems are called **race conditions**.
+
+# Handling multiple clients
+
+## Handling one client at a time
+
+An **iterative server** serves its clients one after the other, whatever its
+number of threads:
+
+1. Create a socket to listen to incoming connections.
+2. Accept a client: a new socket for this client.
+3. Serve the clients one after the other, each until it leaves.
+
+Analogy: a hotline with a single operator. The next callers hear "please hold".
+
+Simple, but the next client waits.
+
+## Handling multiple clients at the same time
+
+A **concurrent server** handles multiple clients at the same time, with:
+
+- Multiprocessing.
+- Multithreading.
+- Asynchronous programming.
+
+This course focuses on **multithreading**.
+
+## Multiprocessing
+
+- Create an entirely new process for each client.
+- Heavier than threads; the processes communicate with IPC[^ipc].
+- Isolated: when the process of one client crashes, the others go on (Apache can
+  work this way).
+- Analogy: a separate call centre for each caller, with its own building and
+  phone system.
+
+[^ipc]: Inter-process communication: processes exchange data through the operating
+    system, with a socket on `localhost`, a pipe, a file or shared memory.
+
+## Multithreading: one thread per client
+
+- The main thread creates a new thread for each client.
+- Cheaper to create than processes, and the threads share memory.
+- Unlimited operating-system threads can exhaust the system.
+- Analogy: a new operator and a new desk for each call, until the building is
+  full; then calls fail.
+
+## Multithreading: a fixed thread pool
+
+- A fixed number of threads, reused from one client to the next.
+- The number of threads stays under control.
+- When all the threads are busy, the next clients wait.
+- Analogy: a fixed number of operators; the other callers wait on hold.
+
+## Asynchronous programming
+
+- Handle multiple clients with a few threads, often a single one.
+- A callback is called when a task is completed.
+- Analogy: "leave your number, we will call you back". The caller does other
+  things meanwhile.
+- Out of scope but interesting to know! Node.js is a good example.
+
+# Concurrency in Java
+
+## A task
+
+The work to do for one client, as an object that implements `Runnable` (`run()`)
+or `Callable` (`call()`, which returns a value):
+
+::: {style="font-size: 0.85em"}
+```java
+static class ClientHandler implements Runnable {
+  private final Socket socket;
+
+  public ClientHandler(Socket socket) {
+    this.socket = socket;
+  }
+
+  @Override
+  public void run() {
+    // Read from and write to the socket of the client, then close it
+  }
+}
+```
+:::
+
+- `run()` takes no parameters: the constructor receives what the task needs.
+
+## Running a task on a thread
+
+- Calling `run()` yourself runs it on the current thread, like any method.
+- **By hand**, on a new thread (`Runnable` only):
+
+  `new Thread(new ClientHandler(socket)).start();`
+
+- **With an
+  [`ExecutorService`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html)**,
+  which manages the threads for you (`Runnable` or `Callable`):
+
+  `executor.submit(new ClientHandler(socket));`
+
+- [`Executors`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executors.html)
+  creates the different executors, each with its pros and cons.
+
+## In code: a server
+
+```java
+try (ServerSocket serverSocket = new ServerSocket(PORT);
+    ExecutorService executor = Executors.newFixedThreadPool(10)) {
+  while (!serverSocket.isClosed()) {
+    Socket clientSocket = serverSocket.accept();
+    executor.submit(new ClientHandler(clientSocket));
+  }
+}
+```
+
+- `submit()` returns at once: the main thread goes back to `accept()`.
+- A fixed pool of 10 threads: up to 10 clients at the same time, the others wait.
+
+## Platform threads and virtual threads
+
+::: {style="font-size: 0.9em"}
+- Java has two kinds of `Thread`:
+  - **Platform thread**: backed by one operating-system thread.
+  - **Virtual thread**: managed by the JVM, which runs many of them on a few
+    platform threads (carrier threads).
+- A virtual thread blocked on the network or on `sleep()` **unmounts** from its
+  carrier thread: the carrier then runs another virtual thread.
+- The JVM schedules the virtual threads on the carriers, the operating system
+  the carriers on the cores.
+- Since Java 21.
+:::
+
+## Platform threads: one thread each
+
+```{mermaid}
+%%| fig-height: 3.2
+flowchart TB
+    subgraph JVM["Java virtual machine"]
+        P1[Platform thread 1]
+        P2[Platform thread 2]
+        P3[Platform thread 3]
+    end
+    subgraph OS["Operating system"]
+        T1[Thread]
+        T2[Thread]
+        T3[Thread]
+    end
+    P1 --> T1
+    P2 --> T2
+    P3 --> T3
+    style JVM fill:#f4f6f9,stroke:#8a94a6
+    style OS fill:#f4f6f9,stroke:#8a94a6
+```
+
+- Each platform thread holds its own operating-system thread, blocked or not.
+
+## Virtual threads: few carriers
+
+```{mermaid}
+%%| fig-height: 3.2
+flowchart TB
+    subgraph JVM["Java virtual machine"]
+        V1[VT 1] & V2[VT 2] & V3[VT 3] --> C1[Carrier thread 1]
+        V4[VT 4] & V5[VT 5] & V6[VT 6] --> C2[Carrier thread 2]
+    end
+    subgraph OS["Operating system"]
+        T1[Thread]
+        T2[Thread]
+    end
+    C1 --> T1
+    C2 --> T2
+    style JVM fill:#f4f6f9,stroke:#8a94a6
+    style OS fill:#f4f6f9,stroke:#8a94a6
+```
+
+- A blocked virtual thread unmounts from its carrier thread: the carrier then runs
+  another virtual thread.
+
+## When to use virtual threads
+
+::: {style="font-size: 0.9em"}
+- Fast to create, little memory: thousands, even millions, one per client.
+- **Not faster, only lighter.**
+- Useful when the tasks wait on the network: a network server.
+- Pure computation: no better than a fixed pool of one thread per core.
+- `Executors.newVirtualThreadPerTaskExecutor()`: one virtual thread per task.
+- Analogy: the operator puts a call on hold while waiting for a database, and
+  takes another call. A few desks for many calls.
+:::
+
+# Sharing data between threads
+
+## Ordinary variables are unsafe
+
+::: {style="font-size: 0.9em"}
+- `int`, `HashMap`, `ArrayList`: wrong results when several threads change them
+  at the same time (the race condition of `count++`).
+- 8 threads, 100,000 `count++` each: `count` ends far below 800,000. A shared
+  `HashMap` loses entries the same way.
+- Two solutions:
+  - **Locks**: one thread at a time runs a piece of code (not covered in this
+    course).
+  - **Thread-safe** types and data structures: their methods are atomic, several
+    threads can call them at the same time.
+:::
+
+## Thread-safe variable types
+
+- **Variable types** (`java.util.concurrent.atomic`):
+  - `AtomicBoolean` instead of `boolean`/`Boolean`.
+  - `AtomicInteger` instead of `int`/`Integer`.
+  - `AtomicLong` instead of `long`/`Long`.
+
+## Thread-safe data structures
+
+- **Data structures** (`java.util.concurrent`):
+  - `ConcurrentHashMap` instead of `HashMap`.
+  - `CopyOnWriteArrayList` instead of `ArrayList`, when reads are much more
+    frequent than writes (each write copies the list).
+  - `CopyOnWriteArraySet` instead of `HashSet`, for small sets.
+  - `ConcurrentLinkedQueue` instead of `LinkedList`.
+
+## Several values together
+
+- Most single calls (`incrementAndGet()`, `put()`) are atomic; two calls in a row
+  are two operations.
+- `containsKey()` then `put()`: two clients can take the same name.
+  `putIfAbsent()` checks and takes it in one atomic operation (`null` if it was
+  free).
+- To update several values together, you need locks again.
+
+# Go further
+
+## Benchmark
+
+::: {style="font-size: 0.6em"}
+1,000 connections at once. Requests per second, Linux, Java 25, 14 cores:
+
+| Server | `SLEEP` (wait 100 ms) | `COMPUTE` (about 6 ms) |
+|---|---:|---:|
+| `single` (iterative) | 10 | 170 to 175 |
+| `thread` (one platform thread per client) | 2,300 to 2,800 | 1,200 to 1,300 |
+| `cached` | 2,800 to 3,000 | 1,400 |
+| `fixed-4` | 39 | 655 to 673 |
+| `fixed-14` (one thread per core) | 134 | 1,310 to 1,530 |
+| `fixed-500` | 2,400 to 2,600 | 1,360 |
+| `virtual` | 4,500 to 5,800 | 1,330 to 1,500 |
+
+: {tbl-colwidths="[50,25,25]"}
+:::
+
+- Waiting: every 100 ms, a fixed pool handles as many requests as it has threads.
+- Computing: the cores limit the work.
+
+# Questions?
+
+# Exercises
+
+## Explore the code examples
+
+Alone, in pairs or in groups, **take 10 minutes to explore and discuss the
+[code examples](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/09-network-concurrency)**.
+
+Answer the questions of the chapter:
+
+- How do the code examples work?
+- What are the main takeaways of the code examples?
+- What are the main differences between the code examples?
+
+If needed, use the theoretical content to help you.
+
+## What will you do?
+
+- Run the servers with several clients at the same time, and see how each one
+  handles them.
+- Answer questions about the different strategies.
+- Open many connections at once, and measure the gain of virtual threads.
+- Update your *"Guess the number"* game to handle multiple clients, and complete
+  *"Temperature monitoring"* with the operator (optional).
+
+**Do not hesitate to help each other! There's no need to rush!**
+
+## Credits
+
+::: {style="font-size: 0.7em"}
+- O. Tischhauser, with the help of
+  [Claude](https://claude.com) (Anthropic).
+- Based on the
+  [HEIG-VD DAI course](https://github.com/heig-vd-dai-course/heig-vd-dai-course)
+  by L. Delafontaine and H. Louis, licensed
+  [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), as is
+  this deck, itself based on the original course by O. Liechti and
+  J. Ehrensberger.
+- Virtual threads, the many-connections exercise and the benchmark from the DAI
+  course of J. Ehrensberger.
+:::

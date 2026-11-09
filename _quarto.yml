@@ -31,6 +31,8 @@ website:
             text: "07 · SMTP & ncat"
           - href: chapters/08-tcp-and-udp.qmd
             text: "08 · TCP & UDP programming"
+          - href: chapters/09-network-concurrency.qmd
+            text: "09 · Network concurrency"
       - section: "Practical work"
         contents:
           - href: practical-work/pw1.qmd

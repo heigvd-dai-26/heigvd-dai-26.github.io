@@ -263,7 +263,7 @@ Useful to keep a connection open and send multiple commands!
 
 ## Explore the code examples
 
-Individually, or in pair/group, **take 15 minutes to explore and discuss the
+Alone, in pairs or in groups, **take 15 minutes to explore and discuss the
 [code examples (part 2/2)](https://github.com/heigvd-dai-26/dai-code-examples/tree/main/08-tcp-and-udp)**.
 
 Answer the questions of the chapter:
