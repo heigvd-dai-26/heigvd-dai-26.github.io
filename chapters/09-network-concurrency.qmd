@@ -501,6 +501,11 @@ if (clients.putIfAbsent(name, socket) == null) {
 }
 ```
 
+`ConcurrentHashMap` has other atomic methods that update a value only under a
+condition: [`replace(key, oldValue, newValue)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#replace(K,V,V)>),
+[`remove(key, value)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#remove(java.lang.Object,java.lang.Object)>), [`compute()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#compute(K,java.util.function.BiFunction)>) and
+[`merge()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#merge(K,V,java.util.function.BiFunction)>). Their Javadoc says what each one does.
+
 When several values must be updated together (for example, an `AtomicInteger` and
 a `ConcurrentHashMap` at the same time), you need locks again. If you are
 interested, see the

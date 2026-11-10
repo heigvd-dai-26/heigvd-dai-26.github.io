@@ -320,8 +320,11 @@ flowchart TB
 - Most single calls (`incrementAndGet()`, `put()`) are atomic; two calls in a row
   are two operations.
 - `containsKey()` then `put()`: two clients can take the same name.
-  `putIfAbsent()` checks and takes it in one atomic operation (`null` if it was
-  free).
+  `putIfAbsent()` checks and takes it in one atomic operation: `null` if it was
+  free; if not, it changes nothing and returns the current value.
+- Other atomic conditional updates: [`replace(key, old, new)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#replace(K,V,V)>),
+  [`remove(key, value)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#remove(java.lang.Object,java.lang.Object)>), [`compute()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#compute(K,java.util.function.BiFunction)>),
+  [`merge()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#merge(K,V,java.util.function.BiFunction)>).
 - To update several values together, you need locks again.
 
 # Go further
