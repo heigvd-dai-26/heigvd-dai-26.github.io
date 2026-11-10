@@ -484,25 +484,13 @@ access the same variable.
 Most single calls, such as `get()` or `put()`, are atomic, but two calls in a row
 are two operations: another thread can run between them.
 
-A common case is a name that each client must take for itself, as with `JOIN` in
-the SMS protocol of [chapter 06](06-application-protocols.qmd). With
-`containsKey()` then `put()`, two clients can check the same name at the same
-instant, both find it free, and both take it. `putIfAbsent()` checks and takes the
-name in one atomic operation: it returns `null` if the name was free and is now
-taken, or the current value if another client already has it.
+For example, a name that each client must take for itself, as with `JOIN` in the
+SMS protocol of [chapter 06](06-application-protocols.qmd): with `containsKey()`
+then `put()`, two clients can check the same name at the same instant, both find it
+free, and both take it.
 
-```java
-ConcurrentMap<String, Socket> clients = new ConcurrentHashMap<>();
-
-if (clients.putIfAbsent(name, socket) == null) {
-  // The name is now taken by this client
-} else {
-  // Another client already has this name
-}
-```
-
-`ConcurrentHashMap` has other atomic methods that update a value only under a
-condition: [`replace(key, oldValue, newValue)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#replace(K,V,V)>),
+`ConcurrentHashMap` has atomic methods that check and update a value in a single
+operation: [`putIfAbsent()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#putIfAbsent(K,V)>), [`replace()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#replace(K,V,V)>),
 [`remove(key, value)`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#remove(java.lang.Object,java.lang.Object)>), [`compute()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#compute(K,java.util.function.BiFunction)>) and
 [`merge()`](<https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html#merge(K,V,java.util.function.BiFunction)>). Their Javadoc says what each one does.
 
