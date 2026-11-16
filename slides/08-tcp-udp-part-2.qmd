@@ -209,9 +209,9 @@ socket.close();
 ## Broadcast and multicast in the Socket API
 
 - The same classes as unicast. The code is in the chapter.
-- Broadcast: the emitter sends to the broadcast address (`255.255.255.255`).
-  The receiver binds a socket to the port, as in unicast.
-- Multicast: the emitter sends to the group address (`239.0.0.0`). The
+- Broadcast: the emitter sends to the broadcast address (e.g.
+  `255.255.255.255`). The receiver binds a socket to the port, as in unicast.
+- Multicast: the emitter sends to the group address (e.g. `239.0.0.0`). The
   receiver joins the group (`joinGroup()`) on a network interface, and leaves
   it at the end.
 
@@ -240,10 +240,14 @@ socket.close();
 
 ## Service discovery protocols
 
-- Discover services on the network.
-- Service discovery protocol patterns:
-  - Advertisement (passive).
-  - Query (active).
+- Find a service without knowing its IP address.
+- The protocol fixes a meeting point in advance: a port (broadcast), or a group
+  address and a port (multicast).
+- The first message goes there. Everything after it is unicast, to the sender's
+  address.
+- Two patterns:
+  - Advertisement (passive): the provider announces itself, the consumers listen.
+  - Query (active): the consumer asks, the providers listen, one answers.
 
 ## {.center}
 

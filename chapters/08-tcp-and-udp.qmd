@@ -769,18 +769,24 @@ response.
 
 ## Service discovery protocols
 
-With unicast, the sender must know the IP address of the receiver.
+With unicast, the sender must know the IP address of the receiver. To find a service
+whose address it does not know yet, a program cannot use unicast.
 
-With broadcast and multicast, the sender does not need to know who the receivers are:
-it knows that nodes nearby (or those who expressed interest) can receive the datagram.
+With broadcast and multicast, the sender only needs an address that the protocol fixes in
+advance: the port with broadcast, as the broadcast address is the same for everyone, or
+the group address and the port with multicast. Every program of the protocol knows them,
+just as every web client knows port 80. The sender does not need to know who the
+receivers are.
 
-Using this property, it is possible to create service discovery protocols. They are
-used to find services on the network without knowing their IP address.
+Service discovery protocols use this property to find services on the network without
+knowing their IP address. The first message goes to the agreed address, with broadcast or
+multicast. Everything after it uses unicast: every datagram carries the IP address and
+port of its sender, so each side now knows where to reach the other.
 
-There are two types of service discovery protocols: passive and active. Passive
-protocols are based on broadcast or multicast, and announce the presence of a service
-on the network. Active protocols query the network with broadcast or multicast to find a
-service, and a provider answers in unicast.
+There are two types of service discovery protocols. In passive protocols, the provider
+speaks first: it announces its service to the agreed address, and the consumers listen
+there. In active protocols, the consumer speaks first: it sends a query to the agreed
+address, the providers listen there, and a provider answers in unicast.
 
 The most common patterns are the following:
 

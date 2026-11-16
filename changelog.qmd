@@ -15,6 +15,9 @@ the corrections.
   connection.
 - Clarification: in active service discovery, the consumer queries with
   broadcast or multicast and a provider answers in unicast.
+- Clarification: service discovery needs an address fixed by the protocol (a
+  port, or a multicast group and port); the first message goes there, the rest
+  is unicast.
 - Correction: in the UDP template, the receiver stores temperatures as
   decimals (`Double`), as in the specification, and the emitter takes the
   room with `--name`.
