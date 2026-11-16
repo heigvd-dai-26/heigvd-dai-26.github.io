@@ -417,7 +417,9 @@ is limited to 65,507 bytes.
 If a datagram is too large for the network to carry in one packet, IP splits it
 into fragments and reassembles them on arrival. IP delivers the whole datagram or
 nothing: if one fragment is lost, the whole datagram is lost. A receive buffer that
-is too small silently cuts the datagram.
+is too small silently cuts the datagram. Size the buffer from the protocol: its
+specification sets the largest message, such as 256 bytes for *Temperature
+monitoring*.
 
 ### Reliability
 
@@ -477,104 +479,24 @@ If you are interested, have a look at the
 protocol, a mechanism used to detect and retransmit lost datagrams, and at
 [*Timeouts* in *Go further*](#go-further).
 
-### UDP in the Socket API
-
-In the UDP world, the
-[`DatagramSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramSocket.html)
-class replaces the `Socket` class. It is used to create UDP clients and servers,
-and to send and receive UDP datagrams.
-
-A datagram is created with the
-[`DatagramPacket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramPacket.html)
-class, with a payload and a destination address.
-
-A multicast socket is created with the
-[`MulticastSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/MulticastSocket.html)
-class. It joins a multicast group to receive the datagrams sent to that group,
-just like a message sent to a group of people.
-
-UDP can be used to create a client/server architecture, or a peer-to-peer one.
-
-The following schema shows the workflow of a UDP unicast (client/server)
-application:
-
-![UDP unicast (client/server) workflow](images/08-tcp-and-udp/udp-unicast-client-server-workflow.svg){fig-alt="Sequence diagram of a UDP client and server: create the sockets, create a datagram, send and receive it, close." width="80%"}
-
-The sockets, in Java:
-
-```java
-// The server: bound to a port, it receives what is sent to this port
-DatagramSocket socket = new DatagramSocket(4445);
-```
-
-```java
-// The client: the system chooses a free port
-DatagramSocket socket = new DatagramSocket();
-```
-
-There is no connection to open and no `accept()`. Each datagram carries its own
-destination.
-
-```java
-// The client: the packet holds the payload and the destination
-socket.send(packet);
-```
-
-```java
-// The server: blocks until a datagram arrives, then fills the packet
-socket.receive(packet);
-```
-
-`send()` returns at once, even if no one is listening.
-
-### Processing data from datagrams
-
-A datagram contains a payload, as a byte array. You can convert it to a string or
-any other data type.
-
-You can create a datagram with a byte array as payload:
-
-```java
-// Create a datagram with a payload and a destination address
-byte[] buffer = "Hello, World!".getBytes(StandardCharsets.UTF_8);
-DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName("localhost"), 1234);
-```
-
-You can get the payload of a received datagram as a byte array:
-
-```java
-// Create a datagram to receive data
-byte[] buffer = new byte[1024];
-DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-
-// Receive a datagram
-socket.receive(packet);
-
-// Get the payload of the datagram
-byte[] data = packet.getData();
-int length = packet.getLength();
-String message = new String(data, 0, length, StandardCharsets.UTF_8);
-```
-
-## Unicast, broadcast and multicast
+### Unicast, broadcast and multicast
 
 UDP supports three types of communication: unicast, broadcast and multicast. TCP
 only supports unicast.
 
-### Unicast
+#### Unicast
 
 Unicast is the most common type of communication. It is a one-to-one communication:
-a datagram is sent from one host to another host, just like TCP.
+a datagram is sent from one host to another host.
 
 ![Unicast connection](https://upload.wikimedia.org/wikipedia/commons/7/75/Unicast.svg){fig-alt="One sender reaching one receiver among several nodes." width="35%"}
 
 Think of it as a private conversation between two people.
 
 To send a unicast datagram, the sender must know the IP address and port of the
-receiver. It is mostly the same as TCP, without all the reliability features
-provided by TCP but with all the performance of UDP.
+receiver. Each datagram is sent on its own, without a connection, to one receiver.
 
-### Broadcast
+#### Broadcast
 
 Broadcast is a one-to-all communication: a datagram is sent from one host to all
 hosts on the network.
@@ -611,13 +533,7 @@ There can be restrictions on the use of broadcast. Broadcast is limited to the l
 network, and can still be blocked by a firewall and/or a router.
 :::
 
-In C and in Python, a socket needs the `SO_BROADCAST` option to send a broadcast.
-Java's `DatagramSocket` has it on by default, and the code examples still call
-`socket.setBroadcast(true)` to state the intent.
-
-![UDP broadcast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-broadcast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a broadcast: every node receives the datagram, and a node without a socket on that port ignores it." width="80%"}
-
-### Multicast
+#### Multicast
 
 Multicast is a one-to-many communication: a datagram is sent from one host to
 multiple hosts.
@@ -647,8 +563,6 @@ the range `239.0.0.0` to `239.255.255.255` can be used for your own applications
 Just as for broadcast, the sender must know the multicast address, and there can be
 restrictions on the use of multicast.
 
-![UDP multicast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-multicast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a multicast: only the applications of the node that joined the group receive the datagram." width="80%"}
-
 Multicast is almost guaranteed **not** to work on the public Internet, which greatly
 limits its usage. To use multicast across the Internet, you need a tunnel such as a
 virtual private network (VPN).
@@ -663,6 +577,173 @@ you can read the following resources:
 - [IP multicast](https://en.wikipedia.org/wiki/IP_multicast)
 - [Internet Group Management Protocol](https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol)
 - [Internet Protocol television](https://en.wikipedia.org/wiki/Internet_Protocol_television)
+
+### UDP in the Socket API
+
+In the UDP world, the
+[`DatagramSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramSocket.html)
+class replaces the `Socket` class. It is used to create UDP clients and servers,
+and to send and receive UDP datagrams.
+
+A datagram is created with the
+[`DatagramPacket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/DatagramPacket.html)
+class: a payload, and the destination address when sending.
+
+A multicast socket is created with the
+[`MulticastSocket`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/MulticastSocket.html)
+class. It joins a multicast group to receive the datagrams sent to that group,
+just like a message sent to a group of people.
+
+UDP can be used to create a client/server architecture, or a peer-to-peer one.
+
+The following schema shows the workflow of a UDP unicast (client/server)
+application:
+
+![UDP unicast (client/server) workflow](images/08-tcp-and-udp/udp-unicast-client-server-workflow.svg){fig-alt="Sequence diagram of a UDP client and server: create the sockets, create a datagram, send and receive it, close." width="80%"}
+
+The steps of the schema, in Java:
+
+**Create the server socket** (1). There is no connection to open and no `accept()`.
+
+```java
+// Bound to a port, it receives what is sent to this port
+DatagramSocket socket = new DatagramSocket(4445);
+```
+
+**Create the client socket and the packet** (2 to 4). Each datagram carries its own
+destination.
+
+```java
+// 2. Create a socket: the system chooses a free port
+DatagramSocket socket = new DatagramSocket();
+
+// 3. Turn the data into an array of bytes
+byte[] payload = "Hello".getBytes(StandardCharsets.UTF_8);
+
+// 4. Create the packet with the server's IP and port
+DatagramPacket packet = new DatagramPacket(
+    payload, payload.length, InetAddress.getByName("localhost"), 4445);
+```
+
+**Receive and send** (5 to 9).
+
+```java
+// The server: loop until the socket is closed
+while (!socket.isClosed()) {
+  byte[] buffer = new byte[1024];
+  DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+  // 5. Wait to receive a datagram: blocks until one arrives (8)
+  socket.receive(packet);
+
+  // 9. Get the payload
+  String message = new String(
+      packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
+}
+```
+
+```java
+// The client: 6. send the datagram, 7. close at once
+socket.send(packet);
+socket.close();
+```
+
+`send()` returns at once, even if no one is listening.
+
+**Close the server socket** (10). Nothing to tell the client: there is no connection.
+
+```java
+socket.close();
+```
+
+### Processing data from datagrams
+
+A datagram contains a payload, as a byte array. You can convert it to a string or
+any other data type.
+
+You can create a datagram with a byte array as payload:
+
+```java
+// Create a datagram with a payload and a destination address
+byte[] buffer = "Hello, World!".getBytes(StandardCharsets.UTF_8);
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length, InetAddress.getByName("localhost"), 4445);
+```
+
+You can get the payload of a received datagram as a byte array:
+
+```java
+// Create a datagram to receive data
+byte[] buffer = new byte[1024];
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+// Receive a datagram
+socket.receive(packet);
+
+// Get the payload of the datagram
+byte[] data = packet.getData();
+int length = packet.getLength();
+String message = new String(data, 0, length, StandardCharsets.UTF_8);
+```
+
+### Broadcast and multicast in the Socket API
+
+Broadcast and multicast use the same classes as unicast. Only the destination address
+and the receiving side change.
+
+In C and in Python, a socket needs the `SO_BROADCAST` option to send a broadcast.
+Java's `DatagramSocket` has it on by default, and the code examples still call
+`socket.setBroadcast(true)` to state the intent.
+
+![UDP broadcast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-broadcast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a broadcast: every node receives the datagram, and a node without a socket on that port ignores it." width="80%"}
+
+As in unicast, only the destination changes: the broadcast address. Every host
+receives the datagram, and a program reads it if it has a socket bound to the port. In
+Java:
+
+```java
+// The emitter: allow broadcast, send to the broadcast address
+socket.setBroadcast(true);
+DatagramPacket packet = new DatagramPacket(payload, payload.length,
+    InetAddress.getByName("255.255.255.255"), 4445);
+socket.send(packet);
+```
+
+```java
+// The receiver: as in unicast, a socket bound to the port
+DatagramSocket socket = new DatagramSocket(4445);
+```
+
+![UDP multicast (emitter/receiver) workflow](images/08-tcp-and-udp/udp-multicast-emitter-receiver-workflow.svg){fig-alt="Sequence diagram of a multicast: only the applications of the node that joined the group receive the datagram." width="80%"}
+
+The emitter only sends to the group address. The receiver joins the group to get its
+datagrams, on a network interface (`en0`, `eth0`…), and leaves it at the end. In Java:
+
+```java
+// The emitter: an ordinary socket, the group address as destination
+DatagramPacket packet = new DatagramPacket(payload, payload.length,
+    InetAddress.getByName("239.0.0.0"), 4446);
+socket.send(packet);
+```
+
+```java
+// The receiver: a MulticastSocket bound to the port joins the group
+MulticastSocket socket = new MulticastSocket(4446);
+InetSocketAddress group = new InetSocketAddress("239.0.0.0", 4446);
+NetworkInterface netIf = NetworkInterface.getByName("en0");
+socket.joinGroup(group, netIf);
+// receive() as in unicast
+socket.leaveGroup(group, netIf);
+```
+
+In summary:
+
+| | Unicast | Broadcast | Multicast |
+|---|---|---|---|
+| Receivers | One host | All the hosts of the local network | The hosts that joined the group |
+| Destination address | The receiver's IP address | `255.255.255.255`, or the broadcast address of the subnet | A multicast address, `239.x.x.x` for your applications |
+| Receiving socket | Bound to the port | Bound to the port | Bound to the port, and joins the group |
+| Crosses routers | Yes | No | Only where the routers are set up for it, almost never on the Internet |
+| With TCP | Yes | No | No |
 
 ## Messaging patterns
 
@@ -698,8 +779,8 @@ used to find services on the network without knowing their IP address.
 
 There are two types of service discovery protocols: passive and active. Passive
 protocols are based on broadcast or multicast, and announce the presence of a service
-on the network. Active protocols also start with broadcast or multicast, then switch
-to unicast: they query the network to find a service.
+on the network. Active protocols query the network with broadcast or multicast to find a
+service, and a provider answers in unicast.
 
 The most common patterns are the following:
 
@@ -749,7 +830,7 @@ developer to decide when and who closes it.
 | Reliable | Unreliable |
 | Stream protocol | Datagram protocol |
 | Unicast | Unicast, broadcast and multicast |
-| Defined by the application (often request-response) | Fire-and-forget, request-response (manual) |
+| Defined by the application (often request-response) | Defined by the application (fire-and-forget, request-response) |
 | - | Service discovery protocols |
 | Used mainly for FTP, HTTP, SMTP, SSH, etc. | Used mainly for DNS, streaming, gaming, etc. |
 
@@ -884,9 +965,9 @@ and chapter 09 explains them.
 
 **Go one step further:**
 
-- Can you update the application protocol to allow the operator to get the latest
-  temperature of a given room, or its average temperature? This requires storing all
-  the temperatures received for a room.
+- Can you update the application protocol to allow the operator to get the average
+  temperature of a given room? This requires storing all the temperatures received for
+  a room.
 - Can you implement the *"Guess the number"* game with UDP?
 
 ### More

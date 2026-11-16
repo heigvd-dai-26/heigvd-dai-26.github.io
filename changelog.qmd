@@ -7,6 +7,18 @@ Important changes and corrected errors, newest first.
 If you read a chapter before the date of an entry, make sure you check
 the corrections.
 
+## 16 November 2026
+
+[Chapter 08](chapters/08-tcp-and-udp.qmd), TCP & UDP programming, part 2:
+
+- Clarification: UDP unicast sends each datagram on its own, without a
+  connection.
+- Clarification: in active service discovery, the consumer queries with
+  broadcast or multicast and a provider answers in unicast.
+- Correction: in the UDP template, the receiver stores temperatures as
+  decimals (`Double`), as in the specification, and the emitter takes the
+  room with `--name`.
+
 ## 2 November 2026
 
 [Chapter 08](chapters/08-tcp-and-udp.qmd), TCP & UDP programming, and its

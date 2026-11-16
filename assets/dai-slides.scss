@@ -50,3 +50,9 @@ $mermaid-label-fg-color: #212529;
 .reveal .column svg.mermaid-js {
   height: 360px;
 }
+
+// Space between two code blocks that follow each other
+.reveal div.sourceCode + div.sourceCode,
+.reveal .code-copy-outer-scaffold + .code-copy-outer-scaffold {
+  margin-top: 0.6em;
+}
