@@ -1,5 +1,5 @@
 ---
-title: "Past evaluation: 2023-2024, DAI-TIC-C, evaluation 2"
+title: "Past evaluation: 2023-2024, evaluation 2"
 ---
 
 ::: {.callout-warning title="Past evaluation"}
