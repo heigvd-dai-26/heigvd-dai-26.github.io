@@ -8,5 +8,8 @@ Documents and references for the teaching unit.
   the official description of the unit (objectives, content, grading).
 - [Utilisation des outils d'IA — Principes](resources/ia-principes-heig-vd.pdf):
   the HEIG-VD guidelines for using AI tools in your work.
+- [Past evaluations (course B)](resources/past-evaluations/index.qmd): tests given
+  in previous years in the course this one is based on, with their answers. Use them to
+  practise only: the tests of this course can be entirely different.
 - [Java networking documentation](https://docs.oracle.com/javase/tutorial/networking/index.html):
   the official Java documentation for networking.

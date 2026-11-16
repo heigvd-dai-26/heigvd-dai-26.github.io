@@ -243,10 +243,11 @@ socket.close();
 - Find a service without knowing its IP address.
 - The protocol fixes a meeting point in advance: a port (broadcast), or a group
   address and a port (multicast).
-- The first message goes there, the rest is unicast.
 - Two patterns:
-  - Advertisement (passive): the provider announces itself, the consumers listen.
-  - Query (active): the consumer asks, the providers listen, one answers.
+  - Advertisement (passive): the provider announces itself at the meeting point,
+    the consumers listen there.
+  - Query (active): the consumer asks at the meeting point, a provider answers it
+    in unicast.
 
 ## {.center}
 
