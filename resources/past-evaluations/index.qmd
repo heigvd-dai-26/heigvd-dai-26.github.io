@@ -1,5 +1,5 @@
 ---
-title: "Past evaluations (course B)"
+title: "Past evaluations"
 ---
 
 Tests given in previous years in the DAI course of L. Delafontaine and H. Louis
@@ -15,21 +15,21 @@ format and questions can be entirely different. The chapters are the reference. 
 
 ## First half of the semester
 
-- [2025-2026, class C, evaluation 1](2025-2026-evaluation-1-dai-tic-c/index.qmd): Git, GitHub and Markdown, Java, IntelliJ IDEA and Maven, Java IOs, Docker and Docker Compose, Practical work 1, SMTP and ncat, Define an application protocol, Java TCP and UDP programming, Java network concurrency.
-- [2025-2026, class A, evaluation 1](2025-2026-evaluation-1-dai-tic-a/index.qmd): Git, GitHub and Markdown, Java, IntelliJ IDEA and Maven, Java IOs, Docker and Docker Compose, Practical work 1, SMTP and ncat, Define an application protocol, Java TCP and UDP programming, Java network concurrency.
-- [2024-2025, class C, evaluation 1](2024-2025-evaluation-1-dai-tic-c/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IOs) avec Java, Docker et Docker Compose, Travail pratique 1.
-- [2024-2025, class C, evaluation 2](2024-2025-evaluation-2-dai-tic-c/index.qmd): Définir un protocol applicatif, Programmation TCP en Java, Programmation UDP en Java, Concurrence réseau en Java, SMTP et ncat.
-- [2024-2025, class B, evaluation 1](2024-2025-evaluation-1-dai-tic-b/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IOs) avec Java, Docker et Docker Compose, Travail pratique 1.
-- [2024-2025, class B, evaluation 2](2024-2025-evaluation-2-dai-tic-b/index.qmd): Définir un protocol applicatif, Programmation TCP en Java, Programmation UDP en Java, Concurrence réseau en Java, SMTP et ncat.
-- [2023-2024, class C, evaluation 1](2023-2024-evaluation-1-dai-tic-c/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IO) avec Java.
-- [2023-2024, class C, evaluation 2](2023-2024-evaluation-2-dai-tic-c/index.qmd): Définir un protocol applicatif, SMTP et Telnet, SSH et SCP, Programmation TCP avec Java.
-- [2023-2024, class C, evaluation 3](2023-2024-evaluation-3-dai-tic-c/index.qmd): Définir un protocol applicatif, Docker et Docker Compose, Programmation UDP avec Java.
+- [2025-2026, DAI-TIC-C, evaluation 1](2025-2026-evaluation-1-dai-tic-c/index.qmd): Git, GitHub and Markdown, Java, IntelliJ IDEA and Maven, Java IOs, Docker and Docker Compose, Practical work 1, SMTP and ncat, Define an application protocol, Java TCP and UDP programming, Java network concurrency.
+- [2025-2026, DAI-TIC-A, evaluation 1](2025-2026-evaluation-1-dai-tic-a/index.qmd): Git, GitHub and Markdown, Java, IntelliJ IDEA and Maven, Java IOs, Docker and Docker Compose, Practical work 1, SMTP and ncat, Define an application protocol, Java TCP and UDP programming, Java network concurrency.
+- [2024-2025, DAI-TIC-C, evaluation 1](2024-2025-evaluation-1-dai-tic-c/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IOs) avec Java, Docker et Docker Compose, Travail pratique 1.
+- [2024-2025, DAI-TIC-C, evaluation 2](2024-2025-evaluation-2-dai-tic-c/index.qmd): Définir un protocol applicatif, Programmation TCP en Java, Programmation UDP en Java, Concurrence réseau en Java, SMTP et ncat.
+- [2024-2025, DAI-TIC-B, evaluation 1](2024-2025-evaluation-1-dai-tic-b/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IOs) avec Java, Docker et Docker Compose, Travail pratique 1.
+- [2024-2025, DAI-TIC-B, evaluation 2](2024-2025-evaluation-2-dai-tic-b/index.qmd): Définir un protocol applicatif, Programmation TCP en Java, Programmation UDP en Java, Concurrence réseau en Java, SMTP et ncat.
+- [2023-2024, DAI-TIC-C, evaluation 1](2023-2024-evaluation-1-dai-tic-c/index.qmd): Git, GitHub et Markdown, Java, IntelliJ IDEA et Maven, Entrées/sorties (IO) avec Java.
+- [2023-2024, DAI-TIC-C, evaluation 2](2023-2024-evaluation-2-dai-tic-c/index.qmd): Définir un protocol applicatif, SMTP et Telnet, SSH et SCP, Programmation TCP avec Java.
+- [2023-2024, DAI-TIC-C, evaluation 3](2023-2024-evaluation-3-dai-tic-c/index.qmd): Définir un protocol applicatif, Docker et Docker Compose, Programmation UDP avec Java.
 
 ## Second half of the semester
 
-- [2025-2026, class C, evaluation 2](2025-2026-evaluation-2-dai-tic-c/index.qmd): Docker and Docker Compose, SSH and SCP, HTTP and curl, Web infrastructures, Caching and performance.
-- [2025-2026, class A, evaluation 2](2025-2026-evaluation-2-dai-tic-a/index.qmd): Docker and Docker Compose, SSH and SCP, HTTP and curl, Web infrastructures, Caching and performance.
-- [2024-2025, class C, evaluation 3](2024-2025-evaluation-3-dai-tic-c/index.qmd): SSH et SCP, HTTP et curl, Les infrastructures web, Mise en cache et performance.
-- [2024-2025, class B, evaluation 3](2024-2025-evaluation-3-dai-tic-b/index.qmd): SSH et SCP, HTTP et curl, Les infrastructures web, Mise en cache et performance.
-- [2023-2024, class C, evaluation 4](2023-2024-evaluation-4-dai-tic-c/index.qmd): HTTP et curl, Les infrastructures web.
+- [2025-2026, DAI-TIC-C, evaluation 2](2025-2026-evaluation-2-dai-tic-c/index.qmd): Docker and Docker Compose, SSH and SCP, HTTP and curl, Web infrastructures, Caching and performance.
+- [2025-2026, DAI-TIC-A, evaluation 2](2025-2026-evaluation-2-dai-tic-a/index.qmd): Docker and Docker Compose, SSH and SCP, HTTP and curl, Web infrastructures, Caching and performance.
+- [2024-2025, DAI-TIC-C, evaluation 3](2024-2025-evaluation-3-dai-tic-c/index.qmd): SSH et SCP, HTTP et curl, Les infrastructures web, Mise en cache et performance.
+- [2024-2025, DAI-TIC-B, evaluation 3](2024-2025-evaluation-3-dai-tic-b/index.qmd): SSH et SCP, HTTP et curl, Les infrastructures web, Mise en cache et performance.
+- [2023-2024, DAI-TIC-C, evaluation 4](2023-2024-evaluation-4-dai-tic-c/index.qmd): HTTP et curl, Les infrastructures web.
 

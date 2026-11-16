@@ -1,8 +1,8 @@
 ---
-title: "Course B: 2023-2024, class C, evaluation 1"
+title: "Past evaluation: 2023-2024, DAI-TIC-C, evaluation 1"
 ---
 
-::: {.callout-warning title="Archive of course B"}
+::: {.callout-warning title="Past evaluation"}
 A test given in previous years in the DAI course of L. Delafontaine and H. Louis
 ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)), published as is from
 [their repository](https://github.com/heig-vd-dai-course/heig-vd-dai-course).
