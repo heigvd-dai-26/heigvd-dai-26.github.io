@@ -291,6 +291,42 @@ You are free to present as you like, but:
 
 The timeslots are published here once the groups are known.
 
+
+#### Timeslots
+
+::: {.panel-tabset}
+
+### DAI-TIC-A
+
+**Wednesday 02.12.2026, 14:45-16:15**
+
+| # | Group | Timeslot |
+|---|-------|----------|
+| 1 | Romain Antunes, Gilles Maendly | 14:45-14:53 |
+| 2 | Eliott Jaquier, Shanshe Gundishvili, Aurélien Dévaud | 14:55-15:03 |
+| 3 | Marie Taccoen-Prost, Bastien Vienet | 15:05-15:13 |
+| 4 | Romain Vuilleumier, Cédric Hérard | 15:15-15:23 |
+| 5 | Jeremy Bortone, Louis Garcia, Loris Voce Torquemada | 15:25-15:33 |
+| 6 | Michel Polunkin, Bilel Sahli | 15:35-15:43 |
+| 7 | Nicolas Reymond, Aymeric Bonny | 15:45-15:53 |
+| 8 | Léderrey Noé, Sadiku Enis | 15:55-16:03 |
+
+### DAI-TIC-C
+
+**Tuesday 01.12.2026, 13:00-14:30**
+
+| # | Group | Timeslot |
+|---|-------|----------|
+| 1 | Léo Zwahlen, Thomas Bosshart | 13:00-13:08 |
+| 2 | Matthieu Blanchard, Marianne Joseph, Lisa Perriard | 13:10-13:18 |
+| 3 | Toby Sturgess, Kerim Gurbaz | 13:20-13:28 |
+| 4 | Jérémie Carrel, Kaeno Eyer, Omar Egal Ahmed | 13:30-13:38 |
+| 5 | Hayslip Corwin, Cabras Manuel, Da Luz João | 13:40-13:48 |
+| 6 | Gabriel Pereira, Ethan Van Tilborgh | 13:50-13:58 |
+| 7 | Claudio Souto Oliveira, Yannis Burkhalter, Matthias Birling | 14:00-14:08 |
+| 8 | Victor Leyre, Simon Dagerskog, Abdulkadir Arifoglu | 14:10-14:18 |
+| 9 | Yasser Gasmi | 14:20-14:28 |
+
 ## Grading
 
 Each criterion is worth:
