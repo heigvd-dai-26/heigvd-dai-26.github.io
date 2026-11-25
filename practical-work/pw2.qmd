@@ -327,6 +327,8 @@ The timeslots are published here once the groups are known.
 | 8 | Victor Leyre, Simon Dagerskog, Abdulkadir Arifoglu | 14:10-14:18 |
 | 9 | Yasser Gasmi | 14:20-14:28 |
 
+:::
+
 ## Grading
 
 Each criterion is worth:
