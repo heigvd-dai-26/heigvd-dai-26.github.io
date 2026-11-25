@@ -34,7 +34,7 @@ evolves. Regenerate the date skeleton after a GAPS change with:
 | 8 | 10.11 | [Network concurrency](chapters/09-network-concurrency.qmd) | [Slides](slides/09-network-concurrency.qmd) | 11.11 | [PW2](practical-work/pw2.qmd) |  |
 | 9 | 17.11 | [TCP & UDP programming (2/2)](chapters/08-tcp-and-udp.qmd) | [Part 2](slides/08-tcp-udp-part-2.qmd) | 18.11 | [PW2](practical-work/pw2.qmd) |  |
 | 10 | 24.11 | **Mid-term evaluation (TE1)** |  | 25.11 | [PW2](practical-work/pw2.qmd) |  |
-| ⏰ 11 | 01.12 | SSH & SCP |  | 02.12 | [PW2](practical-work/pw2.qmd) |  |
+| ⏰ 11 | 01.12 | SSH & SCP |  | 02.12 | [PW2](practical-work/pw2.qmd) presentations |  |
 | 12 | 08.12 | HTTP & curl |  | 09.12 | [PW3](practical-work/pw3.qmd) |  |
 | 13 | 15.12 | Web infrastructures |  | 16.12 | [PW3](practical-work/pw3.qmd) |  |
 |  | 22.12–08.01 | *Winter break* |  |  | *no class* |  |
